@@ -1,4 +1,4 @@
-from flask import Blueprint, request, Response
+from flask import Blueprint, request, Response, render_template
 from dotenv import load_dotenv
 from validates.validate_api import validate_route
 from validates.validate_db import validate_db_data
@@ -9,7 +9,7 @@ from pymongo.errors import DuplicateKeyError, OperationFailure, PyMongoError
 
 load_dotenv()
 
-auth_bl = Blueprint("auth_bl", __name__)
+auth_bl = Blueprint("auth_bl", __name__, template_folder="templates")
 
 @auth_bl.route("/register", methods=["GET", "POST"])
 def register():
@@ -47,6 +47,8 @@ def register():
         
 
         return {"message": f"user: {data.get("username")} has created an account"}, 200
+    elif request.method == "GET":
+        return render_template("register.html")
     
 
     
