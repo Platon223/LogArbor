@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #0a0f0a; /* Dark greenish black */
+    color: #c8e6c9; /* Soft green text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+}
+
+.logo h1 {
+    font-size: 3rem;
+    color: #00ff87; /* Matrix-green logo */
+    margin-bottom: 40px;
+    letter-spacing: 3px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    gap: 18px;
+}
+
+.auth-form input {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 255, 135, 0.35);
+    padding: 14px;
+    color: #e0ffe3;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.auth-form input:focus {
+    border-color: #00ff87;
+    background: rgba(0, 255, 135, 0.08);
+}
+
+.btn {
+    padding: 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+    width: 100%;
+}
+
+.btn.primary {
+    background: #00ff87;
+    color: #0a0f0a;
+}
+
+.btn.primary:hover {
+    background: #00d673;
+}
+
+.google {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e0ffe3;
+}
+
+.github {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e0ffe3;
+}
+
+.google:hover,
+.github:hover {
+    background: rgba(0, 255, 135, 0.18);
+}
+
+.divider {
+    margin: 10px 0;
+    position: relative;
+}
+
+.divider span {
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+.login-link {
+    margin-top: 5px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.login-link a {
+    color: #00ff87;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+.select-input {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 255, 135, 0.35);
+    padding: 14px;
+    color: #e0ffe3;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+    appearance: none; /* Removes default arrow for custom look */
+    cursor: pointer;
+}
+
+/* Highlight on focus */
+.select-input:focus {
+    border-color: #00ff87;
+    background: rgba(0, 255, 135, 0.08);
+}
+
+/* Optional: style the placeholder */
+.select-input option {
+    background: #0a0f0a;
+    color: #e0ffe3;
+}

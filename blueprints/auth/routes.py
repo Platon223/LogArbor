@@ -9,7 +9,7 @@ from pymongo.errors import DuplicateKeyError, OperationFailure, PyMongoError
 
 load_dotenv()
 
-auth_bl = Blueprint("auth_bl", __name__, template_folder="templates")
+auth_bl = Blueprint("auth_bl", __name__, template_folder="templates", static_folder="static")
 
 @auth_bl.route("/register", methods=["GET", "POST"])
 def register():

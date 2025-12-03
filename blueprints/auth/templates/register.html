@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - LogArbor</title>
+    <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}" />
+</head>
+<body>
+    <div class="container">
+
+    <div class="logo">
+        <h1>LogArbor</h1>
+    </div>
+
+    <form class="auth-form">
+
+        <input type="text" placeholder="Username" required />
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+
+        <!-- Account Type Selector -->
+        <select class="select-input" required>
+            <option value="" disabled selected>Select account type</option>
+            <option value="developer">Developer</option>
+            <option value="team">Team</option>
+            <option value="organization">Organization</option>
+        </select>
+
+        <button type="submit" class="btn primary">Create Account</button>
+
+        <div class="divider"><span>or</span></div>
+
+        <button class="btn google">Continue with Google</button>
+        <button class="btn github">Continue with GitHub</button>
+
+        <p class="login-link">
+            Already have an account? <a href="login.html">Log in</a>
+        </p>
+    </form>
+  
+</div>
+</body>
+</html>
