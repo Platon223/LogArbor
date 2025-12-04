@@ -12,6 +12,7 @@ def create_service():
     app = Flask(__name__)
     setup()
     logging.getLogger("werkzeug").setLevel(logging.ERROR)
+    logging.getLogger("pymongo").setLevel(logging.ERROR)
     app.config["MONGO_URI"] = os.getenv("MONGO")
     app.secret_key = os.getenv("APP_SECRET")
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET")
