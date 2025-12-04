@@ -25,7 +25,8 @@ class Register {
             })
 
             if (!response.ok) {
-                return `HTTP error while creating an account: ${response.status}`
+                const data = await response.json()
+                return `HTTP error while creating an account: ${response.status}, ${data.message}`
             }
 
             const data = await response.json()
@@ -43,13 +44,13 @@ const email = document.getElementById("email")
 const password = document.getElementById("password")
 const account_type = document.querySelector(".select-input")
 
-formDiv.addEventListener("submit", (event) => {
+formDiv.addEventListener("submit", async (event) => {
     event.preventDefault()
 
     const registerClass = new Register(username.value, password.value, email.value, account_type.value)
-    const submit = registerClass.submit()
+    const submit = await registerClass.submit()
 
     if (submit.includes("error")) {
-        console.log("error occured")
+        console.log(`error occured: ${submit}`)
     }
 })
