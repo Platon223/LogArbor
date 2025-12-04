@@ -3,11 +3,13 @@ from dotenv import load_dotenv
 import os
 from datetime import timedelta
 from extensions.mongo import mongo
+from logg.log import setup
 
 load_dotenv()
 
 def create_service():
     app = Flask(__name__)
+    setup()
     app.config["MONGO_URI"] = os.getenv("MONGO")
     app.secret_key = os.getenv("APP_SECRET")
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET")
