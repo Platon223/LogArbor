@@ -50,7 +50,22 @@ formDiv.addEventListener("submit", async (event) => {
     const registerClass = new Register(username.value, password.value, email.value, account_type.value)
     const submit = await registerClass.submit()
 
-    if (submit.includes("error")) {
-        console.log(`error occured: ${submit}`)
+    if (submit.includes("username is already taken")) {
+        alert(`Username: ${username} is already taken. Please choose another one.`)
+    } else if (submit.includes("error while")) {
+        alert("Something went wrong on our end. Please try again in 24 hours.")
+    } else if (submit.includes("error with")) {
+        alert("Something went wrong on our end. Please try again in 24 hours.")
+    } else if (submit.includes("password")) {
+        alert("Password has to be at least 6 characters long.")
+    } else if (submit.includes("created")) {
+        username.value = ""
+        email.value = ""
+        password.value = ""
+        account_type.value = ""
+
+        console.log("Redirect to login")
+    } else {
+        alert("Something went wrong.")
     }
 })

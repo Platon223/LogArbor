@@ -6,8 +6,8 @@
 }
 
 body {
-    background: #0a0f0a; /* Dark greenish black */
-    color: #c8e6c9; /* Soft green text */
+    background: #0a0f0a; 
+    color: #c8e6c9; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,13 +19,15 @@ body {
 }
 
 .img-logo {
-    width: 80%;
-    height: 80%;
+    width: 300px;       
+    margin: 0 auto 50px; 
+    display: block;
+    border-radius: 30px;
 }
 
 .logo h1 {
     font-size: 3rem;
-    color: #00ff87; /* Matrix-green logo */
+    color: #00ff87;
     margin-bottom: 40px;
     letter-spacing: 3px;
 }
@@ -122,17 +124,17 @@ body {
     font-size: 15px;
     outline: none;
     transition: 0.2s;
-    appearance: none; /* Removes default arrow for custom look */
+    appearance: none; 
     cursor: pointer;
 }
 
-/* Highlight on focus */
+
 .select-input:focus {
     border-color: #00ff87;
     background: rgba(0, 255, 135, 0.08);
 }
 
-/* Optional: style the placeholder */
+
 .select-input option {
     background: #0a0f0a;
     color: #e0ffe3;
