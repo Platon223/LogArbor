@@ -51,12 +51,12 @@ formDiv.addEventListener("submit", async (event) => {
     const submit = await registerClass.submit()
 
     if (submit.includes("username is already taken")) {
-        alert(`Username: ${username} is already taken. Please choose another one.`)
-    } else if (submit.includes("error while")) {
+        alert(`Username: ${username.value} is already taken. Please choose another one.`)
+    } else if (submit.includes("errorwhile")) {
         alert("Something went wrong on our end. Please try again in 24 hours.")
-    } else if (submit.includes("error with")) {
+    } else if (submit.includes("errorwith")) {
         alert("Something went wrong on our end. Please try again in 24 hours.")
-    } else if (submit.includes("password")) {
+    } else if (submit.includes("{'password")) {
         alert("Password has to be at least 6 characters long.")
     } else if (submit.includes("created")) {
         username.value = ""
@@ -64,7 +64,7 @@ formDiv.addEventListener("submit", async (event) => {
         password.value = ""
         account_type.value = ""
 
-        console.log("Redirect to login")
+        window.location.href = "/auth/login"
     } else {
         alert("Something went wrong.")
     }
