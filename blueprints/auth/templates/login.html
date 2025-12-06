@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogArbor – Login</title>
+    <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Logo -->
+        <img class="img-logo" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo" srcset="" referrerpolicy="no-referrer">
+
+        <h1 class="logo-text">Login</h1>
+
+        <!-- Login Form -->
+        <form class="auth-form">
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+
+            <button class="btn primary">Login</button>
+
+            <div class="divider"><span>OR</span></div>
+
+            <button type="button" class="btn google">Continue with Google</button>
+            <button type="button" class="btn github">Continue with GitHub</button>
+
+            <p class="login-link">
+                Don’t have an account? <a href="register.html">Register</a>
+            </p>
+        </form>
+
+    </div>
+
+</body>
+</html>

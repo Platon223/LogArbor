@@ -92,6 +92,7 @@ def login():
         except Exception as e:
             log("AUTH", "critical", "something went wrong")
             return {"message": "something went wrong"}
+    
         
         try:
             pass
