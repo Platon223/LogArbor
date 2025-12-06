@@ -26,10 +26,13 @@ def register():
             log("AUTH", "warning", "user failed data validation on api_validate on register")
             return {"message": data}, 400
         db_data = {
+            "id": str(uuid.uuid4()),
             "username": data.get("username"),
             "password": data.get("password"),
             "email": data.get("email"),
-            "account_type": data.get("account_type")
+            "account_type": data.get("account_type"),
+            "remember": False,
+            "remember_expiration_date": datetime.date.today()
         }
         db_validated_data = validate_db_data(db_data, users_schema)
         if "error" in db_validated_data:
@@ -51,7 +54,6 @@ def register():
         
         try:
             db_data["password"] = bcrypt.generate_password_hash(data.get("password"))
-            db_data["id"] = str(uuid.uuid4())
             mongo.db.users.insert_one(db_validated_data)
         except DuplicateKeyError as e:
             log("AUTH", "critical", f"failed inserting a new user because duplicated, for: {data.get("email")}")
@@ -97,6 +99,10 @@ def login():
         except Exception as e:
             log("AUTH", "critical", "something went wrong")
             return {"message": "something went wrong"}, 500
+        
+        if user["remember"] and user["remember_expiration_date"] > datetime.date.today():
+            log("AUTH", "info", f"User: {data.get("username")} was remembered and skipped the MFA process")
+            return {"message": "fetch for jwt"}
     
         
         try:

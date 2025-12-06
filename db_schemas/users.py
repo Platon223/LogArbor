@@ -6,5 +6,7 @@ class Users(Schema):
     password = fields.String(required=True, validate=validate.Length(min=6))
     email = fields.String(required=True, validate=validate.Email())
     account_type = fields.String(required=True)
+    remember = fields.Boolean(required=True)
+    remember_expiration_date = fields.Date(required=True)
 
 users_schema = Users()
