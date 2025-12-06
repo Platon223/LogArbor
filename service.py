@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from datetime import timedelta
 from extensions.mongo import mongo
+from extensions.bcrypt import bcrypt
 from logg.log import setup
 import logging
 
@@ -20,6 +21,7 @@ def create_service():
     app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(hours=24)
 
     mongo.init_app(app)
+    bcrypt.init_app(app)
 
     from blueprints.auth.routes import auth_bl
     
