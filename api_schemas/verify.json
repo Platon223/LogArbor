@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Verify",
+    "properties": {
+        "code": {
+            "type": "string"
+        },
+        "user_id": {
+            "type": "string"
+        }
+    },
+    "required": ["code", "user_id"],
+    "additionalProperties": false
+}

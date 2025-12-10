@@ -136,5 +136,22 @@ def login():
         return render_template("login.html")
     
 
+@auth_bl.route("/verify", methods=["POST", "GET"])
+def verify():
+    if request.method == "POST":
+        data = validate_route(request, "verify")
+        if "error" in data:
+            log("AUTH", "warning", "user failed data validation on api_validate on login")
+        
+        try:
+            verify_code = mongo.db.verify_codes.find_one({"code": data.get("code")})
+            if not verify_code:
+                log("AUTH", "warning", f"User: {data.get("user_id")} provided an invalid verification code")
+                return {"message": "invalid code"} 
+
+        except:
+            pass
+    
+
     
     
