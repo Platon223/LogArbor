@@ -12,6 +12,8 @@ from logg.log import log
 import uuid
 import secrets
 import datetime
+from handlers.email_verify import send_verification_email
+import os
 
 load_dotenv()
 
@@ -106,9 +108,25 @@ def login():
     
         
         try:
+
+            verification_code = str(secrets.randbelow(1000000)).zfill(6)
+
+            result = send_verification_email(
+                os.getenv("EMAILJS_SERVICE_ID"), 
+                os.getenv("TEMPLATE_ID"),
+                os.getenv("PUBLIC_EMAILJS_KEY"),
+                os.getenv("ACCESS_TOKEN_EMAILJS"),
+                user["username"],
+                "LogArbor Support Team",
+                user["email"],
+                verification_code
+            )
+
+
+
             db_verify_code_data = {
                 "id": str(uuid.uuid4()),
-                "code": str(secrets.randbelow(1000000)).zfill(6),
+                "code": verification_code,
                 "user_id": user["id"],
                 "expiration_date": datetime.date.today()
             }
