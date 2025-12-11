@@ -34,7 +34,7 @@ def register():
             "email": data.get("email"),
             "account_type": data.get("account_type"),
             "remember": False,
-            "remember_expiration_date": datetime.date.today()
+            "remember_expiration_date": datetime.datetime.today()
         }
         db_validated_data = validate_db_data(db_data, users_schema)
         if "error" in db_validated_data:
