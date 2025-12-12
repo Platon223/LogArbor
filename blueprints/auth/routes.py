@@ -19,6 +19,14 @@ load_dotenv()
 
 auth_bl = Blueprint("auth_bl", __name__, template_folder="templates", static_folder="static")
 
+@auth_bl.before_request
+def data_validation():
+    schema_name = request.path.replace("/auth/ ", "")
+    data = validate_route(request, schema_name)
+    if "error" in data:
+        log("AUTH", "warning", f"user failed data validation on api_validate on {schema_name}")
+        return {"message": data}, 400
+
 @auth_bl.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
