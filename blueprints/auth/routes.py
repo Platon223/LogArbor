@@ -132,7 +132,7 @@ def login():
                 "id": str(uuid.uuid4()),
                 "code": verification_code,
                 "user_id": user["id"],
-                "expiration_date": datetime.date.today()
+                "expiration_date": datetime.datetime.today()
             }
             db_verify_code_data_validate = validate_db_data(db_verify_code_data, verify_codes_schema)
             if "error" in db_verify_code_data_validate:
