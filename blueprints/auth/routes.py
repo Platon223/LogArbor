@@ -122,6 +122,10 @@ def login():
                 verification_code
             )
 
+            if not result == "success":
+                log("AUTH", "critical", f"User: {user["username"]} failed to receive verification code email")
+                return {"message": f"something went wrong while sending an email: {result}"}
+
 
 
             db_verify_code_data = {
@@ -145,7 +149,7 @@ def login():
             return {"message": f"error while finding user: {e}"}, 500
         except Exception as e:
             log("AUTH", "critical", "something went wrong")
-            return {"message": "something went wrong"}, 500
+            return {"message": f"something went wrong: {e}"}, 500
         
         log("AUTH", "info", f"User: {data.get("username")}, logged in and needs to be verified, user {'remembered' if data.get("remember") else 'not remembered'}")
         return {"message": "redirect to verify"}, 200
