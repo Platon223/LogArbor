@@ -184,6 +184,8 @@ def verify():
 
         except:
             pass
+    elif request.method == "GET":
+        return "verify page"
     
 
     
