@@ -17,8 +17,16 @@
 
         <!-- Login Form -->
         <form class="auth-form">
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
+            <input id="username" type="username" placeholder="Username" required>
+            <input id="password" type="password" placeholder="Password" required>
+
+            <div class="remember-row">
+                <label class="remember-label">
+                    <input id="remember" type="checkbox" name="remember_me">
+                    <span class="checkmark"></span>
+                    Remember me
+                </label>
+            </div>
 
             <button class="btn primary">Login</button>
 

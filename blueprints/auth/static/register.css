@@ -142,3 +142,49 @@ body {
     text-align: center;
 }
 
+.remember-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: -6px;
+    margin-bottom: 10px;
+}
+
+.remember-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #bdecc3;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Hide default checkbox */
+.remember-label input {
+    display: none;
+}
+
+/* Custom checkbox */
+.checkmark {
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgba(0, 255, 135, 0.5);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.03);
+    position: relative;
+}
+
+/* Check icon */
+.remember-label input:checked + .checkmark::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: solid #00ff87;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+
