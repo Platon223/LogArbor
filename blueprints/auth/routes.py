@@ -31,23 +31,24 @@ def data_validation():
         
 @auth_bl.before_request
 def monitor():
-    monitor_data = {
-        "request": request.method,
-        "path": request.path,
-        "data": {request.get_json() if request.method == "POST" else "GET request"}
-    }
+    if not "/auth/static/" in request.path:
+        monitor_data = {
+            "request": request.method,
+            "path": request.path,
+            "data": "data"
+        }
 
-    try:
-        mongo.db.monitoring.insert_one(monitor_data)
-    except OperationFailure as e:
-        log("AUTH", "critical", "failed inserting request data into monitor")
-        return {"message": "something went wrong"}
-    except PyMongoError as e:
-        log("AUTH", "critical", "failed inserting request data into monitor, pymongo error")
-        return {"message": "something went wrong"}
-    except Exception as e:
-        log("AUTH", "critical", "something went wrong while at the monitor middleware")
-        return {"message": "something went wrong"}
+        try:
+            mongo.db.monitoring.insert_one(monitor_data)
+        except OperationFailure as e:
+            log("AUTH", "critical", "failed inserting request data into monitor")
+            return {"message": "something went wrong"}
+        except PyMongoError as e:
+            log("AUTH", "critical", "failed inserting request data into monitor, pymongo error")
+            return {"message": "something went wrong"}
+        except Exception as e:
+            log("AUTH", "critical", "something went wrong while at the monitor middleware")
+            return {"message": "something went wrong"}
     
 
 @auth_bl.route("/register", methods=["GET", "POST"])
