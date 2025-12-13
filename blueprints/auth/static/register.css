@@ -188,3 +188,27 @@ body {
 }
 
 
+.verify-text {
+    font-size: 15px;
+    color: #a8dcb0;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.resend-link {
+    margin-top: 14px;
+    font-size: 14px;
+    color: #9ccc9f;
+    text-align: center;
+}
+
+.resend-link a {
+    color: #00ff87;
+    text-decoration: none;
+}
+
+.resend-link a:hover {
+    text-decoration: underline;
+}
+
+
