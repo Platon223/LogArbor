@@ -35,7 +35,7 @@ def monitor():
         monitor_data = {
             "request": request.method,
             "path": request.path,
-            "data": "data"
+            "data": request.get_json() if request.method == "POST" else "GET request"
         }
 
         try:
