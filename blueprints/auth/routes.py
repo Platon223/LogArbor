@@ -24,11 +24,31 @@ def data_validation():
     if request.method == "POST":
         path = request.path
         schema_name = path.replace("/auth/", "")
-        print(path)
         data = validate_route(request, schema_name)
         if "error" in data:
             log("AUTH", "warning", f"user failed data validation on api_validate on {schema_name}")
             return {"message": data}, 400
+        
+@auth_bl.before_request
+def monitor():
+    monitor_data = {
+        "request": request.method,
+        "path": request.path,
+        "data": {request.get_json() if request.method == "POST" else "GET request"}
+    }
+
+    try:
+        mongo.db.monitoring.insert_one(monitor_data)
+    except OperationFailure as e:
+        log("AUTH", "critical", "failed inserting request data into monitor")
+        return {"message": "something went wrong"}
+    except PyMongoError as e:
+        log("AUTH", "critical", "failed inserting request data into monitor, pymongo error")
+        return {"message": "something went wrong"}
+    except Exception as e:
+        log("AUTH", "critical", "something went wrong while at the monitor middleware")
+        return {"message": "something went wrong"}
+    
 
 @auth_bl.route("/register", methods=["GET", "POST"])
 def register():

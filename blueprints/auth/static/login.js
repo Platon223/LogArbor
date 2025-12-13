@@ -56,17 +56,18 @@ formDiv.addEventListener("submit", async (event) => {
     const registerClass = new Login(username.value, password.value, remember_data)
     const submit = await registerClass.submit()
 
-    if (submit.includes("username is already taken")) {
-        alert(`Username: ${username.value} is already taken. Please choose another one.`)
-    } else if (submit.includes("errorwhile")) {
-        alert("Something went wrong on our end. Please try again in 24 hours.")
-    } else if (submit.includes("errorwith")) {
-        alert("Something went wrong on our end. Please try again in 24 hours.")
-    } else if (submit.includes("{'password")) {
-        alert("Password has to be at least 6 characters long.")
+    console.log(submit)
+
+    if (submit.includes("user not found")) {
+        alert(`User was not found`)
+    } else if (submit.includes("invalid password")) {
+        alert("Incorrect password provided")
+    } else if (submit.includes("fetch for jwt")) {
+        console.log("User remembered, fetch for jwt")
     } else if (submit.includes("verify")) {
         username.value = ""
         password.value = ""
+        remember.value = ""
 
         window.location.href = "/auth/verify"
     } else {
