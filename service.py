@@ -4,6 +4,7 @@ import os
 from datetime import timedelta
 from extensions.mongo import mongo
 from extensions.bcrypt import bcrypt
+from extensions.jwt import jwt
 from logg.log import setup
 import logging
 
@@ -22,6 +23,7 @@ def create_service():
 
     mongo.init_app(app)
     bcrypt.init_app(app)
+    jwt.init_app(app)
 
     from blueprints.auth.routes import auth_bl
     
