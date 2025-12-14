@@ -1,10 +1,12 @@
-from flask import Blueprint, request, Response, render_template
+from flask import Blueprint, request, Response, render_template, g, make_response
+from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from dotenv import load_dotenv
 from validates.validate_api import validate_route
 from validates.validate_db import validate_db_data
 from extensions.mongo import mongo
 from extensions.bcrypt import bcrypt
 from db_schemas.users import users_schema
+from db_schemas.jwt import jwt_schema
 from db_schemas.verify_codes import verify_codes_schema
 from validates.validate_db import validate_db_data
 from pymongo.errors import DuplicateKeyError, OperationFailure, PyMongoError
@@ -14,6 +16,7 @@ import secrets
 import datetime
 from handlers.email_verify import send_verification_email
 import os
+from datetime import timedelta
 
 load_dotenv()
 
@@ -28,6 +31,8 @@ def data_validation():
         if "error" in data:
             log("AUTH", "warning", f"user failed data validation on api_validate on {schema_name}")
             return {"message": data}, 400
+        
+        g.data = data
         
 @auth_bl.before_request
 def monitor():
@@ -164,7 +169,7 @@ def login():
                 "id": str(uuid.uuid4()),
                 "code": verification_code,
                 "user_id": user["id"],
-                "expiration_date": datetime.datetime.today()
+                "expiration_date": datetime.datetime.today() + timedelta(minutes=5)
             }
             db_verify_code_data_validate = validate_db_data(db_verify_code_data, verify_codes_schema)
             if "error" in db_verify_code_data_validate:
@@ -193,18 +198,58 @@ def login():
 @auth_bl.route("/verify", methods=["POST", "GET"])
 def verify():
     if request.method == "POST":
-        data = validate_route(request, "verify")
-        if "error" in data:
-            log("AUTH", "warning", "user failed data validation on api_validate on login")
         
         try:
-            verify_code = mongo.db.verify_codes.find_one({"code": data.get("code")})
+            verify_code = mongo.db.verify_codes.find_one({"code": g.data.get("code"), "user_id": g.data.get("user_id")})
             if not verify_code:
-                log("AUTH", "warning", f"User: {data.get("user_id")} provided an invalid verification code")
-                return {"message": "invalid code"} 
+                log("AUTH", "warning", f"User: {g.data.get("user_id")} provided an invalid verification code")
+                return {"message": "invalid code"}, 401
+            
+            if verify_code["expiration_date"] < datetime.datetime.today():
+                log("AUTH", "info", "user's verification code has been expired")
+                return {"message": "expired"}, 401
+            
+            mongo.db.verify_codes.delete_one({"id": verify_code["id"]})
 
+        except OperationFailure as e:
+            log("AUTH", "critical", "failed while operating at verify")
+            return {"message": "something went wrong"}, 500
+        except PyMongoError as e:
+            log("AUTH", "critical", "failed while operating at verify, pymongo error")
+            return {"message": "something went wrong"}, 500
+        except Exception as e:
+            log("AUTH", "critical", "something went wrong at verify")
+            return {"message": "something went wrong"}, 500
+        
+        try:
+            access_token = create_access_token(identity=g.data.get("user_id"))
+            refresh_token = create_refresh_token(identity=g.data.get("user_id"))
+
+            db_jwt_data = {
+                "id": str(uuid.uuid4()),
+                "token": refresh_token,
+                "user_id": g.data.get("user_id")
+            }
+
+            db_jwt_validated_data = validate_db_data(db_jwt_data, jwt_schema)
+            if "error" in db_jwt_validated_data:
+                log("AUTH", "warning", "user failed data validation on db_validate on verify")
+                return {"message": db_jwt_validated_data}, 400
+            
+            mongo.db.jwt.insert_one(db_jwt_data)
         except:
             pass
+        
+        log("AUTH", "info", "user has been verified")
+        res = make_response({"message": "success"})
+        res.set_cookie(
+            "actk",
+            access_token,
+            secure=True,
+            httponly=True,
+            samesite="Lax"
+        )
+        return res
     elif request.method == "GET":
         return render_template("verify.html")
     

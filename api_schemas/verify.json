@@ -7,8 +7,11 @@
         },
         "user_id": {
             "type": "string"
+        },
+        "remember": {
+            "type": "string"
         }
     },
-    "required": ["code", "user_id"],
+    "required": ["code", "user_id", "remember"],
     "additionalProperties": false
 }
