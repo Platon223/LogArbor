@@ -9,7 +9,7 @@
             "type": "string"
         },
         "remember": {
-            "type": "string"
+            "type": "boolean"
         }
     },
     "required": ["code", "user_id", "remember"],

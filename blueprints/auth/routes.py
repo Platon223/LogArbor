@@ -221,9 +221,10 @@ def verify():
             log("AUTH", "critical", "something went wrong at verify")
             return {"message": "something went wrong"}, 500
         
+        access_token = create_access_token(identity=g.data.get("user_id"))
+        refresh_token = create_refresh_token(identity=g.data.get("user_id"))
+        
         try:
-            access_token = create_access_token(identity=g.data.get("user_id"))
-            refresh_token = create_refresh_token(identity=g.data.get("user_id"))
 
             db_jwt_data = {
                 "id": str(uuid.uuid4()),
@@ -245,7 +246,14 @@ def verify():
         res.set_cookie(
             "actk",
             access_token,
-            secure=True,
+            secure=False,
+            httponly=True,
+            samesite="Lax"
+        )
+        res.set_cookie(
+            "rftk",
+            refresh_token,
+            secure=False,
             httponly=True,
             samesite="Lax"
         )
