@@ -177,7 +177,6 @@ def login():
                 return {"message": db_verify_code_data_validate}, 400
             
             mongo.db.verify_codes.insert_one(db_verify_code_data)
-
         except OperationFailure as e:
             log("AUTH", "critical", f"failed inserting a verify code, for: {data.get("username")}")
             return {"message": f"error while finding user: {e}"}, 500
@@ -210,7 +209,6 @@ def verify():
                 return {"message": "expired"}, 401
             
             mongo.db.verify_codes.delete_one({"id": verify_code["id"]})
-
         except OperationFailure as e:
             log("AUTH", "critical", "failed while operating at verify")
             return {"message": "something went wrong"}, 500
@@ -220,9 +218,7 @@ def verify():
         except Exception as e:
             log("AUTH", "critical", "something went wrong at verify")
             return {"message": "something went wrong"}, 500
-        
-        access_token = create_access_token(identity=g.data.get("user_id"))
-        refresh_token = create_refresh_token(identity=g.data.get("user_id"))
+    
         
         try:
 
@@ -238,29 +234,69 @@ def verify():
                 return {"message": db_jwt_validated_data}, 400
             
             mongo.db.jwt.insert_one(db_jwt_data)
+        except OperationFailure as e:
+            log("AUTH", "critical", "failed while inserting jwt at verify")
+            return {"message": "something went wrong"}, 500
+        except PyMongoError as e:
+            log("AUTH", "critical", "failed while inserting jwt at verify, pymongo error")
+            return {"message": "something went wrong"}, 500
         except Exception as e:
-            log("AUTH", "critical", "something went wrong while creating inserting jwt")
-            return {"something went wrong"}
+            log("AUTH", "critical", "something went wrong while inserting jwt at verify")
+            return {"something went wrong"}, 500
+        
+        try:
+            if g.data.get("remember"):
+
+                filter_query = {"id": g.data.get("user_id")}
+
+                update_operation = {
+                    "$set": {
+                        "remember": True,
+                        "remember_expiration_date": datetime.datetime.today() + timedelta(minutes=5)
+                    }
+                }
+
+                mongo.db.users.update_one(filter_query, update_operation)
+        except OperationFailure as e:
+            log("AUTH", "critical", "failed while remembering the user at verify")
+            return {"message": "something went wrong"}, 500
+        except PyMongoError as e:
+            log("AUTH", "critical", "failed while remembering the user at verify, pymongo error")
+            return {"message": "something went wrong"}, 500
+        except Exception as e:
+            log("AUTH", "critical", "something went wrong while remembering the user at verify")
+            return {"something went wrong"}, 500
         
         log("AUTH", "info", "user has been verified")
-        res = make_response({"message": "success"})
-        res.set_cookie(
-            "actk",
-            access_token,
-            secure=False,
-            httponly=True,
-            samesite="Lax"
-        )
-        res.set_cookie(
-            "rftk",
-            refresh_token,
-            secure=False,
-            httponly=True,
-            samesite="Lax"
-        )
-        return res
+        return {"message": "verified"}, 200
+
     elif request.method == "GET":
         return render_template("verify.html")
+    
+
+@auth_bl.route("/jwt", methods=["POST"])
+def jwt():
+
+    access_token = create_access_token(identity=g.data.get("user_id"))
+    refresh_token = create_refresh_token(identity=g.data.get("user_id"))
+
+    res = make_response({"message": "success"})
+    res.set_cookie(
+        "actk",
+        access_token,
+        secure=False,
+        httponly=True,
+        samesite="Lax"
+    )
+    res.set_cookie(
+        "rftk",
+        refresh_token,
+        secure=False,
+        httponly=True,
+        samesite="Lax"
+    )
+    log("AUTH", "info", "user has gotten their jwt tokens")
+    return res, 200
     
 
     

@@ -28,7 +28,20 @@ class Verify {
                 return `HTTP error while verifing an account: ${response.status}, ${data.message}`
             }
 
-            const data = await response.json()
+            const response2 = await fetch("/auth/jwt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({user_id: localStorage.getItem("user_id")})
+            })
+
+            if (!response2.ok) {
+                const data = await response2.json()
+                return `HTTP error while verifing an account: ${response2.status}, ${data.message}`
+            }
+
+            const data = await response2.json()
 
             return `${data.message}`
         } catch(error) {
