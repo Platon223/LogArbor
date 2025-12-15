@@ -30,7 +30,11 @@ class Login {
 
             const data = await response.json()
 
-            return `${data}`
+            return {
+                message: data.message,
+                user_id: data.user_id,
+                remember: data.remember
+            }
         } catch(error) {
             return `error: ${error}`
         }
