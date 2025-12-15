@@ -25,7 +25,7 @@ class Verify {
 
             if (!response.ok) {
                 const data = await response.json()
-                return `HTTP error while creating an account: ${response.status}, ${data.message}`
+                return `HTTP error while verifing an account: ${response.status}, ${data.message}`
             }
 
             const data = await response.json()

@@ -238,8 +238,9 @@ def verify():
                 return {"message": db_jwt_validated_data}, 400
             
             mongo.db.jwt.insert_one(db_jwt_data)
-        except:
-            pass
+        except Exception as e:
+            log("AUTH", "critical", "something went wrong while creating inserting jwt")
+            return {"something went wrong"}
         
         log("AUTH", "info", "user has been verified")
         res = make_response({"message": "success"})

@@ -25,7 +25,7 @@ class Login {
 
             if (!response.ok) {
                 const data = await response.json()
-                return `HTTP error while creating an account: ${response.status}, ${data.message}`
+                return `HTTP error while logging in into an account: ${response.status}, ${data.message}`
             }
 
             const data = await response.json()
