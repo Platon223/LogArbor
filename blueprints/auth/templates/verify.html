@@ -25,6 +25,7 @@
         <input
             type="text"
             name="code"
+            id="code"
             placeholder="Verification Code"
             maxlength="6"
             inputmode="numeric"
@@ -32,7 +33,7 @@
             required
         >
 
-        <button class="btn primary">Verify</button>
+        <button type="submit" class="btn primary">Verify</button>
 
         <p class="resend-link">
             Didn’t get the code?
@@ -42,6 +43,8 @@
     </form>
 
 </div>
+
+<script src="{{ url_for('auth_bl.static', filename='verify.js') }}"></script>
 
 </body>
 </html>

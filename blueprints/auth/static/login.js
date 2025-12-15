@@ -30,7 +30,7 @@ class Login {
 
             const data = await response.json()
 
-            return `${data.message}`
+            return `${data}`
         } catch(error) {
             return `error: ${error}`
         }
@@ -56,18 +56,21 @@ formDiv.addEventListener("submit", async (event) => {
     const registerClass = new Login(username.value, password.value, remember_data)
     const submit = await registerClass.submit()
 
-    console.log(submit)
+    console.log(submit.message)
 
-    if (submit.includes("user not found")) {
+    if (submit.message.includes("user not found")) {
         alert(`User was not found`)
-    } else if (submit.includes("invalid password")) {
+    } else if (submit.message.includes("invalid password")) {
         alert("Incorrect password provided")
-    } else if (submit.includes("fetch for jwt")) {
+    } else if (submit.message.includes("fetch for jwt")) {
         console.log("User remembered, fetch for jwt")
-    } else if (submit.includes("verify")) {
+    } else if (submit.message.includes("verify")) {
         username.value = ""
         password.value = ""
         remember.value = ""
+
+        localStorage.setItem("user_id", submit.user_id)
+        localStorage.setItem("remember", submit.remember ? "True" : "False")
 
         window.location.href = "/auth/verify"
     } else {

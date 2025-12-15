@@ -189,7 +189,7 @@ def login():
             return {"message": f"something went wrong: {e}"}, 500
         
         log("AUTH", "info", f"User: {data.get("username")}, logged in and needs to be verified, user {'remembered' if data.get("remember") else 'not remembered'}")
-        return {"message": "redirect to verify"}, 200
+        return {"message": "redirect to verify", "user_id": user["id"], "remember": True if data.get("remember") else False}, 200
     elif request.method == "GET":
         # GET request response
         return render_template("login.html")
