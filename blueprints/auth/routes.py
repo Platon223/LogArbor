@@ -220,29 +220,6 @@ def verify():
             return {"message": "something went wrong"}, 500
     
         
-        try:
-
-            db_jwt_data = {
-                "id": str(uuid.uuid4()),
-                "token": refresh_token,
-                "user_id": g.data.get("user_id")
-            }
-
-            db_jwt_validated_data = validate_db_data(db_jwt_data, jwt_schema)
-            if "error" in db_jwt_validated_data:
-                log("AUTH", "warning", "user failed data validation on db_validate on verify")
-                return {"message": db_jwt_validated_data}, 400
-            
-            mongo.db.jwt.insert_one(db_jwt_data)
-        except OperationFailure as e:
-            log("AUTH", "critical", "failed while inserting jwt at verify")
-            return {"message": "something went wrong"}, 500
-        except PyMongoError as e:
-            log("AUTH", "critical", "failed while inserting jwt at verify, pymongo error")
-            return {"message": "something went wrong"}, 500
-        except Exception as e:
-            log("AUTH", "critical", "something went wrong while inserting jwt at verify")
-            return {"something went wrong"}, 500
         
         try:
             if g.data.get("remember"):
@@ -279,6 +256,30 @@ def jwt():
 
     access_token = create_access_token(identity=g.data.get("user_id"))
     refresh_token = create_refresh_token(identity=g.data.get("user_id"))
+
+    try:
+
+        db_jwt_data = {
+            "id": str(uuid.uuid4()),
+            "token": refresh_token,
+            "user_id": g.data.get("user_id")
+        }
+
+        db_jwt_validated_data = validate_db_data(db_jwt_data, jwt_schema)
+        if "error" in db_jwt_validated_data:
+            log("AUTH", "warning", "user failed data validation on db_validate on verify")
+            return {"message": db_jwt_validated_data}, 400
+            
+        mongo.db.jwt.insert_one(db_jwt_data)
+    except OperationFailure as e:
+        log("AUTH", "critical", "failed while inserting jwt at verify")
+        return {"message": "something went wrong"}, 500
+    except PyMongoError as e:
+        log("AUTH", "critical", "failed while inserting jwt at verify, pymongo error")
+        return {"message": "something went wrong"}, 500
+    except Exception as e:
+        log("AUTH", "critical", "something went wrong while inserting jwt at verify")
+        return {"something went wrong"}, 500
 
     res = make_response({"message": "success"})
     res.set_cookie(
