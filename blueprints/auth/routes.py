@@ -139,7 +139,7 @@ def login():
             log("AUTH", "critical", "something went wrong")
             return {"message": "something went wrong"}, 500
         
-        if user["remember"] and user["remember_expiration_date"] > datetime.date.today():
+        if user["remember"] and user["remember_expiration_date"] > datetime.datetime.today():
             log("AUTH", "info", f"User: {data.get("username")} was remembered and skipped the MFA process")
             return {"message": "fetch for jwt"}
     
