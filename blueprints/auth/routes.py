@@ -310,10 +310,10 @@ def github_login():
 def github_callback():
     token = github.authorize_access_token()
 
-    user_data = github.get("userinfo", token=token).json()
+    user_data = github.get("user", token=token).json()
 
     session["oauth_user"] = user_data
-    return redirect(url_for("auth_bl.dashboard"))
+    return render_template("dashboard.html")
 
     
 

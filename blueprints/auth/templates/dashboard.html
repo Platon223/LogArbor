@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogArbor – Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='dashboard.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">LogArbor</div>
+
+        <nav class="sidebar-nav">
+            <a class="active" href="#">Dashboard</a>
+            <a href="#">Services</a>
+            <a href="#">Logs</a>
+            <a href="#">Alerts</a>
+            <a href="#">Settings</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="#">Logout</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- Top Bar -->
+        <header class="topbar">
+            <h1>Dashboard</h1>
+            <span class="env">Production</span>
+        </header>
+
+        <!-- Stats -->
+        <section class="stats">
+            <div class="stat-card">
+                <span class="stat-title">Services</span>
+                <span class="stat-value">3</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-title">Logs (24h)</span>
+                <span class="stat-value">12,482</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-title">Errors</span>
+                <span class="stat-value error">23</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-title">Alerts</span>
+                <span class="stat-value">2</span>
+            </div>
+        </section>
+
+        <!-- Recent Logs -->
+        <section class="logs">
+            <h2>Recent Logs</h2>
+
+            <div class="logs-table">
+                <div class="log-row header">
+                    <span>Service</span>
+                    <span>Level</span>
+                    <span>Message</span>
+                    <span>Time</span>
+                </div>
+
+                <div class="log-row">
+                    <span>auth-service</span>
+                    <span class="level error">ERROR</span>
+                    <span>Invalid JWT token</span>
+                    <span>2 min ago</span>
+                </div>
+
+                <div class="log-row">
+                    <span>billing-service</span>
+                    <span class="level warn">WARN</span>
+                    <span>Stripe timeout</span>
+                    <span>5 min ago</span>
+                </div>
+
+                <div class="log-row">
+                    <span>auth-service</span>
+                    <span class="level info">INFO</span>
+                    <span>User logged in</span>
+                    <span>8 min ago</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

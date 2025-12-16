@@ -33,7 +33,7 @@
             <div class="divider"><span>OR</span></div>
 
             <button type="button" class="btn google">Continue with Google</button>
-            <button onclick="{{ url_for('auth_bl.github_login') }}" type="button" class="btn github">Continue with GitHub</button>
+            <button type="button" class="btn github"><a href="{{ url_for('auth_bl.github_login') }}">Continue with GitHub</a></button>
 
             <p class="login-link">
                 Don’t have an account? <a href="register.html">Register</a>
