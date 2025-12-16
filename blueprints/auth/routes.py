@@ -1,4 +1,4 @@
-from flask import Blueprint, request, Response, render_template, g, make_response
+from flask import Blueprint, request, Response, render_template, g, make_response, url_for, session, redirect
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from dotenv import load_dotenv
 from validates.validate_api import validate_route
@@ -17,6 +17,7 @@ import datetime
 from handlers.email_verify import send_verification_email
 import os
 from datetime import timedelta
+from extensions.oauth import github
 
 load_dotenv()
 
@@ -298,6 +299,22 @@ def jwt():
     )
     log("AUTH", "info", "user has gotten their jwt tokens")
     return res, 200
+
+
+@auth_bl.route("/oauth_github_login")
+def github_login():
+    redirect_uri = url_for("auth_bl.github_callback", _external=True)
+    return github.authorize_redirect(redirect_uri)
+
+@auth_bl.route("/oauth_github_callback")
+def github_callback():
+    token = github.authorize_access_token()
+
+    user_data = github.get("userinfo", token=token).json()
+
+    session["oauth_user"] = user_data
+    return redirect(url_for("auth_bl.dashboard"))
+
     
 
     
