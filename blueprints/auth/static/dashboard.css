@@ -82,6 +82,13 @@ body {
     font-size: 1.4rem;
 }
 
+.img-logo-dashboard {
+    width: 120px;       
+    margin: 0 auto 50px; 
+    display: block;
+    border-radius: 15px;
+}
+
 /* Terminal */
 .terminal {
     flex: 1;
