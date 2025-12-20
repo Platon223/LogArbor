@@ -46,10 +46,10 @@ def create_service():
         return jsonify({'message': 'no token provided'})
 
     from blueprints.auth.routes import auth_bl
-    from blueprints.home.routes import home_bl
+    from blueprints.home.routes import home_blp
     
     app.register_blueprint(auth_bl, url_prefix='/auth')
-    app.register_blueprint(home_bl, url_prefix='/home')
+    app.register_blueprint(home_blp, url_prefix='/home')
 
 
 
