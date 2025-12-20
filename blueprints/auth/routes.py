@@ -86,7 +86,7 @@ def register():
                 log("AUTH", "info", "user tried using someone's username on register")
                 return {"message": "username is already taken"}, 400
         except OperationFailure as e:
-            log("AUTH", "critical", f"failed finding a duplicated user, for: {data.get("email")} on register")
+            log("AUTH", "critical", f"failed finding a duplicated user, for: {data.get('email')} on register")
             return {"message": f"error while finding the user: {e}"}, 500
         except PyMongoError as e:
             log("AUTH", "critical", f"failed finding a duplicated user, for: {data.get("email")} on register, pymongo error")
@@ -308,12 +308,30 @@ def github_login():
 
 @auth_bl.route("/oauth_github_callback")
 def github_callback():
-    token = github.authorize_access_token()
+
+    try:
+
+        token = github.authorize_access_token()
+    except Exception as e:
+        log("AUTH", "critical", f"something went wrong at oauth with github at a callback: {e}")
+        return {"message": "something went wrong"}, 500
 
     user_data = github.get("user", token=token).json()
 
-    session["oauth_user"] = user_data
-    return render_template("dashboard.html")
+    db_data = {
+        "id": str(uuid.uuid4()),
+        "username": user_data.get("name"),
+        "password": "Github User",
+        "email": user_data.get("email"),
+        "account_type": "Default",
+        "remember": False,
+        "remember_expiration_date": datetime.datetime.today()
+    }
+
+
+
+    session["oauth_user"] = True
+    return {"message": "redirect to home bl"}
 
     
 
