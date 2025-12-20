@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify
 from dotenv import load_dotenv
 import os
 from datetime import timedelta
@@ -27,9 +27,30 @@ def create_service():
     jwt.init_app(app)
     oauth.init_app(app)
 
+
+    app.errorhandler(Exception)
+    def catch(e):
+        return {"message": "something went wrong on our end"}, 500
+    
+    @jwt.expired_token_loader
+    def expired_access_token(jwt_header, jwt_payload):
+        token = jwt_payload.get('type')
+        return jsonify({'message': f'{token} token has expired'})
+    
+    @jwt.invalid_token_loader
+    def invalid(callback):
+        return jsonify({'message': 'Invalid access token'})
+    
+    @jwt.unauthorized_loader
+    def unauth(callback):
+        return jsonify({'message': 'no token provided'})
+
     from blueprints.auth.routes import auth_bl
+    from blueprints.home.routes import home_bl
     
     app.register_blueprint(auth_bl, url_prefix='/auth')
+    app.register_blueprint(home_bl, url_prefix='/home')
+
 
 
     return app

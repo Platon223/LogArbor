@@ -202,7 +202,7 @@ def verify():
         try:
             verify_code = mongo.db.verify_codes.find_one({"code": g.data.get("code"), "user_id": g.data.get("user_id")})
             if not verify_code:
-                log("AUTH", "warning", f"User: {g.data.get("user_id")} provided an invalid verification code")
+                log("AUTH", "warning", f"User: {g.data.get('user_id')} provided an invalid verification code")
                 return {"message": "invalid code"}, 401
             
             if verify_code["expiration_date"] < datetime.datetime.today():
