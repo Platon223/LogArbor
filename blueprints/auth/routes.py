@@ -89,24 +89,24 @@ def register():
             log("AUTH", "critical", f"failed finding a duplicated user, for: {data.get('email')} on register")
             return {"message": f"error while finding the user: {e}"}, 500
         except PyMongoError as e:
-            log("AUTH", "critical", f"failed finding a duplicated user, for: {data.get("email")} on register, pymongo error")
+            log("AUTH", "critical", f"failed finding a duplicated user, for: {data.get('email')} on register, pymongo error")
             return {"message": f"error with pymongo: {e}"}, 500
         
         try:
             db_data["password"] = bcrypt.generate_password_hash(data.get("password"))
             mongo.db.users.insert_one(db_validated_data)
         except DuplicateKeyError as e:
-            log("AUTH", "critical", f"failed inserting a new user because duplicated, for: {data.get("email")}")
+            log("AUTH", "critical", f"failed inserting a new user because duplicated, for: {data.get('email')}")
             return {"message": f"error duplicated user: {e}"}, 500
         except OperationFailure as e:
-            log("AUTH", "critical", f"failed inserting a new user, for: {data.get("email")}")
+            log("AUTH", "critical", f"failed inserting a new user, for: {data.get('email')}")
             return {"message": f"error while inserting: {e}"}, 500
         except PyMongoError as e:
-            log("AUTH", "critical", f"failed inserting a new user, for: {data.get("email")}, pymongo error")
+            log("AUTH", "critical", f"failed inserting a new user, for: {data.get('email')}, pymongo error")
             return {"message": f"error with pymongo: {e}"}, 500
         
-        log("AUTH", "info", f"user: {data.get("username")} has been created")
-        return {"message": f"user: {data.get("username")} has created an account"}, 200
+        log("AUTH", "info", f"user: {data.get('username')} has been created")
+        return {"message": f"user: {data.get('username')} has created an account"}, 200
     elif request.method == "GET":
         # GET request response
         return render_template("register.html")
@@ -127,21 +127,21 @@ def login():
                 log("AUTH", "info", "user was not found on login")
                 return {"message": "user not found"}, 404
             
-            if not bcrypt.check_password_hash(user["password"], data.get("password")):
-                log("AUTH", "info", f"User: {data.get("username")} provided invalid password")
+            if not bcrypt.check_password_hash(user["password"], data.get('password')):
+                log("AUTH", "info", f"User: {data.get('username')} provided invalid password")
                 return {"message": "invalid password"}, 401
         except OperationFailure as e:
-            log("AUTH", "critical", f"failed finding a user, for: {data.get("username")}")
+            log("AUTH", "critical", f"failed finding a user, for: {data.get('username')}")
             return {"message": f"error while finding user: {e}"}, 500
         except PyMongoError as e:
-            log("AUTH", "critical", f"failed finding a user, for: {data.get("username")}, pymongo error")
+            log("AUTH", "critical", f"failed finding a user, for: {data.get('username')}, pymongo error")
             return {"message": f"error with pymongo: {e}"}, 500
         except Exception as e:
             log("AUTH", "critical", "something went wrong")
             return {"message": "something went wrong"}, 500
         
         if user["remember"] and user["remember_expiration_date"] > datetime.datetime.today():
-            log("AUTH", "info", f"User: {data.get("username")} was remembered and skipped the MFA process")
+            log("AUTH", "info", f"User: {data.get('username')} was remembered and skipped the MFA process")
             return {"message": "fetch for jwt"}
     
         
@@ -161,7 +161,7 @@ def login():
             )
 
             if not result == "success":
-                log("AUTH", "critical", f"User: {user["username"]} failed to receive verification code email")
+                log("AUTH", "critical", f"User: {user['username']} failed to receive verification code email")
                 return {"message": f"something went wrong while sending an email: {result}"}
 
 
@@ -179,16 +179,16 @@ def login():
             
             mongo.db.verify_codes.insert_one(db_verify_code_data)
         except OperationFailure as e:
-            log("AUTH", "critical", f"failed inserting a verify code, for: {data.get("username")}")
+            log("AUTH", "critical", f"failed inserting a verify code, for: {data.get('username')}")
             return {"message": f"error while finding user: {e}"}, 500
         except PyMongoError as e:
-            log("AUTH", "critical", f"failed inserting a verify code, for: {data.get("username")}, error with pymongo")
+            log("AUTH", "critical", f"failed inserting a verify code, for: {data.get('username')}, error with pymongo")
             return {"message": f"error while finding user: {e}"}, 500
         except Exception as e:
             log("AUTH", "critical", "something went wrong")
             return {"message": f"something went wrong: {e}"}, 500
         
-        log("AUTH", "info", f"User: {data.get("username")}, logged in and needs to be verified, user {'remembered' if data.get("remember") else 'not remembered'}")
+        log("AUTH", "info", f"User: {data.get('username')}, logged in and needs to be verified, user {'remembered' if data.get('remember') else 'not remembered'}")
         return {"message": "redirect to verify", "user_id": user["id"], "remember": True if data.get("remember") else False}, 200
     elif request.method == "GET":
         # GET request response
