@@ -13,4 +13,5 @@ def dashboard():
 @home_blp.route("/credentials/username", methods=["POST"])
 @auth_check_wrapper()
 def username_info():
-    pass
+    user_identity = getattr(request, "auth_identity", None)
+    return {"message": user_identity}
