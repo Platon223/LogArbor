@@ -317,9 +317,10 @@ def github_callback():
         return {"message": "something went wrong"}, 500
 
     user_data = github.get("user", token=token).json()
+    user_id = str(uuid.uuid4())
 
     db_data = {
-        "id": str(uuid.uuid4()),
+        "id": user_id,
         "username": user_data.get("name"),
         "password": "Github User",
         "email": user_data.get("email"),
@@ -330,7 +331,7 @@ def github_callback():
 
 
 
-    session["oauth_user"] = True
+    session["oauth_user"] = user_id
     return {"message": "redirect to home bl"}
 
     
