@@ -21,6 +21,7 @@ def create_service():
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET")
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=10)
     app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(hours=24)
+    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=5)
 
     mongo.init_app(app)
     bcrypt.init_app(app)

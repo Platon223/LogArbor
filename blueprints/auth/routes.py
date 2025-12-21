@@ -317,22 +317,55 @@ def github_callback():
         return {"message": "something went wrong"}, 500
 
     user_data = github.get("user", token=token).json()
-    user_id = str(uuid.uuid4())
 
-    db_data = {
-        "id": user_id,
-        "username": user_data.get("name"),
-        "password": "Github User",
-        "email": user_data.get("email"),
-        "account_type": "Default",
-        "remember": False,
-        "remember_expiration_date": datetime.datetime.today()
-    }
+    try:
+        oauth_user = mongo.db.users.find_one({"email": user_data.get("email")})
+    except OperationFailure as e:
+        log("AUTH", "critical", f"failed to find a user at oauth callback: {e}")
+        return redirect("/auth/login?message=somethingwentwrong")
+    except PyMongoError as e:
+        log("AUTH", "critical", f"failed to find a user at oauth callback: {e}, pymongo error")
+        return redirect("/auth/login?message=somethingwentwrong")
+    except Exception as e:
+        log("AUTH", "critical", f"something went wrong at oauth callback: {e}")
+        return redirect("/auth/login?message=somethingwentwrong")
+
+    if not oauth_user:
+        user_id = str(uuid.uuid4())
+        db_data = {
+            "id": user_id,
+            "username": user_data.get("name"),
+            "password": "Github User",
+            "email": user_data.get("email"),
+            "account_type": "Default",
+            "remember": False,
+            "remember_expiration_date": datetime.datetime.today()
+        }
+
+        db_validated_data = validate_db_data(db_data, users_schema)
+        if "error" in db_validated_data:
+            log("AUTH", "warning", "user failed data validation on db_validate on oauth callback")
+            return {"message": db_validated_data}, 400
+        
+
+        try:
+            oauth_user = mongo.db.users.insert_one(db_data)
+        except OperationFailure as e:
+            log("AUTH", "critical", f"failed to insert a user at oauth callback: {e}")
+            return redirect("/auth/login?message=somethingwentwrong")
+        except PyMongoError as e:
+            log("AUTH", "critical", f"failed to insert a user at oauth callback: {e}, pymongo error")
+            return redirect("/auth/login?message=somethingwentwrong")
+        except Exception as e:
+            log("AUTH", "critical", f"something went wrong at oauth callback: {e}")
+            return redirect("/auth/login?message=somethingwentwrong")
+
 
 
 
     session["oauth_user"] = user_id
-    return {"message": "redirect to home bl"}
+    session.permanent = True
+    return redirect("/home/dashboard")
 
     
 

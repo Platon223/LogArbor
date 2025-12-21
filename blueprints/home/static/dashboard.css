@@ -151,6 +151,77 @@ body {
     white-space: pre-wrap;
 }
 
+/* Terminal toolbar */
+.terminal-toolbar {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0,255,135,0.15);
+    background: rgba(0,255,135,0.03);
+    flex-wrap: wrap;
+}
+
+/* Search input */
+.log-search {
+    flex: 1;
+    min-width: 180px;
+    background: #050805;
+    border: 1px solid rgba(0,255,135,0.35);
+    color: #e0ffe3;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+}
+
+.log-search::placeholder {
+    color: #6fae70;
+}
+
+/* Filter buttons */
+.log-filters {
+    display: flex;
+    gap: 6px;
+}
+
+.filter-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,255,135,0.35);
+    background: transparent;
+    color: #bdecc3;
+    cursor: pointer;
+    font-family: "JetBrains Mono", monospace;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: rgba(0,255,135,0.2);
+    color: #00ff87;
+}
+
+.filter-btn.info { border-color: #00ff87; }
+.filter-btn.warn { border-color: #ffd166; }
+.filter-btn.error { border-color: #ff6b6b; }
+
+/* Clear button */
+.clear-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    background: rgba(255, 107, 107, 0.15);
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+    cursor: pointer;
+    font-family: "JetBrains Mono", monospace;
+}
+
+.clear-btn:hover {
+    background: rgba(255, 107, 107, 0.25);
+}
+
+
 
 
 .log-line.info  .level { color: #00ff87; }
@@ -191,3 +262,16 @@ body {
         padding: 15px;
     }
 }
+
+@media (max-width: 600px) {
+    .log-filters {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .filter-btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
