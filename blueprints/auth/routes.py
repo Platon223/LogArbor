@@ -317,6 +317,12 @@ def github_callback():
         return {"message": "something went wrong"}, 500
 
     user_data = github.get("user", token=token).json()
+    emails_data = github.get("user/emails").json()
+
+    primary_email = next(
+        (e['email'] for e in emails_data if e['primary'] and e['verified']), 
+        None
+    )
 
     try:
         oauth_user = mongo.db.users.find_one({"email": user_data.get("email")})
@@ -336,7 +342,7 @@ def github_callback():
             "id": user_id,
             "username": user_data.get("name"),
             "password": "Github User",
-            "email": user_data.get("email"),
+            "email": primary_email,
             "account_type": "Default",
             "remember": False,
             "remember_expiration_date": datetime.datetime.today()
