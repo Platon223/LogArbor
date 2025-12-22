@@ -1,26 +1,18 @@
 class Dashboard {
-    constructor(username, password, remember) {
-        this.username = username
-        this.password = password
-        this.remember = remember
-        
+    constructor(user_id) {
+        this.user_id = user_id
     }
 
 
-    async submit() {
-        const json = {
-            username: this.username,
-            password: this.password,
-            remember: this.remember
-        }
+    async fetchCredentials() {
 
         try{
-            const response = await fetch("/auth/login", {
+            const response = await fetch("/home/credentials/username", {
                 method: "POST",
+                credentials: "same-origin",
                 headers: {
                     "Content-Type": "application/json"
-                },
-                body: JSON.stringify(json)
+                }
             })
 
             if (!response.ok) {
@@ -31,12 +23,16 @@ class Dashboard {
             const data = await response.json()
 
             return {
-                message: data.message,
-                user_id: data.user_id,
-                remember: data.remember
+                message: data.message
             }
         } catch(error) {
             return `error: ${error}`
         }
     }
 }
+
+
+const dashboardClass = new Dashboard("123")
+const credentials = await dashboardClass.fetchCredentials()
+
+console.log(credentials.message)

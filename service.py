@@ -22,6 +22,10 @@ def create_service():
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=10)
     app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(hours=24)
     app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=5)
+    app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+    app.config["JWT_ACCESS_COOKIE_NAME"] = "actk"
+    app.config["JWT_REFRESH_COOKIE_NAME"] = "rftk"
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 
     mongo.init_app(app)
     bcrypt.init_app(app)

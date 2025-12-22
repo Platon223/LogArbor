@@ -286,6 +286,7 @@ def jwt():
     res.set_cookie(
         "actk",
         access_token,
+        max_age=timedelta(minutes=10).total_seconds(),
         secure=False,
         httponly=True,
         samesite="Lax"
@@ -293,6 +294,7 @@ def jwt():
     res.set_cookie(
         "rftk",
         refresh_token,
+        max_age=timedelta(hours=24).total_seconds(),
         secure=False,
         httponly=True,
         samesite="Lax"
