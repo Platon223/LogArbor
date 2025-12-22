@@ -31,8 +31,9 @@ class Dashboard {
     }
 }
 
+async function main() {
+    const dashboardClass = new Dashboard("123")
+    const credentials = await dashboardClass.fetchCredentials()
 
-const dashboardClass = new Dashboard("123")
-const credentials = await dashboardClass.fetchCredentials()
-
-console.log(credentials.message)
+    console.log(credentials.message)    
+}
