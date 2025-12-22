@@ -327,7 +327,7 @@ def github_callback():
     )
 
     try:
-        oauth_user = mongo.db.users.find_one({"email": user_data.get("email")})
+        oauth_user = mongo.db.users.find_one({"email": primary_email})
     except OperationFailure as e:
         log("AUTH", "critical", f"failed to find a user at oauth callback: {e}")
         return redirect("/auth/login?message=somethingwentwrong")

@@ -37,3 +37,5 @@ async function main() {
 
     console.log(credentials.message)    
 }
+
+main()
