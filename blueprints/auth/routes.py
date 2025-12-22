@@ -372,7 +372,7 @@ def github_callback():
 
 
 
-    session["oauth_user"] = user_id
+    session["oauth_user"] = oauth_user["id"] if oauth_user else user_id
     session.permanent = True
     return redirect("/home/dashboard")
 
