@@ -358,7 +358,7 @@ def github_callback():
         
 
         try:
-            oauth_user = mongo.db.users.insert_one(db_data)
+            mongo.db.users.insert_one(db_data)
         except OperationFailure as e:
             log("AUTH", "critical", f"failed to insert a user at oauth callback: {e}")
             return redirect("/auth/login?message=somethingwentwrong")
