@@ -335,9 +335,10 @@ def github_callback():
     except Exception as e:
         log("AUTH", "critical", f"something went wrong at oauth callback: {e}")
         return redirect("/auth/login?message=somethingwentwrong")
+    
+    user_id = str(uuid.uuid4())
 
     if not oauth_user:
-        user_id = str(uuid.uuid4())
         db_data = {
             "id": user_id,
             "username": user_data.get("name"),
