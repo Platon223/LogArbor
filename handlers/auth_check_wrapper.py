@@ -35,7 +35,7 @@ def auth_check_wrapper():
 
             if auth_user is None:
                 log("AUTH", "warning", "user not included or invalid token at jwt verification")
-                return {"message": "missing or invalid token"}, 500
+                return {"message": "missing or invalid token"}, 401
             
             request.auth_identity = auth_user
 
