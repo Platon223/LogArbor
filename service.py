@@ -52,9 +52,11 @@ def create_service():
 
     from blueprints.auth.routes import auth_bl
     from blueprints.home.routes import home_blp
+    from blueprints.services.routes import services_bl
     
     app.register_blueprint(auth_bl, url_prefix='/auth')
     app.register_blueprint(home_blp, url_prefix='/home')
+    app.register_blueprint(services_bl, url_prefix='/services')
 
 
 
