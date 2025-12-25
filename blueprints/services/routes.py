@@ -87,7 +87,7 @@ def update():
         log("SERVICES", "critical", f"something went wrong at /services/update_service: {e}")
         return {"message": "something went wrong"}, 500
     
-    log("SERVICES", "info", f"user updated service: {g.data.get("service_id")} successufully")
+    log("SERVICES", "info", f"user updated service: {g.data.get('service_id')} successufully")
     return {"message": "updated"}, 200
 
 @services_bl.route("/delete_service", methods=["POST"])
@@ -105,5 +105,5 @@ def delete():
         log("SERVICES", "critical", f"something went wrong at /services/delete_service: {e}")
         return {"message": "something went wrong"}, 500
     
-    log("SERVICES", "info", f"user deleted a service: {g.data.get("service_id")} successufully")
+    log("SERVICES", "info", f"user deleted a service: {g.data.get('service_id')} successufully")
     return {"message": "deleted"}, 200
