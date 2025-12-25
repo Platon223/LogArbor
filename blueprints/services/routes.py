@@ -69,7 +69,7 @@ def update():
 
             update_operation = {
                 "$set": {
-                    f"{g.data.get("parameter")}": g.data.get("value")
+                    f"{g.data.get('parameter')}": g.data.get("value")
                 }
             }
 
