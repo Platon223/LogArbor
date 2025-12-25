@@ -277,6 +277,72 @@ body {
     font-size: 13px;
 }
 
+/* Topbar actions */
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Modal backdrop */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Modal box */
+.modal-content {
+    background: #050805;
+    border: 1px solid rgba(0,255,135,0.3);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+/* Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.modal-header h2 {
+    color: #00ff87;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* Form */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.modal-form input,
+.modal-form .select-input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,255,135,0.35);
+    padding: 12px;
+    color: #e0ffe3;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+
 
 
 

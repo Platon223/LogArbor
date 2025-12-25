@@ -33,8 +33,15 @@
 
         <header class="topbar">
             <h1>Services</h1>
-            <span class="env">Account</span>
+
+            <div class="topbar-actions">
+                <button class="btn primary small" id="openServiceModal">
+                    + New Service
+                </button>
+                <span class="env">Account</span>
+            </div>
         </header>
+
 
         <!-- Services Grid -->
         <section class="services-grid">
@@ -101,6 +108,33 @@
     </main>
 
 </div>
+
+<div class="modal" id="serviceModal">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>New Service</h2>
+            <button class="close-btn" id="closeServiceModal">×</button>
+        </div>
+
+        <form class="modal-form">
+            <input id="name" type="text" placeholder="Service name" required>
+            <input id="url" type="text" placeholder="Url of your application" required>
+            <input id="level" type="text" placeholder="Alert Level" required>
+
+            <select class="select-input">
+                <option value="">Log ingestion method</option>
+                <option>HTTP Endpoint</option>
+                <option>Agent</option>
+                <option>File Forwarder</option>
+            </select>
+
+            <button id="create-button" class="btn primary">Create Service</button>
+        </form>
+
+    </div>
+</div>
+
 
 <script src="{{ url_for('services_bl.static', filename='services.js') }}"></script>
 

@@ -1,3 +1,5 @@
+const { cloneElement } = require("react")
+
 class Services {
 
 
@@ -28,7 +30,65 @@ class Services {
             return `error: ${error}`
         }
     }
+
+    async newService(name, url, alert_level) {
+        const createNewServiceJSON = {
+            name: name,
+            url: url,
+            alert_level: alert_level
+        }
+        try{
+            const response = await fetch("/services/create", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(createNewServiceJSON)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while creating a new service: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
 }
+
+const createButton = document.getElementById("create-button")
+createButton.addEventListener("click", async () => {
+    const nameValue = document.getElementById("name")
+    const urlValue = document.getElementById("url")
+    const alertLevelValue = document.getElementById("level")
+
+    const dashboardClass = new Services()
+    const createNewService = await dashboardClass.newService(nameValue.value, urlValue.value, alertLevelValue.value)
+
+    if (!createNewService.message.includes("created")) {
+        alert("Something went wrong.")
+    }
+})
+
+const modal = document.getElementById("serviceModal");
+document.getElementById("openServiceModal").onclick = () => {
+    modal.style.display = "flex";
+};
+document.getElementById("closeServiceModal").onclick = () => {
+    modal.style.display = "none";
+};
+window.onclick = e => {
+    if (e.target === modal) modal.style.display = "none";
+};
 
 async function main() {
     const dashboardClass = new Services()
