@@ -31,7 +31,7 @@ class Services {
 }
 
 async function main() {
-    const dashboardClass = new Dashboard()
+    const dashboardClass = new Services()
     const credentials = await dashboardClass.fetchCredentials()
 
     if (credentials.message.includes("user not found")) {
