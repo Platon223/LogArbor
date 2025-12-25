@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogArbor – Services</title>
+
+    <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('home_blp.static', filename='dashboard.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <img class="img-logo-dashboard"
+             src="https://i.imgur.com/Gu7EcLR.jpeg"
+             alt="Logo"
+             referrerpolicy="no-referrer">
+
+        <nav class="sidebar-nav">
+            <a href="/dashboard">Dashboard</a>
+            <a class="active">Services</a>
+            <a href="/logs">Logs</a>
+            <a href="/alerts">Alerts</a>
+            <a href="/settings">Settings</a>
+        </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+        <header class="topbar">
+            <h1>Services</h1>
+            <span class="env">Account</span>
+        </header>
+
+        <!-- Services Grid -->
+        <section class="services-grid">
+
+            <!-- Service Card -->
+            <div class="service-card online">
+                <div class="terminal-header">
+                    <span>auth_service</span>
+                    <span class="terminal-dot green"></span>
+                </div>
+
+                <div class="service-body">
+                    <p><strong>Status:</strong> Online</p>
+                    <p><strong>Environment:</strong> Production</p>
+                    <p><strong>Logs today:</strong> 1,248</p>
+                    <p><strong>Last activity:</strong> 2 minutes ago</p>
+                </div>
+
+                <div class="service-actions">
+                    <a href="/logs/auth_service" class="btn primary small">View Logs</a>
+                </div>
+            </div>
+
+            <!-- Service Card -->
+            <div class="service-card warning">
+                <div class="terminal-header">
+                    <span>billing_service</span>
+                    <span class="terminal-dot"></span>
+                </div>
+
+                <div class="service-body">
+                    <p><strong>Status:</strong> Degraded</p>
+                    <p><strong>Environment:</strong> Production</p>
+                    <p><strong>Warnings:</strong> 12</p>
+                    <p><strong>Last activity:</strong> 5 minutes ago</p>
+                </div>
+
+                <div class="service-actions">
+                    <a href="/logs/billing_service" class="btn primary small">View Logs</a>
+                </div>
+            </div>
+
+            <!-- Service Card -->
+            <div class="service-card offline">
+                <div class="terminal-header">
+                    <span>email_worker</span>
+                    <span class="terminal-dot red"></span>
+                </div>
+
+                <div class="service-body">
+                    <p><strong>Status:</strong> Offline</p>
+                    <p><strong>Environment:</strong> Staging</p>
+                    <p><strong>Errors:</strong> 3</p>
+                    <p><strong>Last seen:</strong> 1 hour ago</p>
+                </div>
+
+                <div class="service-actions">
+                    <a href="/logs/email_worker" class="btn primary small">View Logs</a>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

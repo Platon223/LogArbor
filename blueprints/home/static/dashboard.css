@@ -221,6 +221,62 @@ body {
     background: rgba(255, 107, 107, 0.25);
 }
 
+/* Services grid */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Service card */
+.service-card {
+    background: #050805;
+    border: 1px solid rgba(0,255,135,0.2);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Status colors */
+.service-card.online {
+    border-color: rgba(0,255,135,0.4);
+}
+
+.service-card.warning {
+    border-color: rgba(255,209,102,0.5);
+}
+
+.service-card.offline {
+    border-color: rgba(255,107,107,0.5);
+}
+
+/* Body */
+.service-body {
+    padding: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #c8e6c9;
+}
+
+.service-body strong {
+    color: #00ff87;
+}
+
+/* Actions */
+.service-actions {
+    margin-top: auto;
+    padding: 12px;
+    border-top: 1px solid rgba(0,255,135,0.15);
+}
+
+/* Small button */
+.btn.small {
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+
 
 
 

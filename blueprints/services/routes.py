@@ -58,9 +58,47 @@ def create():
 @services_bl.route("/update_service", methods=["POST"])
 @auth_check_wrapper()
 def update():
-    pass
+    try:
+        if g.data.get("parameter") == "name" or "url" or "alert_level":
+            filter_query = {"id": g.data.get("service_id"), "user_id": getattr(request, "auth_identity", None)}
+
+            update_operation = {
+                "$set": {
+                    f"{g.data.get("parameter")}": g.data.get("value")
+                }
+            }
+
+            mongo.db.services.update_one(filter_query, update_operation)
+        else:
+            log("SERVICES", "critical", "unknown parameter was provided at /services/update_service")
+            return {"message": "unknown parameter"}
+    except OperationFailure as e:
+        log("SERVICES", "critical", f"failed updating a service at /services/update_service: {e}")
+        return {"message": "something went wrong"}, 500
+    except PyMongoError as e:
+        log("SERVICES", "critical", f"failed updating a service at /services/update_service: {e}, pymongo error")
+        return {"message": "something went wrong"}, 500
+    except Exception as e:
+        log("SERVICES", "critical", f"something went wrong at /services/update_service: {e}")
+        return {"message": "something went wrong"}, 500
+    
+    log("SERVICES", "info", f"user updated service: {g.data.get("service_id")} successufully")
+    return {"message": "updated"}, 200
 
 @services_bl.route("/delete_service", methods=["POST"])
 @auth_check_wrapper()
 def delete():
-    pass
+    try:
+        mongo.db.services.delete_one({"id": g.data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
+    except OperationFailure as e:
+        log("SERVICES", "critical", f"failed deleting a service at /services/delete_service: {e}")
+        return {"message": "something went wrong"}, 500
+    except PyMongoError as e:
+        log("SERVICES", "critical", f"failed deleting a service at /services/delete_service: {e}, pymongo error")
+        return {"message": "something went wrong"}, 500
+    except Exception as e:
+        log("SERVICES", "critical", f"something went wrong at /services/delete_service: {e}")
+        return {"message": "something went wrong"}, 500
+    
+    log("SERVICES", "info", f"user deleted a service: {g.data.get("service_id")} successufully")
+    return {"message": "deleted"}, 200
