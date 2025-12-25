@@ -1,7 +1,5 @@
 class Dashboard {
-    constructor(user_id) {
-        this.user_id = user_id
-    }
+
 
 
     async fetchCredentials() {
@@ -34,12 +32,16 @@ class Dashboard {
 }
 
 async function main() {
-    const dashboardClass = new Dashboard("123")
+    const dashboardClass = new Dashboard()
     const credentials = await dashboardClass.fetchCredentials()
 
     if (credentials.message.includes("user not found")) {
         window.location.href = "/auth/register"
     } else if(credentials.message.includes("something went wrong")) {
+        window.location.href = "/auth/login"
+    } else if (credentials.message.includes("oauth user was not found")) {
+        window.location.href = "/auth/login"
+    } else if (credentials.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
     } else {
         document.querySelector(".env").innerHTML = credentials.message    

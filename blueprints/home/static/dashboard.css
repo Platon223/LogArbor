@@ -226,6 +226,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
+    width: 600px;
 }
 
 /* Service card */
