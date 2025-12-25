@@ -23,6 +23,11 @@ def data_validation():
         g.data = data
 
 
+@services_bl.route("/", methods=["GET"])
+def services():
+    return render_template("services.html")
+
+
 @services_bl.route("/create", methods=["POST"])
 @auth_check_wrapper()
 def create():

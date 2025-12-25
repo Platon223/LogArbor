@@ -36,15 +36,3 @@ def username_info():
     return {"message": current_user["username"]}, 200
 
 
-@home_blp.route("/credentials/logs", methods=["POST"])
-@auth_check_wrapper()
-def logs_info():
-    user_id = getattr(request, "auth_identity", None)
-
-    try:
-        pass
-    except:
-        pass
-
-
-
