@@ -36,7 +36,7 @@ def create():
             "id": str(uuid.uuid4()),
             "name": g.data.get("name"),
             "url": g.data.get("url"),
-            "alert_level": g.data.get("alert"),
+            "alert_level": g.data.get("alert_level"),
             "user_id": getattr(request, "auth_identity", None)
         }
 
