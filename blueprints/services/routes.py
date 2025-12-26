@@ -13,7 +13,7 @@ services_bl = Blueprint("services_bl", __name__, template_folder="templates", st
 
 @services_bl.before_request
 def data_validation():
-    if request.method == "POST":
+    if request.method == "POST" and not request.path == "/services/all_services":
         path = request.path
         data = validate_route(request, path)
         if "error" in data:
@@ -107,3 +107,24 @@ def delete():
     
     log("SERVICES", "info", f"user deleted a service: {g.data.get('service_id')} successufully")
     return {"message": "deleted"}, 200
+
+@services_bl.route("/all_services", methods=["POST"])
+@auth_check_wrapper()
+def all():
+    try:
+        all_user_services = mongo.db.services.find({"user_id": getattr(request, "auth_identity", None)})
+    except OperationFailure as e:
+        log("SERVICES", "critical", f"failed getting all services at /services/all_services: {e}")
+        return {"message": "something went wrong"}, 500
+    except PyMongoError as e:
+        log("SERVICES", "critical", f"failed getting all services at /services/all_services: {e}, pymongo error")
+        return {"message": "something went wrong"}, 500
+    except Exception as e:
+        log("SERVICES", "critical", f"something went wrong at /services/all_services: {e}")
+        return {"message": "something went wrong"}, 500
+
+
+    all_user_services_list = list(all_user_services)
+
+    log("SERVICES", "info", "user got all services successufully")
+    return {"message": all_user_services_list}
