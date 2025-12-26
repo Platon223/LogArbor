@@ -123,12 +123,13 @@ def all():
         log("SERVICES", "critical", f"something went wrong at /services/all_services: {e}")
         return {"message": "something went wrong"}, 500
     
-    if not all_user_services:
-        log("SERVICES", "info", "user has no services yet")
-        return {"message": "no services"}, 404
 
 
     all_user_services_list = list(all_user_services)
+
+    if len(all_user_services_list) == 0:
+        log("SERVICES", "info", "user has no services yet")
+        return {"message": "no services"}, 404
 
     log("SERVICES", "info", "user got all services successufully")
     return {"message": all_user_services_list}
