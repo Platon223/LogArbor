@@ -29,6 +29,33 @@ class Services {
         }
     }
 
+    async allServices() {
+        try{
+            const response = await fetch("/services/all_services", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while fetching all of the services: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
+
     async newService(name, url, alert_level) {
         const createNewServiceJSON = {
             name: name,
@@ -101,8 +128,8 @@ window.onclick = e => {
 };
 
 async function main() {
-    const dashboardClass = new Services()
-    const credentials = await dashboardClass.fetchCredentials()
+    const servicesClass = new Services()
+    const credentials = await servicesClass.fetchCredentials()
 
     if (credentials.message.includes("user not found")) {
         window.location.href = "/auth/register"
@@ -114,6 +141,24 @@ async function main() {
         window.location.href = "/auth/login"
     } else {
         document.querySelector(".env").innerHTML = credentials.message    
+    }
+
+    const all_services = await servicesClass.allServices()
+
+    if (all_services.message.includes("no services")) {
+        document.querySelector(".services-grid").innerHTML = "No Services Yet"
+    } else if (Array.isArray(all_services.message)) {
+        all_services.message.forEach(element => {
+            document.querySelector(".services-grid").innerHTML += `${element.name}`
+        });
+    } else if(credentials.message.includes("something went wrong")) {
+        window.location.href = "/auth/login"
+    } else if (credentials.message.includes("oauth user was not found")) {
+        window.location.href = "/auth/login"
+    } else if (credentials.message.includes("missing or invalid token")) {
+        window.location.href = "/auth/login"
+    } else {
+        window.location.href = "/auth/login"
     }
 }
 
