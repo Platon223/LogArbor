@@ -149,7 +149,7 @@ async function main() {
         document.querySelector(".services-grid").innerHTML = "No Services Yet"
     } else if (Array.isArray(all_services.message)) {
         all_services.message.forEach(element => {
-            document.querySelector(".services-grid").innerHTML += `<div class="service-card online">
+            document.querySelector(".services-grid").innerHTML += `<div onclick="window.location.href = '/services/${element.id}' " class="service-card online">
                 <div class="terminal-header">
                     <span>${element.name}</span>
                     <span class="terminal-dot green"></span>
