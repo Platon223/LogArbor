@@ -65,6 +65,7 @@ class Services {
 
 const createButton = document.getElementById("create-button")
 const newServiceForm = document.querySelector(".modal-form")
+const modal = document.getElementById("serviceModal");
 
 newServiceForm.addEventListener("submit", async (event) => {
     event.preventDefault()
@@ -79,9 +80,16 @@ newServiceForm.addEventListener("submit", async (event) => {
     if (!createNewService.message.includes("created")) {
         alert("Something went wrong.")
     }
+
+    nameValue.value = ""
+    urlValue.value = ""
+    alertLevelValue.value = ""
+
+    modal.style.display = "none"
+
+    window.location.reload()
 })
 
-const modal = document.getElementById("serviceModal");
 document.getElementById("openServiceModal").onclick = () => {
     modal.style.display = "flex";
 };

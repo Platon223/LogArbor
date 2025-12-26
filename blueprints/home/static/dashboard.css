@@ -277,6 +277,10 @@ body {
     font-size: 13px;
 }
 
+#openServiceModal {
+    margin-right: 10px;
+}
+
 /* Topbar actions */
 .topbar-actions {
     display: flex;
