@@ -64,7 +64,11 @@ class Services {
 }
 
 const createButton = document.getElementById("create-button")
-createButton.addEventListener("click", async () => {
+const newServiceForm = document.querySelector(".modal-form")
+
+newServiceForm.addEventListener("submit", async (event) => {
+    event.preventDefault()
+
     const nameValue = document.getElementById("name")
     const urlValue = document.getElementById("url")
     const alertLevelValue = document.getElementById("level")
