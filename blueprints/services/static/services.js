@@ -149,7 +149,23 @@ async function main() {
         document.querySelector(".services-grid").innerHTML = "No Services Yet"
     } else if (Array.isArray(all_services.message)) {
         all_services.message.forEach(element => {
-            document.querySelector(".services-grid").innerHTML += `${element.name}`
+            document.querySelector(".services-grid").innerHTML += `<div class="service-card online">
+                <div class="terminal-header">
+                    <span>${element.name}</span>
+                    <span class="terminal-dot green"></span>
+                </div>
+
+                <div class="service-body">
+                    <p><strong>Status:</strong> Healthy</p>
+                    <p><strong>Logs:</strong> 123</p>
+                    <p><strong>Url:</strong> ${element.url}</p>
+                    <p><strong>Alert Level:</strong> ${element.alert_level}</p>
+                </div>
+
+                <div class="service-actions">
+                    <a href="/logs/auth_service" class="btn primary small">View Logs</a>
+                </div>
+            </div>`
         });
     } else if(credentials.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
