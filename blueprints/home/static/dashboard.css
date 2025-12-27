@@ -347,6 +347,15 @@ body {
     font-size: 14px;
 }
 
+.main-service {
+    width: 600px;
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 /* Settings */
 .settings-section {
     display: flex;
