@@ -347,6 +347,64 @@ body {
     font-size: 14px;
 }
 
+/* Settings */
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 700px;
+}
+
+.setting-row {
+    display: grid;
+    grid-template-columns: 160px 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.setting-row label {
+    color: #6fae70;
+}
+
+.setting-row input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,255,135,0.35);
+    color: #e0ffe3;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+/* Danger zone */
+.danger-zone {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,107,107,0.4);
+}
+
+.danger-zone h2 {
+    color: #ff6b6b;
+    margin-bottom: 12px;
+}
+
+.btn.danger {
+    background: rgba(255,107,107,0.15);
+    color: #ff6b6b;
+    border: 1px solid #ff6b6b;
+}
+
+.btn.danger:hover {
+    background: rgba(255,107,107,0.3);
+}
+
+/* Modal actions */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
 
 
 

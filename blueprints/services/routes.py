@@ -132,4 +132,37 @@ def all():
         return {"message": "no services"}, 404
 
     log("SERVICES", "info", "user got all services successufully")
-    return {"message": all_user_services_list}
+    return {"message": all_user_services_list}, 200
+
+@services_bl.route("/<service_id>", methods=["GET"])
+def service_settings(service_id):
+    return render_template("service.html", serv_id=service_id)
+
+@services_bl.route("/service", methods=["POST"])
+@auth_check_wrapper()
+def settings_info():
+    try:
+        service = mongo.db.services.find_one({"id": g.data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
+    except OperationFailure as e:
+        log("SERVICES", "critical", f"failed getting a service at /services/service: {e}")
+        return {"message": "something went wrong"}, 500
+    except PyMongoError as e:
+        log("SERVICES", "critical", f"failed getting a service at /services/service: {e}, pymongo error")
+        return {"message": "something went wrong"}, 500
+    except Exception as e:
+        log("SERVICES", "critical", f"something went wrong at /services/service: {e}")
+        return {"message": "something went wrong"}, 500
+    
+    if not service:
+        log("SERVICES", "warning", "service was not found")
+        return {"message": "service not found"}, 404
+    
+    log("SERVICES", "info", "user has found the service successfully")
+    return {
+        "message": {
+            "id": service["id"],
+            "name": service["name"],
+            "url": service["url"],
+            "alert_level": service["alert_level"]
+        }
+    }, 200
