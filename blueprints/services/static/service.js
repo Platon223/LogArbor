@@ -134,7 +134,6 @@ class Service {
 
 const confirmModal = document.getElementById("confirmDeleteModal");
 const codeModal = document.getElementById("codeModal");
-const codeModalInput = document.getElementById("codeModalInput").value
 
 document.getElementById("openDeleteConfirm").onclick = () => {
     confirmModal.style.display = "flex";
@@ -165,6 +164,7 @@ document.getElementById("confirmDelete").onclick = async () => {
 };
 
 document.getElementById("deleteServiceFinalButton").onclick = async () => {
+    const codeModalInput = document.getElementById("codeModalInput").value
     const serviceClass = new Service()
     const confirmDeleteService = await serviceClass.confirmDeleteService(codeModalInput)
 
