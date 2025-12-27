@@ -37,7 +37,7 @@ class Service {
             }
 
 
-            const response = await fetch("/service", {
+            const response = await fetch("/services/service", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
