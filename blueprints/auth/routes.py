@@ -206,6 +206,7 @@ def verify():
                 return {"message": "invalid code"}, 401
             
             if verify_code["expiration_date"] < datetime.datetime.today():
+                mongo.db.verify_codes.delete_one({"id": verify_code["id"]})
                 log("AUTH", "info", "user's verification code has been expired")
                 return {"message": "expired"}, 401
             

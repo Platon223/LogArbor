@@ -116,7 +116,7 @@ def request_delete():
 
         if not result == "success":
             log("AUTH", "critical", f"User: {user['username']} failed to receive verification code email")
-            return {"message": f"something went wrong while sending an email: {result}"}
+            return {"message": f"something went wrong while sending an email: {result}"}, 500
 
 
 
@@ -145,6 +145,43 @@ def request_delete():
     log("SERVICES", "info", f"user requested to delete a service: {g.data.get('service_id')} successufully")
     session["service_id"] = g.data.get('service_id')
     return {"message": "sent"}, 200
+
+@services_bl.route("/confirm_delete_service", methods=["POST"])
+@auth_check_wrapper()
+def confirm_delete():
+    try:
+
+        if not "service_id" in session:
+            log("SERVICES", "error", "no service_id session was found at confirm delete service")
+            return {"message": "no service_id"}, 400
+
+
+        current_verify_code = mongo.db.verify_codes.find_one({"code": g.data.get("code"), "user_id": getattr(request, "auth_identity", None)})
+
+        if not current_verify_code:
+            log("SERVICES", "warning", "user has provided a wrong verification code at delete service confirmation")
+            return {"message": "invalid code"}, 401
+        
+        if current_verify_code["expiration_date"] < datetime.datetime.today():
+            mongo.db.verify_codes.delete_one({"id": current_verify_code["id"]})
+            log("AUTH", "info", "user's verification code has been expired at delete service confirmation")
+            return {"message": "expired"}, 401
+        
+        mongo.db.verify_codes.delete_one({"id": current_verify_code["id"]})
+        mongo.db.services.delete_one({"id": session["service_id"]})
+        session.pop("service_id", None)
+    except OperationFailure as e:
+        log("SERVICES", "critical", f"failed at /services/confirm_delete_service: {e}")
+        return {"message": "something went wrong"}, 500
+    except PyMongoError as e:
+        log("SERVICES", "critical", f"failed at /services/confirm_delete_service: {e}, pymongo error")
+        return {"message": "something went wrong"}, 500
+    except Exception as e:
+        log("SERVICES", "critical", f"something went wrong at /services/confirm_delete_service: {e}")
+        return {"message": "something went wrong"}, 500
+    
+    log("SERVICES", "info", "user deleted their service successfully")
+    return {"message": "deleted"}, 200
 
 @services_bl.route("/all_services", methods=["POST"])
 @auth_check_wrapper()
