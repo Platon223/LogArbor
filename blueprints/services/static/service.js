@@ -71,13 +71,47 @@ class Service {
             }
 
 
-            const response = await fetch("/services/delete_service", {
+            const response = await fetch("/services/request_delete_service", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(service_json)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while requesting to delete your service: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
+
+    async confirmDeleteService(code) {
+        try{
+
+            const delete_service_json = {
+                "code": code
+            }
+
+
+            const response = await fetch("/services/confirm_delete_service", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(delete_service_json)
             })
 
             if (!response.ok) {
@@ -100,6 +134,7 @@ class Service {
 
 const confirmModal = document.getElementById("confirmDeleteModal");
 const codeModal = document.getElementById("codeModal");
+const codeModalInput = document.getElementById("codeModalInput").value
 
 document.getElementById("openDeleteConfirm").onclick = () => {
     confirmModal.style.display = "flex";
@@ -128,6 +163,28 @@ document.getElementById("confirmDelete").onclick = async () => {
         window.location.href = "/services/"
     }
 };
+
+document.getElementById("deleteServiceFinalButton").onclick = async () => {
+    const serviceClass = new Service()
+    const confirmDeleteService = await serviceClass.confirmDeleteService(codeModalInput)
+
+    if (confirmDeleteService.message.includes("oauth user was not found")) {
+        window.location.href = "/auth/login"
+    } else if (confirmDeleteService.message.includes("missing or invalid token")) {
+        window.location.href = "/auth/login"
+    } else if(confirmDeleteService.message.includes("something went wrong")) {
+        window.location.href = "/auth/login"
+    } else if (confirmDeleteService.message.includes("deleted")) {
+        confirmModal.style.display = "none";
+        codeModal.style.display = "none";
+        window.location.reload()
+    } else if (confirmDeleteService.message.includes("invalid code")) {
+        alert("Invalid code provided.")
+    } else if (confirmDeleteService.message.includes("expired")) {
+        alert("Your code has expired. Please try again.")
+        window.location.reload()
+    }
+}
 
 window.onclick = e => {
     if (e.target === confirmModal) confirmModal.style.display = "none";
