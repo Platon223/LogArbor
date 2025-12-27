@@ -1,4 +1,4 @@
-from flask import request, Blueprint, render_template, url_for, redirect, jsonify, g
+from flask import request, Blueprint, render_template, url_for, redirect, jsonify, g, session
 from handlers.auth_check_wrapper import auth_check_wrapper
 from logg.log import log
 from validates.validate_api import validate_route
@@ -7,6 +7,12 @@ from db_schemas.services import services_schema
 from pymongo.errors import DuplicateKeyError, OperationFailure, PyMongoError
 from extensions.mongo import mongo
 import uuid
+import secrets
+import datetime
+from datetime import timedelta
+import os
+from handlers.send_delete_service_email import send_verify_delete_service_email
+from db_schemas.verify_codes import verify_codes_schema
 
 
 services_bl = Blueprint("services_bl", __name__, template_folder="templates", static_folder="static")
@@ -90,23 +96,55 @@ def update():
     log("SERVICES", "info", f"user updated service: {g.data.get('service_id')} successufully")
     return {"message": "updated"}, 200
 
-@services_bl.route("/delete_service", methods=["POST"])
+@services_bl.route("/request_delete_service", methods=["POST"])
 @auth_check_wrapper()
-def delete():
+def request_delete():
     try:
-        mongo.db.services.delete_one({"id": g.data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
+        user = mongo.db.users.find_one({"id": getattr(request, "auth_identity", None)})
+
+        verification_code = str(secrets.randbelow(1000000)).zfill(6)
+
+        result = send_verify_delete_service_email(
+            os.getenv("EMAILJS_SERVICE_ID"), 
+            os.getenv("DELETE_SERVICE_TEMPLATE_ID"),
+            os.getenv("PUBLIC_EMAILJS_KEY"),
+            os.getenv("ACCESS_TOKEN_EMAILJS"),
+            "LogArbor Support Team",
+            user["email"],
+            verification_code
+        )
+
+        if not result == "success":
+            log("AUTH", "critical", f"User: {user['username']} failed to receive verification code email")
+            return {"message": f"something went wrong while sending an email: {result}"}
+
+
+
+        db_verify_code_data = {
+            "id": str(uuid.uuid4()),
+            "code": verification_code,
+            "user_id": user["id"],
+            "expiration_date": datetime.datetime.today() + timedelta(minutes=5)
+        }
+        db_verify_code_data_validate = validate_db_data(db_verify_code_data, verify_codes_schema)
+        if "error" in db_verify_code_data_validate:
+            log("AUTH", "warning", "user failed data validation on db_validate on login during verify code inserting")
+            return {"message": db_verify_code_data_validate}, 400
+            
+        mongo.db.verify_codes.insert_one(db_verify_code_data)
     except OperationFailure as e:
-        log("SERVICES", "critical", f"failed deleting a service at /services/delete_service: {e}")
+        log("SERVICES", "critical", f"failed requesting to delete a service at /services/request_delete_service: {e}")
         return {"message": "something went wrong"}, 500
     except PyMongoError as e:
-        log("SERVICES", "critical", f"failed deleting a service at /services/delete_service: {e}, pymongo error")
+        log("SERVICES", "critical", f"failed requesting to delete a service at /services/request_delete_service: {e}, pymongo error")
         return {"message": "something went wrong"}, 500
     except Exception as e:
-        log("SERVICES", "critical", f"something went wrong at /services/delete_service: {e}")
+        log("SERVICES", "critical", f"something went wrong at /services/request_delete_service: {e}")
         return {"message": "something went wrong"}, 500
     
-    log("SERVICES", "info", f"user deleted a service: {g.data.get('service_id')} successufully")
-    return {"message": "deleted"}, 200
+    log("SERVICES", "info", f"user requested to delete a service: {g.data.get('service_id')} successufully")
+    session["service_id"] = g.data.get('service_id')
+    return {"message": "sent"}, 200
 
 @services_bl.route("/all_services", methods=["POST"])
 @auth_check_wrapper()

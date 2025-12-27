@@ -62,7 +62,77 @@ class Service {
             return `error: ${error}`
         }
     }
+
+    async deleteService() {
+        try{
+
+            const service_json = {
+                "service_id": service_id
+            }
+
+
+            const response = await fetch("/services/delete_service", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(service_json)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while deleting your service: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
 }
+
+const confirmModal = document.getElementById("confirmDeleteModal");
+const codeModal = document.getElementById("codeModal");
+
+document.getElementById("openDeleteConfirm").onclick = () => {
+    confirmModal.style.display = "flex";
+};
+
+document.getElementById("cancelDelete").onclick = () => {
+    confirmModal.style.display = "none";
+};
+
+document.getElementById("confirmDelete").onclick = async () => {
+    const serviceClass = new Service()
+    const deleteService = await serviceClass.deleteService()
+
+    if (deleteService.message.includes("oauth user was not found")) {
+        window.location.href = "/auth/login"
+    } else if (deleteService.message.includes("missing or invalid token")) {
+        window.location.href = "/auth/login"
+    } else if(deleteService.message.includes("something went wrong")) {
+        window.location.href = "/auth/login"
+    } else if (deleteService.message.includes("sent")) {
+        confirmModal.style.display = "none";
+        codeModal.style.display = "flex";
+    } else if (deleteService.message.includes("something went wrong while sending an email")) {
+        window.location.href = "/services/"
+    } else {
+        window.location.href = "/services/"
+    }
+};
+
+window.onclick = e => {
+    if (e.target === confirmModal) confirmModal.style.display = "none";
+    if (e.target === codeModal) codeModal.style.display = "none";
+};
 
 async function main() {
     const serviceClass = new Service()

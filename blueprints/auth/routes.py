@@ -151,7 +151,7 @@ def login():
 
             result = send_verification_email(
                 os.getenv("EMAILJS_SERVICE_ID"), 
-                os.getenv("TEMPLATE_ID"),
+                os.getenv("VERIFY_EMAIL_TEMPLATE_ID"),
                 os.getenv("PUBLIC_EMAILJS_KEY"),
                 os.getenv("ACCESS_TOKEN_EMAILJS"),
                 user["username"],
