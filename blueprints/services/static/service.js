@@ -133,11 +133,13 @@ class Service {
     }
 
 
-    async updateService(code) {
+    async updateService(parameter, value) {
         try{
 
-            const delete_service_json = {
-                "code": code
+            const update_service_json = {
+                "service_id": service_id,
+                "parameter": parameter,
+                "value": value
             }
 
 
@@ -147,13 +149,13 @@ class Service {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(delete_service_json)
+                body: JSON.stringify(update_service_json)
             })
 
             if (!response.ok) {
                 const data = await response.json()
                 return {
-                    message: `HTTP error while deleting your service: ${response.status}, ${data.message}`
+                    message: `HTTP error while updating your service: ${response.status}, ${data.message}`
                 }
             }
 
@@ -218,6 +220,29 @@ document.getElementById("deleteServiceFinalButton").onclick = async () => {
         alert("Invalid code provided.")
     } else if (confirmDeleteService.message.includes("expired")) {
         alert("Your code has expired. Please try again.")
+        window.location.reload()
+    }
+}
+
+document.getElementById("updateNameButton").onclick = async () => {
+    const serviceClass = new Service()
+    const newNameInputValue = document.getElementById("serviceNameField").value
+    if (newNameInputValue === "") {
+        alert("The name field is required.")
+        window.location.reload()
+    }
+
+    const updateService = await serviceClass.updateService("name", newNameInputValue)
+
+    if (credentials.message.includes("unknown parameter")) {
+        alert("Unknown parameter provided. Please try again.")
+    } else if(credentials.message.includes("something went wrong")) {
+        window.location.href = "/auth/login"
+    } else if (credentials.message.includes("oauth user was not found")) {
+        window.location.href = "/auth/login"
+    } else if (credentials.message.includes("missing or invalid token")) {
+        window.location.href = "/auth/login"
+    } else if (updateService.message.includes("updated")) {
         window.location.reload()
     }
 }
