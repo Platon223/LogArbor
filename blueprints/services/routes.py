@@ -143,19 +143,12 @@ def request_delete():
         return {"message": "something went wrong"}, 500
     
     log("SERVICES", "info", f"user requested to delete a service: {g.data.get('service_id')} successufully")
-    session["service_id"] = g.data.get('service_id')
     return {"message": "sent"}, 200
 
 @services_bl.route("/confirm_delete_service", methods=["POST"])
 @auth_check_wrapper()
 def confirm_delete():
     try:
-
-        if not "service_id" in session:
-            log("SERVICES", "error", "no service_id session was found at confirm delete service")
-            return {"message": "no service_id"}, 400
-
-
         current_verify_code = mongo.db.verify_codes.find_one({"code": g.data.get("code"), "user_id": getattr(request, "auth_identity", None)})
 
         if not current_verify_code:
@@ -168,8 +161,7 @@ def confirm_delete():
             return {"message": "expired"}, 401
         
         mongo.db.verify_codes.delete_one({"id": current_verify_code["id"]})
-        mongo.db.services.delete_one({"id": session["service_id"]})
-        session.pop("service_id", None)
+        mongo.db.services.delete_one({"id": g.data.get("service_id")})
     except OperationFailure as e:
         log("SERVICES", "critical", f"failed at /services/confirm_delete_service: {e}")
         return {"message": "something went wrong"}, 500

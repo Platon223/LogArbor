@@ -101,11 +101,47 @@ class Service {
         try{
 
             const delete_service_json = {
-                "code": code
+                "code": code,
+                "service_id": service_id
             }
 
 
             const response = await fetch("/services/confirm_delete_service", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(delete_service_json)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while deleting your service: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
+
+
+    async updateService(code) {
+        try{
+
+            const delete_service_json = {
+                "code": code
+            }
+
+
+            const response = await fetch("/services/update_service", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {

@@ -337,6 +337,7 @@ body {
     gap: 14px;
 }
 
+.modal-form #codeModalInput,
 .modal-form input,
 .modal-form .select-input {
     background: rgba(255,255,255,0.03);

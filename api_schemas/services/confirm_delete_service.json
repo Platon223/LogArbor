@@ -4,8 +4,11 @@
     "properties": {
         "code": {
             "type": "string"
+        },
+        "service_id": {
+            "type": "string"
         }
     },
-    "required": ["code"],
+    "required": ["code", "service_id"],
     "additionalProperties": false
 }
