@@ -253,6 +253,9 @@ document.getElementById("updateUrlButton").onclick = async () => {
     if (newUrlInputValue === "") {
         alert("The url field is required.")
         window.location.reload()
+    } else if (!newUrlInputValue.startsWith("http://") && !newUrlInputValue.startsWith("https://")) {
+        alert("Please enter a valid url.")
+        window.location.reload()
     }
 
     const updateService = await serviceClass.updateService("url", newUrlInputValue)
@@ -273,8 +276,12 @@ document.getElementById("updateUrlButton").onclick = async () => {
 document.getElementById("updateAlertLevelButton").onclick = async () => {
     const serviceClass = new Service()
     const newAlertLevelInputField = document.getElementById("serviceAlertLevelField").value
+    const allowedAlertsOptions = ["debug", "info", "warning", "error", "critical"]
     if (newAlertLevelInputField === "") {
         alert("The url field is required.")
+        window.location.reload()
+    } else if (!allowedAlertsOptions.includes(newAlertLevelInputField)) {
+        alert("Please provide a valid alert level.")
         window.location.reload()
     }
 
