@@ -234,13 +234,59 @@ document.getElementById("updateNameButton").onclick = async () => {
 
     const updateService = await serviceClass.updateService("name", newNameInputValue)
 
-    if (credentials.message.includes("unknown parameter")) {
+    if (updateService.message.includes("unknown parameter")) {
         alert("Unknown parameter provided. Please try again.")
-    } else if(credentials.message.includes("something went wrong")) {
+    } else if(updateService.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
-    } else if (credentials.message.includes("oauth user was not found")) {
+    } else if (updateService.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
-    } else if (credentials.message.includes("missing or invalid token")) {
+    } else if (updateService.message.includes("missing or invalid token")) {
+        window.location.href = "/auth/login"
+    } else if (updateService.message.includes("updated")) {
+        window.location.reload()
+    }
+}
+
+document.getElementById("updateUrlButton").onclick = async () => {
+    const serviceClass = new Service()
+    const newUrlInputValue = document.getElementById("serviceUrlField").value
+    if (newUrlInputValue === "") {
+        alert("The url field is required.")
+        window.location.reload()
+    }
+
+    const updateService = await serviceClass.updateService("url", newUrlInputValue)
+
+    if (updateService.message.includes("unknown parameter")) {
+        alert("Unknown parameter provided. Please try again.")
+    } else if(updateService.message.includes("something went wrong")) {
+        window.location.href = "/auth/login"
+    } else if (updateService.message.includes("oauth user was not found")) {
+        window.location.href = "/auth/login"
+    } else if (updateService.message.includes("missing or invalid token")) {
+        window.location.href = "/auth/login"
+    } else if (updateService.message.includes("updated")) {
+        window.location.reload()
+    }
+}
+
+document.getElementById("updateAlertLevelButton").onclick = async () => {
+    const serviceClass = new Service()
+    const newAlertLevelInputField = document.getElementById("serviceAlertLevelField").value
+    if (newAlertLevelInputField === "") {
+        alert("The url field is required.")
+        window.location.reload()
+    }
+
+    const updateService = await serviceClass.updateService("alert_level", newAlertLevelInputField)
+
+    if (updateService.message.includes("unknown parameter")) {
+        alert("Unknown parameter provided. Please try again.")
+    } else if(updateService.message.includes("something went wrong")) {
+        window.location.href = "/auth/login"
+    } else if (updateService.message.includes("oauth user was not found")) {
+        window.location.href = "/auth/login"
+    } else if (updateService.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
     } else if (updateService.message.includes("updated")) {
         window.location.reload()
