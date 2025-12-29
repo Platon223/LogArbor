@@ -229,7 +229,7 @@ document.getElementById("updateNameButton").onclick = async () => {
     const newNameInputValue = document.getElementById("serviceNameField").value
     if (newNameInputValue === "") {
         alert("The name field is required.")
-        window.location.reload()
+        return window.location.reload()
     }
 
     const updateService = await serviceClass.updateService("name", newNameInputValue)
@@ -252,10 +252,10 @@ document.getElementById("updateUrlButton").onclick = async () => {
     const newUrlInputValue = document.getElementById("serviceUrlField").value
     if (newUrlInputValue === "") {
         alert("The url field is required.")
-        window.location.reload()
+        return window.location.reload()
     } else if (!newUrlInputValue.startsWith("http://") && !newUrlInputValue.startsWith("https://")) {
         alert("Please enter a valid url.")
-        window.location.reload()
+        return window.location.reload()
     }
 
     const updateService = await serviceClass.updateService("url", newUrlInputValue)
@@ -279,10 +279,10 @@ document.getElementById("updateAlertLevelButton").onclick = async () => {
     const allowedAlertsOptions = ["debug", "info", "warning", "error", "critical"]
     if (newAlertLevelInputField === "") {
         alert("The url field is required.")
-        window.location.reload()
+        return window.location.reload()
     } else if (!allowedAlertsOptions.includes(newAlertLevelInputField)) {
         alert("Please provide a valid alert level.")
-        window.location.reload()
+        return window.location.reload()
     }
 
     const updateService = await serviceClass.updateService("alert_level", newAlertLevelInputField)
