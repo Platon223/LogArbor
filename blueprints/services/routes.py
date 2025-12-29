@@ -23,7 +23,7 @@ def data_validation():
         path = request.path
         data = validate_route(request, path)
         if "error" in data:
-            log("AUTH", "warning", f"user failed data validation on api_validate on {path}")
+            log("SERVICES", "warning", f"user failed data validation on api_validate on {path}")
             return {"message": data}, 400
         
         g.data = data
