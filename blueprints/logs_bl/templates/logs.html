@@ -39,14 +39,31 @@
 
         <!-- Logs Terminal -->
         <section class="terminal">
-
-            <!-- Terminal Header -->
             <div class="terminal-header">
-                <span>All Services</span>
+                <span>service_name</span>
                 <span class="terminal-dot green"></span>
             </div>
 
-            <!-- Toolbar -->
+            <div class="terminal-body">
+                <div class="log-line info">
+                    <span class="time">12:01:24</span>
+                    <span class="level">INFO</span>
+                    <span class="message">User logged in successfully</span>
+                </div>
+
+                <div class="log-line warn">
+                    <span class="time">12:01:40</span>
+                    <span class="level">WARN</span>
+                    <span class="message">Slow database response detected</span>
+                </div>
+
+                <div class="log-line error">
+                    <span class="time">12:02:01</span>
+                    <span class="level">ERROR</span>
+                    <span class="message">Invalid JWT token provided</span>
+                </div>
+            </div>
+
             <div class="terminal-toolbar">
                 <input
                     type="text"
@@ -62,32 +79,6 @@
                 </div>
 
                 <button class="clear-btn">Clear</button>
-            </div>
-
-            <!-- Terminal Body -->
-            <div class="terminal-body">
-
-                <div class="log-line info">
-                    <span class="time">12:01:24</span>
-                    <span class="level">INFO</span>
-                    <span class="message">auth_service started successfully</span>
-                </div>
-
-                <div class="log-line warn">
-                    <span class="time">12:03:11</span>
-                    <span class="level">WARN</span>
-                    <span class="message">billing_service response time exceeded threshold</span>
-                </div>
-
-                <div class="log-line error">
-                    <span class="time">12:05:44</span>
-                    <span class="level">ERROR</span>
-                    <span class="message">
-                        email_worker failed to send verification email
-                        https://example.com/very/long/url/that/should/wrap/properly/without/breaking/layout
-                    </span>
-                </div>
-
             </div>
 
         </section>
