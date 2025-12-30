@@ -9,6 +9,9 @@ import datetime
 import uuid
 from db_schemas.logs import logs_schema
 from handlers.auth_check_wrapper import auth_check_wrapper
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
 

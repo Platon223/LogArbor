@@ -5,9 +5,9 @@ from logging.handlers import TimedRotatingFileHandler
 import time
 
 def setup():
-    if not os.path.exists("logs"):
-        os.makedirs("logs")
-    log_file = os.path.join("logs", "current.log")
+    if not os.path.exists("logs_current"):
+        os.makedirs("logs_current")
+    log_file = os.path.join("logs_current", "current.log")
 
     log_rotation_handler = TimedRotatingFileHandler(
         log_file,

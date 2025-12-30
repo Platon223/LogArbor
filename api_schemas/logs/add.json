@@ -1,0 +1,23 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Add Log",
+    "properties": {
+        "service_id": {
+            "type": "string"
+        },
+        "token": {
+            "type": "string"
+        },
+        "message": {
+            "type": "string"
+        },
+        "level": {
+            "type": "string"
+        },
+        "time": {
+            "type": "string"
+        }
+    },
+    "required": ["service_id", "token", "message", "level", "time"],
+    "additionalProperties": false
+}
