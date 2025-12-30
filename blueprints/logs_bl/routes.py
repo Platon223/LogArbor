@@ -8,6 +8,7 @@ from pymongo.errors import OperationFailure, PyMongoError
 import datetime
 import uuid
 from db_schemas.logs import logs_schema
+from handlers.auth_check_wrapper import auth_check_wrapper
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
 
@@ -43,7 +44,7 @@ def add_log():
         log("LOGS", "critical", "failed finding a service at /logs/add")
         return {"message": "something went wrong"}, 500
     except PyMongoError as e:
-        log("LOGS", "critical", "failed finding a service at /logs/add")
+        log("LOGS", "critical", "failed finding a service at /logs/add, pymongo error")
         return {"message": "something went wrong"}, 500
     except Exception as e:
         log("LOGS", "critical", "something went wrong at /logs/add")
@@ -75,10 +76,57 @@ def add_log():
         log("LOGS", "critical", "failed inserting a log at /logs/add")
         return {"message": "something went wrong"}, 500
     except PyMongoError as e:
-        log("LOGS", "critical", "failed inserting a log at /logs/add")
+        log("LOGS", "critical", "failed inserting a log at /logs/add, pymongo error")
         return {"message": "something went wrong"}, 500
     except Exception as e:
         log("LOGS", "critical", "something went wrong at /logs/add")
         return {"message": "something went wrong"}, 500
     
     return {"message": "logged"}, 200
+
+@logs_bl.route("/all_logs", methods=["POST"])
+@auth_check_wrapper()
+def all_logs():
+    try:
+        services = mongo.db.services.find({"user_id": getattr(request, "auth_identity", None)})
+    except OperationFailure as e:
+        log("LOGS", "critical", "failed finding services at /logs/all_logs")
+        return {"message": "something went wrong"}, 500
+    except PyMongoError as e:
+        log("LOGS", "critical", "failed finding services at /logs/all_logs, pymongo error")
+        return {"message": "something went wrong"}, 500
+    except Exception as e:
+        log("LOGS", "critical", "something went wrong at /logs/all_logs")
+        return {"message": "something went wrong"}, 500
+
+    services_list = list(services)
+
+    if len(services_list) == 0:
+        log("LOGS", "info", "user has no services yet")
+        return {"message": "no services"}, 404
+
+    logs_list = []
+
+    try:
+
+        for service in services_list:
+            service_logs = mongo.db.logs.find({"service_id": service["id"]})
+            service_logs_list = list(service_logs)
+            service_obj = {
+                "service_id": service["id"],
+                "service_name": service["name"], 
+                "logs": service_logs_list
+            }
+
+            logs_list.append(service_obj)
+    except OperationFailure as e:
+        log("LOGS", "critical", "failed finding logs for service at /logs/all_logs")
+        return {"message": "something went wrong"}, 500
+    except PyMongoError as e:
+        log("LOGS", "critical", "failed finding logs for service at /logs/all_logs, pymongo error")
+        return {"message": "something went wrong"}, 500
+    except Exception as e:
+        log("LOGS", "critical", "something went wrong at /logs/all_logs")
+        return {"message": "something went wrong"}, 500
+
+    return {"message": logs_list}, 200
