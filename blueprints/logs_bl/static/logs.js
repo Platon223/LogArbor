@@ -76,7 +76,6 @@ async function main() {
 
     const logs = await logsClass.fetchLogs()
 
-    console.log(logs.message)
 
     if (Array.isArray(logs.message)) {
         let servicesLogsContent = ""
@@ -90,7 +89,7 @@ async function main() {
                 </div>
 
                 <div class="terminal-body">
-                    ${element.logs.map(logElement => `
+                    ${element.logs.length === 0 ? `No Logs Yet` : element.logs.map(logElement => `
                         <div class="log-line info">
                             <span class="time">${logElement.time}</span>
                             <span class="level">${logElement.level}</span>
