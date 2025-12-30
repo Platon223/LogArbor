@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster
+FROM python:3.14-slim
 
 WORKDIR /app/log_reader
 
