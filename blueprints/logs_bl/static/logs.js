@@ -76,6 +76,8 @@ async function main() {
 
     const logs = await logsClass.fetchLogs()
 
+    console.log(logs.message)
+
     if (Array.isArray(logs.message)) {
         let servicesLogsContent = ""
 

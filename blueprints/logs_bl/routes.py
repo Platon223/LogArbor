@@ -14,7 +14,7 @@ logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_fol
 
 @logs_bl.before_request
 def data_validation():
-    if request.method == "POST":
+    if request.method == "POST" and not request.path == "/logs/all_logs":
         path = request.path
         data = validate_route(request, path)
         if "error" in data:
