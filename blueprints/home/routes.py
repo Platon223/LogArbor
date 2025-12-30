@@ -4,6 +4,7 @@ from handlers.auth_check_wrapper import auth_check_wrapper
 from pymongo.errors import DuplicateKeyError, OperationFailure, PyMongoError
 from logg.log import log
 from extensions.mongo import mongo
+from log_arbor.utils import log as loggg
 
 home_blp = Blueprint("home_blp", __name__, template_folder="templates", static_folder="static")
 
@@ -33,6 +34,7 @@ def username_info():
         log("DASHBOARD", "warning", "user was not found at credentials/username")
         return {"message": "user not found"}, 404
     
+    loggg("e2e48ac7-0913-4d47-b061-0ca4e8ab4a1a", "INFO", "user got their credentials successufully")
     return {"message": current_user["username"]}, 200
 
 
