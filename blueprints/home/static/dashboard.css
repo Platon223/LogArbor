@@ -2,6 +2,7 @@
 
 html, body {
     font-family: "Inter", sans-serif;
+    height: 100%;
 }
 
 * {
@@ -18,11 +19,12 @@ body {
 /* Dashboard Layout */
 .dashboard {
     display: flex;
+    height: 100vh;
 }
 
 /* Sidebar */
 .sidebar {
-    width: 300px;
+    width: clamp(300px, 22vw, 500px);
     background: #070c07;
     padding: 20px;
     border-right: 1px solid rgba(0, 255, 135, 0.15);
@@ -63,8 +65,8 @@ body {
     padding: 25px;
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    overflow: hidden;
+    min-height: 0;      /* REQUIRED for flex scrolling */
+    overflow: hidden;  /* Keep page clean */
 }
 
 /* Topbar */
@@ -92,13 +94,14 @@ body {
     flex: 1;
     background: #050805;
     border: 1px solid rgba(0, 255, 135, 0.2);
-    width: 600px;
+    width: 80%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     font-family: "JetBrains Mono", monospace;
     overflow: hidden;
     margin-bottom: 30px;
+    min-height: 0;
 }
 
 .terminal-header {
@@ -124,6 +127,7 @@ body {
     font-size: 14px;
     line-height: 1.6;
     overflow-x: hidden;
+    flex: 1;
 }
 
 /* Log Lines (terminal-style) */
@@ -225,7 +229,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
-    width: 600px;
+    width: 80%;
 }
 
 /* Service card */
@@ -361,7 +365,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    width: 600px;
+    width: 80%;
 }
 
 .setting-row {
