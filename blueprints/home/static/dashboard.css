@@ -1,7 +1,6 @@
 /* Base */
 
 html, body {
-    height: 100%;
     font-family: "Inter", sans-serif;
 }
 
@@ -27,7 +26,6 @@ body {
     background: #070c07;
     padding: 20px;
     border-right: 1px solid rgba(0, 255, 135, 0.15);
-    height: 100vh;
     flex-shrink: 0;
     align-self: stretch;
 }
