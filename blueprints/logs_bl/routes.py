@@ -5,7 +5,7 @@ from logg.log import log
 import os
 from extensions.mongo import mongo
 from pymongo.errors import OperationFailure, PyMongoError
-import datetime
+from datetime import datetime
 import uuid
 from db_schemas.logs import logs_schema
 from handlers.auth_check_wrapper import auth_check_wrapper
