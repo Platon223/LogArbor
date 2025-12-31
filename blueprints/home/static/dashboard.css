@@ -93,7 +93,7 @@ body {
     flex: 1;
     background: #050805;
     border: 1px solid rgba(0, 255, 135, 0.2);
-    width: 80%;
+    width: 88%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -228,7 +228,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
-    width: 80%;
+    width: 88%;
 }
 
 /* Service card */
@@ -364,7 +364,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    width: 80%;
+    width: 88%;
 }
 
 .setting-row {
