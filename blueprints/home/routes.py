@@ -34,8 +34,7 @@ def username_info():
         log("DASHBOARD", "warning", "user was not found at credentials/username")
         return {"message": "user not found"}, 404
     
-    log_output = loggg("e2e48ac7-0913-4d47-b061-0ca4e8ab4a1a", "INFO", "user got their credentials successufully")
-    log("DASHBOARD", "info", f"{log_output}")
+    loggg("e2e48ac7-0913-4d47-b061-0ca4e8ab4a1a", "info", "user got their credentials successufully")
     return {"message": current_user["username"]}, 200
 
 
