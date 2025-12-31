@@ -1,8 +1,7 @@
-/* Base */
-
+/* ================== RESET ================== */
 html, body {
-    font-family: "Inter", sans-serif;
     height: 100%;
+    font-family: "Inter", sans-serif;
 }
 
 * {
@@ -14,27 +13,33 @@ html, body {
 body {
     background: #0a0f0a;
     color: #c8e6c9;
+    overflow: hidden; /* prevent page-wide overflow */
 }
 
-/* Dashboard Layout */
+/* ================== LAYOUT ================== */
 .dashboard {
     display: flex;
+    height: 100vh;          /* KEY FIX */
+    width: 100%;
+    overflow: hidden;
 }
 
-/* Sidebar */
+/* ================== SIDEBAR ================== */
 .sidebar {
-    width: clamp(300px, 22vw, 500px);
+    width: clamp(260px, 22vw, 340px);
     background: #070c07;
     padding: 20px;
-    border-right: 1px solid rgba(0, 255, 135, 0.15);
+    border-right: 1px solid rgba(0,255,135,0.15);
     flex-shrink: 0;
-    align-self: stretch;
+    display: flex;
+    flex-direction: column;
 }
 
-.sidebar-logo {
-    color: #00ff87;
-    font-size: 1.5rem;
-    margin-bottom: 30px;
+.img-logo-dashboard {
+    width: 120px;
+    margin: 0 auto 40px;
+    display: block;
+    border-radius: 14px;
 }
 
 .sidebar-nav {
@@ -44,7 +49,6 @@ body {
 }
 
 .sidebar-nav a {
-    display: block;
     padding: 10px 12px;
     color: #bdecc3;
     text-decoration: none;
@@ -54,26 +58,27 @@ body {
 
 .sidebar-nav a:hover,
 .sidebar-nav a.active {
-    background: rgba(0, 255, 135, 0.15);
+    background: rgba(0,255,135,0.15);
     color: #00ff87;
 }
 
-/* Main Content */
+/* ================== MAIN ================== */
 .main {
     flex: 1;
-    padding: 25px;
     display: flex;
     flex-direction: column;
-    min-height: 0;      /* REQUIRED for flex scrolling */
-    overflow: hidden;  /* Keep page clean */
+    padding: 24px;
+    min-width: 0;     /* IMPORTANT */
+    min-height: 0;    /* IMPORTANT */
+    overflow: hidden;
 }
 
-/* Topbar */
+/* ================== TOPBAR ================== */
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .topbar h1 {
@@ -81,36 +86,29 @@ body {
     font-size: 1.4rem;
 }
 
-.img-logo-dashboard {
-    width: 120px;       
-    margin: 0 auto 50px; 
-    display: block;
-    border-radius: 15px;
-}
-
-/* Terminal */
+/* ================== TERMINAL ================== */
 .terminal {
     flex: 1;
-    background: #050805;
-    border: 1px solid rgba(0, 255, 135, 0.2);
-    width: 88%;
-    border-radius: 10px;
     display: flex;
     flex-direction: column;
+    background: #050805;
+    border: 1px solid rgba(0,255,135,0.2);
+    border-radius: 10px;
     font-family: "JetBrains Mono", monospace;
     overflow: hidden;
-    margin-bottom: 30px;
     min-height: 0;
 }
 
+/* Header */
 .terminal-header {
-    padding: 10px 15px;
-    background: rgba(0, 255, 135, 0.08);
+    padding: 10px 14px;
+    background: rgba(0,255,135,0.08);
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #00ff87;
     font-size: 14px;
+    color: #00ff87;
+    flex-shrink: 0;
 }
 
 .terminal-dot {
@@ -120,50 +118,18 @@ body {
     background: #00ff87;
 }
 
-.terminal-body {
-    padding: 14px;
-    overflow-y: auto;
-    font-size: 14px;
-    line-height: 1.6;
-    overflow-x: hidden;
-    flex: 1;
-}
-
-/* Log Lines (terminal-style) */
-.log-line {
-    display: grid;
-    grid-template-columns: 90px 80px minmax(0, 1fr);
-    column-gap: 14px;
-    align-items: start;
-    margin-bottom: 4px;
-}
-
-.log-line .time {
-    text-align: right;
-    opacity: 0.75;
-}
-
-.log-line .level {
-    text-transform: uppercase;
-}
-
-.log-line .message {
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    white-space: pre-wrap;
-}
-
-/* Terminal toolbar */
+/* Toolbar */
 .terminal-toolbar {
     display: flex;
     gap: 10px;
     padding: 10px;
-    border-bottom: 1px solid rgba(0,255,135,0.15);
     background: rgba(0,255,135,0.03);
+    border-bottom: 1px solid rgba(0,255,135,0.15);
     flex-wrap: wrap;
+    flex-shrink: 0;
 }
 
-/* Search input */
+/* Search */
 .log-search {
     flex: 1;
     min-width: 180px;
@@ -172,15 +138,10 @@ body {
     color: #e0ffe3;
     padding: 8px 10px;
     border-radius: 6px;
-    font-family: "JetBrains Mono", monospace;
     font-size: 13px;
 }
 
-.log-search::placeholder {
-    color: #6fae70;
-}
-
-/* Filter buttons */
+/* Filters */
 .log-filters {
     display: flex;
     gap: 6px;
@@ -194,7 +155,6 @@ body {
     background: transparent;
     color: #bdecc3;
     cursor: pointer;
-    font-family: "JetBrains Mono", monospace;
 }
 
 .filter-btn.active,
@@ -207,226 +167,58 @@ body {
 .filter-btn.warn { border-color: #ffd166; }
 .filter-btn.error { border-color: #ff6b6b; }
 
-/* Clear button */
+/* Clear */
 .clear-btn {
     padding: 6px 12px;
     font-size: 12px;
     border-radius: 6px;
-    background: rgba(255, 107, 107, 0.15);
     border: 1px solid #ff6b6b;
     color: #ff6b6b;
-    cursor: pointer;
-    font-family: "JetBrains Mono", monospace;
-}
-
-.clear-btn:hover {
-    background: rgba(255, 107, 107, 0.25);
-}
-
-/* Services grid */
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    width: 88%;
-}
-
-/* Service card */
-.service-card {
-    background: #050805;
-    border: 1px solid rgba(0,255,135,0.2);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-/* Status colors */
-.service-card.online {
-    border-color: rgba(0,255,135,0.4);
-}
-
-.service-card.warning {
-    border-color: rgba(255,209,102,0.5);
-}
-
-.service-card.offline {
-    border-color: rgba(255,107,107,0.5);
-}
-
-/* Body */
-.service-body {
-    padding: 14px;
-    font-size: 14px;
-    line-height: 1.6;
-    color: #c8e6c9;
-}
-
-.service-body strong {
-    color: #00ff87;
-}
-
-/* Actions */
-.service-actions {
-    margin-top: auto;
-    padding: 12px;
-    border-top: 1px solid rgba(0,255,135,0.15);
-}
-
-/* Small button */
-.btn.small {
-    padding: 8px 12px;
-    font-size: 13px;
-}
-
-#openServiceModal {
-    margin-right: 10px;
-}
-
-/* Topbar actions */
-.topbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-/* Modal backdrop */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-/* Modal box */
-.modal-content {
-    background: #050805;
-    border: 1px solid rgba(0,255,135,0.3);
-    border-radius: 10px;
-    width: 100%;
-    max-width: 420px;
-    padding: 20px;
-}
-
-/* Header */
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-}
-
-.modal-header h2 {
-    color: #00ff87;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: #ff6b6b;
-    font-size: 22px;
-    cursor: pointer;
-}
-
-/* Form */
-.modal-form {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-
-.modal-form input,
-.modal-form .select-input {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(0,255,135,0.35);
-    padding: 12px;
-    color: #e0ffe3;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-#codeModalInput {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(0,255,135,0.35);
-    padding: 12px;
-    color: #e0ffe3;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-/* Settings */
-.settings-section {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 88%;
-}
-
-.setting-row {
-    display: grid;
-    grid-template-columns: 160px 1fr auto;
-    gap: 12px;
-    align-items: center;
-}
-
-.setting-row label {
-    color: #6fae70;
-}
-
-.setting-row input {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(0,255,135,0.35);
-    color: #e0ffe3;
-    padding: 10px;
-    border-radius: 6px;
-}
-
-/* Danger zone */
-.danger-zone {
-    margin-top: 50px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,107,107,0.4);
-}
-
-.danger-zone h2 {
-    color: #ff6b6b;
-    margin-bottom: 12px;
-}
-
-.btn.danger {
     background: rgba(255,107,107,0.15);
-    color: #ff6b6b;
-    border: 1px solid #ff6b6b;
+    cursor: pointer;
 }
 
-.btn.danger:hover {
-    background: rgba(255,107,107,0.3);
+/* ================== LOG BODY ================== */
+.terminal-body {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;     /* smooth scroll */
+    overflow-x: hidden;  /* NO horizontal overflow */
+    min-height: 0;
 }
 
-/* Modal actions */
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
+/* Log line */
+.log-line {
+    display: grid;
+    grid-template-columns: 90px 70px minmax(0, 1fr);
+    gap: 12px;
+    margin-bottom: 4px;
+    align-items: start;
 }
 
+.log-line .time {
+    opacity: 0.7;
+    text-align: right;
+    white-space: nowrap;
+}
 
+.log-line .level {
+    font-weight: bold;
+    white-space: nowrap;
+}
 
+.log-line .message {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
 
-
-
-
+/* Levels */
 .log-line.info  .level { color: #00ff87; }
 .log-line.warn  .level { color: #ffd166; }
 .log-line.error .level { color: #ff6b6b; }
 
-/* Responsive */
+/* ================== RESPONSIVE ================== */
 @media (max-width: 768px) {
     .dashboard {
         flex-direction: column;
@@ -434,10 +226,8 @@ body {
 
     .sidebar {
         width: 100%;
-        height: auto;
         border-right: none;
-        border-bottom: 1px solid rgba(0, 255, 135, 0.15);
-        padding: 12px;
+        border-bottom: 1px solid rgba(0,255,135,0.15);
     }
 
     .sidebar-nav {
@@ -448,23 +238,18 @@ body {
 
     .sidebar-nav a {
         white-space: nowrap;
-        padding: 10px 14px;
         border-radius: 20px;
-    }
-
-    .sidebar-nav a.active {
-        background: rgba(0, 255, 135, 0.25);
+        padding: 10px 14px;
     }
 
     .main {
-        padding: 15px;
+        padding: 14px;
     }
 }
 
 @media (max-width: 600px) {
     .log-filters {
         width: 100%;
-        justify-content: space-between;
     }
 
     .filter-btn {
@@ -472,4 +257,3 @@ body {
         text-align: center;
     }
 }
-
