@@ -58,14 +58,13 @@ def add_log():
         return {"message": "service not found"}, 404
     
 
-    time_format_string = "%Y-%m-%d %H:%M:%S"
 
     new_log_db_data = {
         "id": str(uuid.uuid4()),
         "service_id": service["id"],
         "message": g.data.get("message"),
         "level": g.data.get("level"),
-        "time": datetime.strptime(g.data.get("time"), time_format_string)
+        "time": g.data.get("time")
     }
 
     db_validated_data = validate_db_data(new_log_db_data, logs_schema)

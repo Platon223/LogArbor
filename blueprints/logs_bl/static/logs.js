@@ -90,7 +90,7 @@ async function main() {
 
                 <div class="terminal-body">
                     ${element.logs.length === 0 ? `No Logs Yet` : element.logs.map(logElement => `
-                        <div class="log-line info">
+                        <div class="log-line ${logElement.level}">
                             <span class="time">${logElement.time}</span>
                             <span class="level">${logElement.level}</span>
                             <span class="message">${logElement.message}</span>
