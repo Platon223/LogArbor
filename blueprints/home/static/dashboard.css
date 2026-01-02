@@ -233,6 +233,7 @@ body {
     word-break: break-word;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
+    margin-left: 60px;
 }
 
 /* Levels */
