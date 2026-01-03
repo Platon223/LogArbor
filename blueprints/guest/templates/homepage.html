@@ -78,26 +78,32 @@
 </section>
 
 <!-- QUICK SETUP -->
+<!-- QUICK SETUP -->
 <section class="section">
     <h2>Quick Setup</h2>
 
-    <div class="steps">
-        <div class="step">
-            <span>1</span>
-            <p>Create a service</p>
+    <div class="terminal-setup">
+        <div class="terminal-setup-header">
+            <span>Terminal</span>
+            <span class="terminal-dot"></span>
         </div>
 
-        <div class="step">
-            <span>2</span>
-            <p>Send logs via API</p>
-        </div>
+        <pre class="terminal-setup-body"><code>
+# Install LogArbor client
+pip install logarbor
 
-        <div class="step">
-            <span>3</span>
-            <p>Monitor & filter instantly</p>
-        </div>
+# Initialize service
+logarbor init --service auth-service
+
+# Send logs
+logarbor send "User logged in" --level info
+
+# View logs
+open https://app.logarbor.dev/dashboard
+        </code></pre>
     </div>
 </section>
+
 
 <!-- REVIEWS -->
 <section class="section alt">

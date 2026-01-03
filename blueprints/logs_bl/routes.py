@@ -8,8 +8,10 @@ from pymongo.errors import OperationFailure, PyMongoError
 from datetime import datetime
 import uuid
 from db_schemas.logs import logs_schema
+from db_schemas.alerts import alerts_schema
 from handlers.auth_check_wrapper import auth_check_wrapper
 from dotenv import load_dotenv
+from handlers.send_alert_email import send_alert_email
 
 load_dotenv()
 
@@ -84,6 +86,50 @@ def add_log():
         log("LOGS", "critical", "something went wrong at /logs/add")
         return {"message": "something went wrong"}, 500
     
+    level_of_logs = ["debug", "info", "warning", "error", "critical"]
+    
+    if level_of_logs.index(g.data.get("level")) >= level_of_logs.index(service["alert_level"]):
+        
+        alert_db_data = {
+            "id": str(uuid.uuid4()),
+            "message": g.data.get("message"),
+            "level": g.data.get("level"),
+            "time": g.data.get("time")
+        }
+        alert_db_data_validated = validate_db_data(alert_db_data, alerts_schema)
+        if "error" in alert_db_data_validated:
+            log("LOGS", "critical", "user failed data validation on db_validate on /logs/add")
+            return {"message": "something went wrong"}
+        
+        try:
+            mongo.db.alerts.insert_one(alert_db_data)
+        except OperationFailure as e:
+            log("LOGS", "critical", "failed inserting an alert at /logs/add")
+            return {"message": "something went wrong"}, 500
+        except PyMongoError as e:
+            log("LOGS", "critical", "failed inserting an alert at /logs/add, pymongo error")
+            return {"message": "something went wrong"}, 500
+        except Exception as e:
+            log("LOGS", "critical", "something went wrong at /logs/add")
+            return {"message": "something went wrong"}, 500
+        
+        alert_message = f"You are receving this email because LogArbor Alert System has detected a log that had the same or worse than your service's({service["name"]} alert level)"
+        
+        result = send_alert_email(
+            os.getenv("EMAILJS_SERVICE_ID"), 
+            os.getenv("ALERT_SERVICE_TEMPLATE_ID"),
+            os.getenv("PUBLIC_EMAILJS_KEY"),
+            os.getenv("ACCESS_TOKEN_EMAILJS"),
+            user["username"],
+            "LogArbor Support Team",
+            user["email"],
+            alert_message
+        )
+
+        if not result == "success":
+            log("AUTH", "critical", f"User: {user['username']} failed to receive verification code email")
+            return {"message": f"something went wrong while sending an email: {result}"}
+        
     return {"message": "logged"}, 200
 
 @logs_bl.route("/all_logs", methods=["POST"])

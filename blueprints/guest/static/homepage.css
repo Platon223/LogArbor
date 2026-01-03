@@ -238,6 +238,48 @@ body {
     color: #00ff87;
 }
 
+/* Terminal Setup */
+.terminal-setup {
+    max-width: 820px;
+    margin: 40px auto 0;
+    background: #050805;
+    border: 1px solid rgba(0,255,135,0.25);
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: "JetBrains Mono", monospace;
+}
+
+.terminal-setup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(0,255,135,0.08);
+    color: #00ff87;
+    font-size: 13px;
+}
+
+.terminal-setup-body {
+    padding: 16px;
+    font-size: 13px;
+    color: #c8e6c9;
+    line-height: 1.6;
+    overflow-x: auto;
+}
+
+.terminal-setup-body code {
+    color: inherit;
+}
+
+/* Reuse terminal dot style */
+.terminal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00ff87;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
     .nav-links {
