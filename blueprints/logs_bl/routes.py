@@ -12,14 +12,30 @@ from db_schemas.alerts import alerts_schema
 from handlers.auth_check_wrapper import auth_check_wrapper
 from dotenv import load_dotenv
 from handlers.send_alert_email import send_alert_email
+from log_arbor.utils import log as loggg
 
-load_dotenv()
+load_dotenv(dotenv_path='../../.env')
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
 
+@logs_bl.app_errorhandler(OperationFailure)
+def handle_operation_failure(e):
+    loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}")
+    return {"message": "something went wrong"}, 500
+
+@logs_bl.app_errorhandler(PyMongoError)
+def handle_operation_failure(e):
+    loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
+    return {"message": "something went wrong"}, 500
+
+@logs_bl.app_errorhandler(Exception)
+def handle_operation_failure(e):
+    loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}")
+    return {"message": "something went wrong"}, 500
+
 @logs_bl.before_request
 def data_validation():
-    if request.method == "POST" and not request.path == "/logs/all_logs":
+    if request.method == "POST" and not request.path == "/api/v1/logs/all_logs":
         path = request.path
         data = validate_route(request, path)
         if "error" in data:
@@ -39,27 +55,25 @@ def data_validation():
 
 @logs_bl.route("/", methods=["GET"])
 def logs():
+    if not request.blueprint == "logs_bl":
+        loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"ui route: /, was accessed with non ui blueprint: {request.path}")
+        return {"message": "ui route only"}, 404
+
     return render_template("logs.html")
 
 @logs_bl.route("/add", methods=["POST"])
 def add_log():
-    try:
-        service = mongo.db.services.find_one({"id": g.data.get("service_id")})
-    except OperationFailure as e:
-        log("LOGS", "critical", "failed finding a service at /logs/add")
-        return {"message": "something went wrong"}, 500
-    except PyMongoError as e:
-        log("LOGS", "critical", "failed finding a service at /logs/add, pymongo error")
-        return {"message": "something went wrong"}, 500
-    except Exception as e:
-        log("LOGS", "critical", "something went wrong at /logs/add")
-        return {"message": "something went wrong"}, 500
 
+    if not request.blueprint == "logs_api":
+        loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route: /add, was accessed with non api blueprint: {request.path}")
+        return {"message": "api route only"}, 404
+    
+    service = mongo.db.services.find_one({"id": g.data.get("service_id")})
+    
     if not service:
         log("LOGS", "error", "service couldn't be found on /logs/add")
         return {"message": "service not found"}, 404
     
-
 
     new_log_db_data = {
         "id": str(uuid.uuid4()),
@@ -74,17 +88,9 @@ def add_log():
         log("LOGS", "warning", "user failed data validation on db_validate on /logs/add")
         return {"message": db_validated_data}, 400
     
-    try:
-        mongo.db.logs.insert_one(new_log_db_data)
-    except OperationFailure as e:
-        log("LOGS", "critical", "failed inserting a log at /logs/add")
-        return {"message": "something went wrong"}, 500
-    except PyMongoError as e:
-        log("LOGS", "critical", "failed inserting a log at /logs/add, pymongo error")
-        return {"message": "something went wrong"}, 500
-    except Exception as e:
-        log("LOGS", "critical", "something went wrong at /logs/add")
-        return {"message": "something went wrong"}, 500
+
+    mongo.db.logs.insert_one(new_log_db_data)
+
     
     level_of_logs = ["debug", "info", "warning", "error", "critical"]
     
@@ -99,19 +105,10 @@ def add_log():
         alert_db_data_validated = validate_db_data(alert_db_data, alerts_schema)
         if "error" in alert_db_data_validated:
             log("LOGS", "critical", "user failed data validation on db_validate on /logs/add")
-            return {"message": "something went wrong"}
+            return {"message": "something went wrong"}, 400
         
-        try:
-            mongo.db.alerts.insert_one(alert_db_data)
-        except OperationFailure as e:
-            log("LOGS", "critical", "failed inserting an alert at /logs/add")
-            return {"message": "something went wrong"}, 500
-        except PyMongoError as e:
-            log("LOGS", "critical", "failed inserting an alert at /logs/add, pymongo error")
-            return {"message": "something went wrong"}, 500
-        except Exception as e:
-            log("LOGS", "critical", "something went wrong at /logs/add")
-            return {"message": "something went wrong"}, 500
+        
+        mongo.db.alerts.insert_one(alert_db_data)
         
         alert_message = f"You are receving this email because LogArbor Alert System has detected a log that had the same or worse than your service's({service["name"]} alert level)"
         
@@ -130,51 +127,38 @@ def add_log():
             log("AUTH", "critical", f"User: {user['username']} failed to receive verification code email")
             return {"message": f"something went wrong while sending an email: {result}"}
         
-    return {"message": "logged"}, 200
+    return {"message": "logged"}, 202
 
 @logs_bl.route("/all_logs", methods=["POST"])
 @auth_check_wrapper()
 def all_logs():
-    try:
-        services = mongo.db.services.find({"user_id": getattr(request, "auth_identity", None)})
-    except OperationFailure as e:
-        log("LOGS", "critical", "failed finding services at /logs/all_logs")
-        return {"message": "something went wrong"}, 500
-    except PyMongoError as e:
-        log("LOGS", "critical", "failed finding services at /logs/all_logs, pymongo error")
-        return {"message": "something went wrong"}, 500
-    except Exception as e:
-        log("LOGS", "critical", "something went wrong at /logs/all_logs")
-        return {"message": "something went wrong"}, 500
+
+    if not request.blueprint == "logs_api":
+        loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route: /all_logs, was accessed with non api blueprint: {request.path}")
+        return {"message": "api route only"}, 404
+
+    services = mongo.db.services.find({"user_id": getattr(request, "auth_identity", None)})
+    
 
     services_list = list(services)
 
     if len(services_list) == 0:
         log("LOGS", "info", "user has no services yet")
-        return {"message": "no services"}, 404
+        return {"message": "no services"}, 200
 
     logs_list = []
 
-    try:
 
-        for service in services_list:
-            service_logs = mongo.db.logs.find({"service_id": service["id"]})
-            service_logs_list = list(service_logs)
-            service_obj = {
-                "service_id": service["id"],
-                "service_name": service["name"], 
-                "logs": service_logs_list
-            }
+    for service in services_list:
+        service_logs = mongo.db.logs.find({"service_id": service["id"]})
+        service_logs_list = list(service_logs)
+        service_obj = {
+            "service_id": service["id"],
+            "service_name": service["name"], 
+            "logs": service_logs_list
+        }
 
-            logs_list.append(service_obj)
-    except OperationFailure as e:
-        log("LOGS", "critical", "failed finding logs for service at /logs/all_logs")
-        return {"message": "something went wrong"}, 500
-    except PyMongoError as e:
-        log("LOGS", "critical", "failed finding logs for service at /logs/all_logs, pymongo error")
-        return {"message": "something went wrong"}, 500
-    except Exception as e:
-        log("LOGS", "critical", "something went wrong at /logs/all_logs")
-        return {"message": "something went wrong"}, 500
+        logs_list.append(service_obj)
+    
 
     return {"message": logs_list}, 200

@@ -90,10 +90,13 @@
 
         <pre class="terminal-setup-body"><code>
 # Install LogArbor client
-pip install logarbor
+pip install log-arbor
 
 # Initialize service
-logarbor init --service auth-service
+Go to the dashboard and then in the sidebar click "Services" and then press "New Service".
+When it asks you for "Url" enter your application's url like: "https://example_application.com".
+When it asks you for "Alert Level" enter the log level that you want our system to recognize in
+your incoming logs and sent an alert. If you want to learn more about Alert Level, go to: <a href=""></a>
 
 # Send logs
 logarbor send "User logged in" --level info

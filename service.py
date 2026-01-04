@@ -32,10 +32,6 @@ def create_service():
     jwt.init_app(app)
     oauth.init_app(app)
 
-
-    app.errorhandler(Exception)
-    def catch(e):
-        return {"message": "something went wrong on our end"}, 500
     
     @jwt.expired_token_loader
     def expired_access_token(jwt_header, jwt_payload):
@@ -58,8 +54,10 @@ def create_service():
     
     app.register_blueprint(auth_bl, url_prefix='/auth')
     app.register_blueprint(home_blp, url_prefix='/home')
+    app.register_blueprint(home_blp, url_prefix='/api/v1/home', name='home_api')
     app.register_blueprint(services_bl, url_prefix='/services')
     app.register_blueprint(logs_bl, url_prefix='/logs')
+    app.register_blueprint(logs_bl, url_prefix='/api/v1/logs', name='logs_api')
     app.register_blueprint(guest_bl, url_prefix='/')
 
 
