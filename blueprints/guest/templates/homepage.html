@@ -77,7 +77,35 @@
     </div>
 </section>
 
-<!-- QUICK SETUP -->
+<!-- WHAT'S NEW -->
+<section class="section alt">
+    <h2>What’s New in LogArbor 1.0.0</h2>
+
+    <div class="changelog">
+        <div class="changelog-item">
+            <span class="tag new">NEW</span>
+            <p>Real-time terminal-style log streaming across all services.</p>
+        </div>
+
+        <div class="changelog-item">
+            <span class="tag improve">IMPROVED</span>
+            <p>Advanced log filtering by level, service, and keywords.</p>
+        </div>
+
+        <div class="changelog-item">
+            <span class="tag new">NEW</span>
+            <p>Secure service tokens with per-service isolation.</p>
+        </div>
+
+        <div class="changelog-item">
+            <span class="tag fix">FIXED</span>
+            <p>Log overflow and scrolling issues on large datasets.</p>
+        </div>
+    </div>
+</section>
+
+
+
 <!-- QUICK SETUP -->
 <section class="section">
     <h2>Quick Setup</h2>
@@ -96,16 +124,53 @@ pip install log-arbor
 Go to the dashboard and then in the sidebar click "Services" and then press "New Service".
 When it asks you for "Url" enter your application's url like: "https://example_application.com".
 When it asks you for "Alert Level" enter the log level that you want our system to recognize in
-your incoming logs and sent an alert. If you want to learn more about Alert Level, go to: <a href=""></a>
+your incoming logs and sent an alert. If you want to learn more about Alert Level, go to: <a href="/support/services/"></a>
 
 # Send logs
-logarbor send "User logged in" --level info
+Install log-arbor:
+
+pip install log-arbor
+
+Import log-arbor
+
+from log-arbor.utils import log
+
+log(your_service_id, "info", "This is a log message")
 
 # View logs
-open https://app.logarbor.dev/dashboard
+Go to: http://localhost:8888/logs/ and then find your service and view your logs!
         </code></pre>
     </div>
 </section>
+
+<!-- LOGARBOR CLI -->
+<section class="section">
+    <h2>LogArbor CLI</h2>
+
+    <p class="section-text">
+        The LogArbor CLI lets you register services, send logs,
+        and manage tokens directly from your terminal.
+        Built for automation and CI pipelines.
+    </p>
+
+    <div class="cli-features">
+        <div class="cli-card">
+            <h3>Service Management</h3>
+            <p>Create, list, and delete services without leaving the terminal.</p>
+        </div>
+
+        <div class="cli-card">
+            <h3>Log Streaming</h3>
+            <p>Send structured logs with levels, tags, and metadata.</p>
+        </div>
+
+        <div class="cli-card">
+            <h3>CI/CD Ready</h3>
+            <p>Designed for pipelines, containers, and automated environments.</p>
+        </div>
+    </div>
+</section>
+
 
 
 <!-- REVIEWS -->

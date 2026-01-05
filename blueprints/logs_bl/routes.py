@@ -109,6 +109,12 @@ def add_log():
         
         
         mongo.db.alerts.insert_one(alert_db_data)
+
+        current_user = mongo.db.users.find_one({"id": service["user_id"]})
+
+        if not current_user:
+            loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "user not found at alert sending api")
+            return {"message": "user not found"}, 404
         
         alert_message = f"You are receving this email because LogArbor Alert System has detected a log that had the same or worse than your service's({service["name"]} alert level)"
         
@@ -117,15 +123,15 @@ def add_log():
             os.getenv("ALERT_SERVICE_TEMPLATE_ID"),
             os.getenv("PUBLIC_EMAILJS_KEY"),
             os.getenv("ACCESS_TOKEN_EMAILJS"),
-            user["username"],
+            current_user["username"],
             "LogArbor Support Team",
-            user["email"],
+            current_user["email"],
             alert_message
         )
 
         if not result == "success":
-            log("AUTH", "critical", f"User: {user['username']} failed to receive verification code email")
-            return {"message": f"something went wrong while sending an email: {result}"}
+            log("AUTH", "critical", f"User: {current_user['username']} failed to receive an alert email")
+            return {"message": f"something went wrong while sending an alert email: {result}"}
         
     return {"message": "logged"}, 202
 
