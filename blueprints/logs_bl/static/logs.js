@@ -5,7 +5,7 @@ class Logs {
     async fetchCredentials() {
 
         try{
-            const response = await fetch("/home/credentials/username", {
+            const response = await fetch("/api/v1/home/credentials/username", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
@@ -32,7 +32,7 @@ class Logs {
 
     async fetchLogs() {
         try{
-            const response = await fetch("/logs/all_logs", {
+            const response = await fetch("/api/v1/logs/all_logs", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {

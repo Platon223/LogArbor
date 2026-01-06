@@ -56,6 +56,7 @@ def create_service():
     app.register_blueprint(home_blp, url_prefix='/home')
     app.register_blueprint(home_blp, url_prefix='/api/v1/home', name='home_api')
     app.register_blueprint(services_bl, url_prefix='/services')
+    app.register_blueprint(services_bl, url_prefix='/api/v1/services', name='services_api')
     app.register_blueprint(logs_bl, url_prefix='/logs')
     app.register_blueprint(logs_bl, url_prefix='/api/v1/logs', name='logs_api')
     app.register_blueprint(guest_bl, url_prefix='/')

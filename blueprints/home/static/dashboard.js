@@ -5,7 +5,7 @@ class Dashboard {
     async fetchCredentials() {
 
         try{
-            const response = await fetch("/home/credentials/username", {
+            const response = await fetch("/api/v1/home/credentials/username", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
