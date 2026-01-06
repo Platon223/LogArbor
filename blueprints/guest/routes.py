@@ -5,3 +5,7 @@ guest_bl = Blueprint("guest_bl", __name__, template_folder="templates", static_f
 @guest_bl.route("/", methods=["GET"])
 def homepage():
     return render_template("homepage.html")
+
+@guest_bl.route("/docs", methods=["GET"])
+def docs():
+    return render_template("docs.html")

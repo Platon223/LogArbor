@@ -4,7 +4,7 @@ class Services {
     async fetchCredentials() {
 
         try{
-            const response = await fetch("/home/credentials/username", {
+            const response = await fetch("/api/v1/home/credentials/username", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
@@ -31,7 +31,7 @@ class Services {
 
     async allServices() {
         try{
-            const response = await fetch("/services/all_services", {
+            const response = await fetch("/api/v1/services/all_services", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
@@ -63,7 +63,7 @@ class Services {
             alert_level: alert_level
         }
         try{
-            const response = await fetch("/services/create", {
+            const response = await fetch("/api/v1/services/create", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {

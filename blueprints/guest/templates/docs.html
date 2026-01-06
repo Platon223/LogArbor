@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LogArbor Docs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
+</head>
+<body>
+
+<div class="docs-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="docs-sidebar">
+        <div class="docs-brand">
+            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+            <span>LogArbor <strong>Docs</strong></span>
+        </div>
+
+        <nav class="docs-nav">
+            <h4>Getting Started</h4>
+            <a class="active">Introduction</a>
+            <a>Quick Setup</a>
+            <a>Authentication</a>
+
+            <h4>Core Concepts</h4>
+            <a>Services</a>
+            <a>Logs</a>
+            <a>Log Levels</a>
+
+            <h4>CLI</h4>
+            <a>Installation</a>
+            <a>Commands</a>
+
+            <h4>API</h4>
+            <a>Sending Logs</a>
+            <a>Filtering</a>
+            <a>Errors</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="docs-content">
+
+        <header class="docs-header">
+            <h1>Introduction</h1>
+            <span class="version">v1.0.0</span>
+        </header>
+
+        <section class="docs-section">
+            <p>
+                LogArbor is a modern log aggregation and monitoring platform
+                designed for developers who want real-time insight into their
+                services without complexity.
+            </p>
+        </section>
+
+        <section class="docs-section">
+            <h2>Why LogArbor?</h2>
+            <ul>
+                <li>Terminal-style real-time log streaming</li>
+                <li>Simple API & CLI</li>
+                <li>Service-level isolation</li>
+                <li>Developer-first UX</li>
+            </ul>
+        </section>
+
+        <section class="docs-section">
+            <h2>Quick Example</h2>
+
+            <pre class="code-block"><code>
+# Install CLI
+pip install logarbor
+
+# Initialize a service
+logarbor init --service auth-service
+
+# Send a log
+logarbor send "User logged in" --level info
+            </code></pre>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

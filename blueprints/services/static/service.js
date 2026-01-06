@@ -4,7 +4,7 @@ class Service {
     async fetchCredentials() {
 
         try{
-            const response = await fetch("/home/credentials/username", {
+            const response = await fetch("/api/v1/home/credentials/username", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
@@ -37,7 +37,7 @@ class Service {
             }
 
 
-            const response = await fetch("/services/service", {
+            const response = await fetch("/api/v1/services/service", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
@@ -71,7 +71,7 @@ class Service {
             }
 
 
-            const response = await fetch("/services/request_delete_service", {
+            const response = await fetch("/api/v1/services/request_delete_service", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
@@ -106,7 +106,7 @@ class Service {
             }
 
 
-            const response = await fetch("/services/confirm_delete_service", {
+            const response = await fetch("/api/v1/services/confirm_delete_service", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
@@ -143,7 +143,7 @@ class Service {
             }
 
 
-            const response = await fetch("/services/update_service", {
+            const response = await fetch("/api/v1/services/update_service", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
