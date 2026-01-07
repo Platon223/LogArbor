@@ -20,29 +20,19 @@ logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_fol
 
 @logs_bl.app_errorhandler(OperationFailure)
 def handle_operation_failure(e):
-    try:
-        loggg("e2e48ac7-0913-4d47-b061-0ca4e8ab4a1a", "critical", f"failed db operation at: {request.path} and error: {str(e)}")
-    except Exception as loge:
-        return {"message": f"{loge}"}, 500
     
-    return {"message": "something went wrong"}, 500
+    return {"message": f"something went wrong: {e}"}, 500
 
 @logs_bl.app_errorhandler(PyMongoError)
 def handle_operation_failure_pymongo(e):
-    try:
-        loggg("e2e48ac7-0913-4d47-b061-0ca4e8ab4a1a", "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
-    except Exception as loge:
-        return {"message": f"{loge}"}, 500
     
-    return {"message": "something went wrong"}, 500
+    
+    return {"message": f"something went wrong: {e}"}, 500
 
 @logs_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
-    try:
-        loggg("e2e48ac7-0913-4d47-b061-0ca4e8ab4a1a", "critical", f"failed at: {request.path} and error: {str(e)}")
-    except Exception as loge:
-        return {"message": f"{loge}"}, 500
-    return {"message": "something went wrong"}, 500
+    
+    return {"message": f"something went wrong: {e}"}, 500
 
 @logs_bl.before_request
 def data_validation():
