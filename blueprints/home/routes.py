@@ -14,17 +14,26 @@ home_blp = Blueprint("home_blp", __name__, template_folder="templates", static_f
 
 @home_blp.app_errorhandler(OperationFailure)
 def handle_operation_failure(e):
-    loggg(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}")
+    try:
+        loggg(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}")
+    except Exception as e:
+        return {"message": f"{e}"}, 500
     return {"message": "something went wrong"}, 500
 
 @home_blp.app_errorhandler(PyMongoError)
-def handle_operation_failure(e):
-    loggg(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
+def handle_operation_failure_pymongo(e):
+    try:
+        loggg(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
+    except Exception as e:
+        return {"message": f"{e}"}, 500
     return {"message": "something went wrong"}, 500
 
 @home_blp.app_errorhandler(Exception)
-def handle_operation_failure(e):
-    loggg(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}")
+def handle_operation_failure_exception(e):
+    try:
+        loggg(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}")
+    except Exception as e:
+        return {"message": f"{e}"}, 500
     return {"message": "something went wrong"}, 500
 
 @home_blp.route("/dashboard", methods=["GET"])
