@@ -20,17 +20,17 @@ logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_fol
 
 @logs_bl.app_errorhandler(OperationFailure)
 def handle_operation_failure(e):
-    loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}")
+    loggg("e2e48ac7-0913-4d47-b061-0ca4e8ab4a1a", "critical", f"failed db operation at: {request.path} and error: {str(e)}")
     return {"message": "something went wrong"}, 500
 
 @logs_bl.app_errorhandler(PyMongoError)
 def handle_operation_failure(e):
-    loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
+    loggg("e2e48ac7-0913-4d47-b061-0ca4e8ab4a1a", "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
     return {"message": "something went wrong"}, 500
 
 @logs_bl.app_errorhandler(Exception)
 def handle_operation_failure(e):
-    loggg(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}")
+    loggg("e2e48ac7-0913-4d47-b061-0ca4e8ab4a1a", "critical", f"failed at: {request.path} and error: {str(e)}")
     return {"message": "something went wrong"}, 500
 
 @logs_bl.before_request
