@@ -28,24 +28,24 @@ auth_bl = Blueprint("auth_bl", __name__, template_folder="templates", static_fol
 def handle_operation_failure(e):
     try:
         loggg(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}")
-    except Exception as e:
-        return {"message": f"{e}"}, 500
+    except Exception as loge:
+        return {"message": f"{loge}"}, 500
     return {"message": "something went wrong"}, 500
 
 @auth_bl.app_errorhandler(PyMongoError)
 def handle_operation_failure_pymongo(e):
     try:
         loggg(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
-    except Exception as e:
-        return {"message": f"{e}"}, 500
+    except Exception as loge:
+        return {"message": f"{loge}"}, 500
     return {"message": "something went wrong"}, 500
 
 @auth_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
     try:
         loggg(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}")
-    except:
-        return {"message": f"{e}"}, 500
+    except Exception as loge:
+        return {"message": f"{loge}"}, 500
     return {"message": "something went wrong"}, 500
 
 @auth_bl.before_request
