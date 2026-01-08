@@ -28,12 +28,12 @@ def handle_operation_failure(e):
 def handle_operation_failure_pymongo(e):
     
     
-    return {"message": f"something went wrong: {e}"}, 500
+    return {"message": f"sm tnew wr: {e}"}, 500
 
 @logs_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
     
-    return {"message": f"something went wrong: {e}"}, 500
+    return {"message": f"sm tnew wr: {e}"}, 500
 
 @logs_bl.before_request
 def data_validation():
