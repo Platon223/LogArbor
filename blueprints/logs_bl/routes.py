@@ -21,8 +21,8 @@ logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_fol
 @logs_bl.app_errorhandler(OperationFailure)
 def handle_operation_failure(e):
     
-    log("LOGS", "critical", f"{e}")
-    return {"message": f"something went wrong: {e}"}, 500
+    
+    return {"message": f"sm tnew wr: {e}"}, 500
 
 @logs_bl.app_errorhandler(PyMongoError)
 def handle_operation_failure_pymongo(e):
