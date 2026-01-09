@@ -46,7 +46,7 @@ def handle_operation_failure_exception(e):
 def data_validation():
     if request.method == "POST" and not request.path == "/api/v1/services/all_services":
         path = request.path
-        data = validate_route(request, path - "/api/v1")
+        data = validate_route(request, path.removeprefix("/api/v1"))
         if "error" in data:
             log("SERVICES", "warning", f"user failed data validation on api_validate on {path}")
             return {"message": data}, 400
