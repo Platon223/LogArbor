@@ -119,13 +119,17 @@
         <pre class="terminal-setup-body"><code>
 # Install LogArbor client
 pip install log-arbor
+        </code></pre>
 
+        <pre class="terminal-setup-body"><code>
 # Initialize service
 Go to the dashboard and then in the sidebar click "Services" and then press "New Service".
 When it asks you for "Url" enter your application's url like: "https://example_application.com".
 When it asks you for "Alert Level" enter the log level that you want our system to recognize in
 your incoming logs and sent an alert. If you want to learn more about Alert Level, go to: <a href="/support/services/"></a>
+        </code></pre>
 
+        <pre class="terminal-setup-body"><code>
 # Send logs
 Install log-arbor:
 
@@ -136,7 +140,9 @@ Import log-arbor
 from log-arbor.utils import log
 
 log(your_service_id, "info", "This is a log message")
+        </code></pre>
 
+        <pre class="terminal-setup-body"><code>
 # View logs
 Go to: http://localhost:8888/logs/ and then find your service and view your logs!
         </code></pre>
