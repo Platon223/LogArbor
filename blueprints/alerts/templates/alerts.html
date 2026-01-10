@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogArbor – Alerts</title>
+
+    <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('home_blp.static', filename='dashboard.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <img class="img-logo-dashboard"
+             src="https://i.imgur.com/Gu7EcLR.jpeg"
+             alt="LogArbor Logo">
+
+        <nav class="sidebar-nav">
+            <a href="/home/dashboard/">Dashboard</a>
+            <a href="/services/">Services</a>
+            <a href="/logs/">Logs</a>
+            <a href="/alerts/" class="active">Alerts</a>
+            <a href="/settings/">Settings</a>
+        </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <h1>Alerts</h1>
+            <span class="env">Account</span>
+        </header>
+
+        <!-- Alerts Terminal -->
+        <section class="terminal">
+
+            <div class="terminal-header">
+                <span>Alerts Stream</span>
+                <span class="terminal-dot"></span>
+            </div>
+
+            <div class="terminal-body">
+
+                <!-- ALERT (UNREAD) -->
+                <div class="alert-line unread error">
+                    <span class="alert-dot"></span>
+
+                    <span class="time">12:03:11</span>
+                    <span class="level">ERROR</span>
+
+                    <span class="message">
+                        Database connection lost for service <strong>auth-service</strong>
+                    </span>
+
+                    <div class="alert-actions">
+                        <button class="btn small">Mark Viewed</button>
+                        <button class="btn small danger">Delete</button>
+                    </div>
+                </div>
+
+                <!-- ALERT (UNREAD) -->
+                <div class="alert-line unread warn">
+                    <span class="alert-dot"></span>
+
+                    <span class="time">12:01:55</span>
+                    <span class="level">WARN</span>
+
+                    <span class="message">
+                        High memory usage detected on <strong>payment-worker</strong>
+                    </span>
+
+                    <div class="alert-actions">
+                        <button class="btn small">Mark Viewed</button>
+                        <button class="btn small danger">Delete</button>
+                    </div>
+                </div>
+
+                <!-- ALERT (VIEWED) -->
+                <div class="alert-line viewed info">
+                    <span class="alert-dot viewed"></span>
+
+                    <span class="time">11:58:20</span>
+                    <span class="level">INFO</span>
+
+                    <span class="message">
+                        Service <strong>frontend-prod</strong> recovered successfully
+                    </span>
+
+                    <div class="alert-actions">
+                        <button class="btn small danger">Delete</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

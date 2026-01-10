@@ -83,6 +83,9 @@ def add_log():
         log("LOGS", "error", "service couldn't be found on /logs/add")
         return {"message": "service not found"}, 404
     
+    if not service["user_id"] == g.data.get("user_id"):
+        return {"message": "invalid access token provided"}, 401
+    
 
     new_log_db_data = {
         "id": str(uuid.uuid4()),
@@ -109,7 +112,11 @@ def add_log():
             "id": str(uuid.uuid4()),
             "message": g.data.get("message"),
             "level": g.data.get("level"),
-            "time": g.data.get("time")
+            "time": g.data.get("time"),
+            "user_id": g.data.get("user_id"),
+            "service_id": service["id"],
+            "service_name": service["name"],
+            "viewed": False
         }
         alert_db_data_validated = validate_db_data(alert_db_data, alerts_schema)
         if "error" in alert_db_data_validated:

@@ -4,6 +4,10 @@ from handlers.auth_check_wrapper import auth_check_wrapper
 from pymongo.errors import OperationFailure, PyMongoError
 import os
 from validates.validate_api import validate_route
+from dotenv import load_dotenv
+from extensions.mongo import mongo
+
+load_dotenv(dotenv_path='../../.env')
 
 
 alerts_bl = Blueprint("alerts_bl", __name__, template_folder="templates", static_folder="static")
@@ -47,19 +51,64 @@ def data_validation():
 
 @alerts_bl.route("/", methods=["GET"])
 def alerts():
+    if not request.blueprint == "alerts_bl":
+        log(os.getenv("LOGARBOR_ALERTS_SERVICE_ID"), "warning", f"ui route: /, was accessed with non ui blueprint: {request.path}")
+        return {"message": "ui route only"}, 404
+
     return render_template("alerts.html")
 
 @alerts_bl.route("/alerts", methods=["GET"])
 @auth_check_wrapper()
 def all_alerts():
-    pass
+    if not request.blueprint == "alerts_api":
+        log(os.getenv("LOGARBOR_ALERTS_SERVICE_ID"), "warning", f"api route: /alerts, was accessed with non api blueprint: {request.path}")
+        return {"message": "api route only"}, 404
+
+    current_alerts = mongo.db.alerts.find({"user_id": getattr(request, "auth_identity", None)})
+
+    current_alerts_list = list(current_alerts)
+
+    if len(current_alerts_list) == 0:
+        return {"message": "no alerts"}, 200
+    
+    return {"message": current_alerts_list}, 200
 
 @alerts_bl.route("/marked_viewed", methods=["POST"])
 @auth_check_wrapper()
 def mark_as_viewed():
-    pass
+    if not request.blueprint == "alerts_api":
+        log(os.getenv("LOGARBOR_ALERTS_SERVICE_ID"), "warning", f"api route: /marked_viewed, was accessed with non api blueprint: {request.path}")
+        return {"message": "api route only"}, 404
+
+    alert = mongo.db.alerts.find_one({"id": g.data.get("alert_id"), "user_id": getattr(request, "auth_identity", None)})
+
+    if not alert:
+        return {"message": "alert not found"}, 404
+    
+    filter_query = {"id": g.data.get("alert_id"), "user_id": getattr(request, "auth_identity", None)}
+
+    update_operation = {
+        "$set": {
+            "viewed": g.data.get("status")
+        }
+    }
+
+    mongo.db.alerts.update_one(filter_query, update_operation)
+
+    return {"message": "marked as viewed"}, 200
 
 @alerts_bl.route("/alerts", methods=["DELETE"])
 @auth_check_wrapper()
 def delete_alert():
-    pass
+    if not request.blueprint == "alerts_api":
+        log(os.getenv("LOGARBOR_ALERTS_SERVICE_ID"), "warning", f"api route: /alerts (DELETE), was accessed with non api blueprint: {request.path}")
+        return {"message": "api route only"}, 404
+
+    alert = mongo.db.alerts.find_one({"id": g.data.get("alert_id"), "user_id": getattr(request, "auth_identity", None)})
+
+    if not alert:
+        return {"message": "alert not found"}, 404
+    
+    mongo.db.alerts.delete_one({"id": g.data.get("alert_id"), "user_id": getattr(request, "auth_identity", None)})
+
+    return {"message": "deleted"}, 200
