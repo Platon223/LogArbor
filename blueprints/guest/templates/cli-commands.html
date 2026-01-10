@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LogArbor Docs - CLI Commands</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
+</head>
+<body>
+
+<div class="docs-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="docs-sidebar">
+        <div class="docs-brand">
+            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+            <span>LogArbor <strong>Docs</strong></span>
+        </div>
+
+        <nav class="docs-nav">
+            <h4>Getting Started</h4>
+            <a>Introduction</a>
+            <a>Quick Setup</a>
+            <a>Authentication</a>
+
+            <h4>Core Concepts</h4>
+            <a>Services</a>
+            <a>Logs</a>
+            <a>Log Levels</a>
+
+            <h4>CLI</h4>
+            <a>Installation</a>
+            <a class="active">Commands</a>
+
+            <h4>API</h4>
+            <a>Sending Logs</a>
+            <a>Filtering</a>
+            <a>Errors</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="docs-content">
+
+        <header class="docs-header">
+            <h1>CLI Commands</h1>
+            <span class="version">v1.0.0</span>
+        </header>
+
+        <section class="docs-section" id="cli-commands">
+            <h2>CLI Commands</h2>
+
+            <h3>Initialize</h3>
+            <pre><code>logarbor init</code></pre>
+
+            <h3>Send Logs</h3>
+            <pre><code>logarbor send "User logged in" --level info</code></pre>
+
+            <h3>Stream Logs</h3>
+            <pre><code>logarbor tail auth-service</code></pre>
+
+            <h3>List Services</h3>
+            <pre><code>logarbor service list</code></pre>
+        </section>
+
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LogArbor Docs - Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
+</head>
+<body>
+
+<div class="docs-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="docs-sidebar">
+        <div class="docs-brand">
+            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+            <span>LogArbor <strong>Docs</strong></span>
+        </div>
+
+        <nav class="docs-nav">
+            <h4>Getting Started</h4>
+            <a>Introduction</a>
+            <a>Quick Setup</a>
+            <a>Authentication</a>
+
+            <h4>Core Concepts</h4>
+            <a class="active">Services</a>
+            <a>Logs</a>
+            <a>Log Levels</a>
+
+            <h4>CLI</h4>
+            <a>Installation</a>
+            <a>Commands</a>
+
+            <h4>API</h4>
+            <a>Sending Logs</a>
+            <a>Filtering</a>
+            <a>Errors</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="docs-content">
+
+        <header class="docs-header">
+            <h1>Services</h1>
+            <span class="version">v1.0.0</span>
+        </header>
+
+        <section class="docs-section" id="services">
+            <h2>Services</h2>
+            <p>
+                A service represents an application, microservice, or environment.
+            </p>
+
+            <ul>
+                <li>auth-service</li>
+                <li>payment-worker</li>
+                <li>frontend-prod</li>
+            </ul>
+
+            <p>
+                Each service has independent logs, permissions, and retention rules.
+            </p>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

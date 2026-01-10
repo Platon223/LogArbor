@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LogArbor Docs - Quick Setup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
+</head>
+<body>
+
+<div class="docs-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="docs-sidebar">
+        <div class="docs-brand">
+            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+            <span>LogArbor <strong>Docs</strong></span>
+        </div>
+
+        <nav class="docs-nav">
+            <h4>Getting Started</h4>
+            <a>Introduction</a>
+            <a class="active">Quick Setup</a>
+            <a>Authentication</a>
+
+            <h4>Core Concepts</h4>
+            <a>Services</a>
+            <a>Logs</a>
+            <a>Log Levels</a>
+
+            <h4>CLI</h4>
+            <a>Installation</a>
+            <a>Commands</a>
+
+            <h4>API</h4>
+            <a>Sending Logs</a>
+            <a>Filtering</a>
+            <a>Errors</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="docs-content">
+
+        <header class="docs-header">
+            <h1>Quick Setup</h1>
+            <span class="version">v1.0.0</span>
+        </header>
+
+        <section class="docs-section" id="quick-setup">
+            <h2>Quick Setup</h2>
+            <p>
+                LogArbor is designed to get you logging in under 5 minutes.
+                Follow the steps below to start sending logs immediately.
+            </p>
+
+            <h3>1. Create a Service</h3>
+            <p>
+                Each application must belong to a service. Services isolate logs,
+                API keys, and permissions.
+            </p>
+            <pre><code>logarbor service create auth-service</code></pre>
+
+            <h3>2. Configure Environment</h3>
+            <p>Add your API key to your environment variables:</p>
+            <pre><code>export LOGARBOR_API_KEY=your_api_key_here
+        export LOGARBOR_SERVICE=auth-service</code></pre>
+
+            <h3>3. Send Your First Log</h3>
+            <pre><code>logarbor send "Service started successfully" --level info</code></pre>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

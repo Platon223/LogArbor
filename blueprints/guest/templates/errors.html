@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LogArbor Docs - Errors</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
+</head>
+<body>
+
+<div class="docs-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="docs-sidebar">
+        <div class="docs-brand">
+            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+            <span>LogArbor <strong>Docs</strong></span>
+        </div>
+
+        <nav class="docs-nav">
+            <h4>Getting Started</h4>
+            <a>Introduction</a>
+            <a>Quick Setup</a>
+            <a>Authentication</a>
+
+            <h4>Core Concepts</h4>
+            <a>Services</a>
+            <a>Logs</a>
+            <a>Log Levels</a>
+
+            <h4>CLI</h4>
+            <a>Installation</a>
+            <a>Commands</a>
+
+            <h4>API</h4>
+            <a>Sending Logs</a>
+            <a>Filtering</a>
+            <a class="active">Errors</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="docs-content">
+
+        <header class="docs-header">
+            <h1>Errors</h1>
+            <span class="version">v1.0.0</span>
+        </header>
+
+        <section class="docs-section" id="api-errors">
+            <h2>Errors</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>401</td>
+                        <td>Invalid API key</td>
+                    </tr>
+                    <tr>
+                        <td>403</td>
+                        <td>Access denied</td>
+                    </tr>
+                    <tr>
+                        <td>429</td>
+                        <td>Rate limit exceeded</td>
+                    </tr>
+                    <tr>
+                        <td>500</td>
+                        <td>Internal server error</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><code>{
+        "error": "Rate limit exceeded",
+        "retry_after": 60
+        }</code></pre>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -9,3 +9,9 @@ def homepage():
 @guest_bl.route("/docs", methods=["GET"])
 def docs():
     return render_template("docs.html")
+
+@guest_bl.route("/docs/<topic>", methods=["GET"])
+def docs_topic(topic):
+    return render_template(f"{topic}.html")
+
+

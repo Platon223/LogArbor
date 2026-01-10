@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LogArbor Docs - Authentication</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
+</head>
+<body>
+
+<div class="docs-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="docs-sidebar">
+        <div class="docs-brand">
+            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+            <span>LogArbor <strong>Docs</strong></span>
+        </div>
+
+        <nav class="docs-nav">
+            <h4>Getting Started</h4>
+            <a>Introduction</a>
+            <a>Quick Setup</a>
+            <a class="active">Authentication</a>
+
+            <h4>Core Concepts</h4>
+            <a>Services</a>
+            <a>Logs</a>
+            <a>Log Levels</a>
+
+            <h4>CLI</h4>
+            <a>Installation</a>
+            <a>Commands</a>
+
+            <h4>API</h4>
+            <a>Sending Logs</a>
+            <a>Filtering</a>
+            <a>Errors</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="docs-content">
+
+        <header class="docs-header">
+            <h1>Authentication</h1>
+            <span class="version">v1.0.0</span>
+        </header>
+
+        <section class="docs-section" id="authentication">
+            <h2>Authentication</h2>
+            <p>
+                LogArbor uses secure API key–based authentication.
+                Each service has its own key.
+            </p>
+
+            <h3>HTTP Authentication</h3>
+            <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+
+            <h3>Failed Authentication Response</h3>
+            <pre><code>{
+        "error": "Invalid or expired API key"
+        }</code></pre>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
