@@ -76,15 +76,7 @@ async function main() {
 
     const allAlerts = alertsClass.fetchAlerts()
 
-    if (allAlerts.message.includes("no alerts")) {
-        document.getElementById("alerts-container").innerHTML = `<h4>No Alerts Yet, <a href='/docs/sending-logs'>Learn More</a></h4>`
-    } else if(allAlerts.message.includes("something went wrong")) {
-        window.location.href = "/auth/login"
-    } else if (allAlerts.message.includes("oauth user was not found")) {
-        window.location.href = "/auth/login"
-    } else if (allAlerts.message.includes("missing or invalid token")) {
-        window.location.href = "/auth/login"
-    } else if (Array.isArray(allAlerts.message)) {
+    if (Array.isArray(allAlerts.message)) {
         const alertsContent = allAlerts.message.map((element) => {
             return `
                 <div class="alert-line ${element.viewed ? 'viewed' : 'unread'} ${element.level}">
@@ -104,6 +96,14 @@ async function main() {
         }).join('')
 
         document.getElementById("alerts-container").innerHTML = alertsContent
+    } else if (allAlerts.message.includes("no alerts")) {
+        document.getElementById("alerts-container").innerHTML = `<h4>No Alerts Yet, <a href='/docs/sending-logs'>Learn More</a></h4>`
+    } else if(allAlerts.message.includes("something went wrong")) {
+        window.location.href = "/auth/login"
+    } else if (allAlerts.message.includes("oauth user was not found")) {
+        window.location.href = "/auth/login"
+    } else if (allAlerts.message.includes("missing or invalid token")) {
+        window.location.href = "/auth/login"
     }
 }
 
