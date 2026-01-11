@@ -56,6 +56,81 @@ class Alerts {
             return `error: ${error}`
         }
     }
+
+    async markAsViewed(alert_id) {
+        try{
+            const markAsViewedJson = {
+                alert_id: alert_id,
+                status: true
+            }
+            const response = await fetch("/api/v1/alerts/marked_viewed", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(markAsViewedJson)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                alert(`HTTP error while marking an alert as viewed: ${response.status}, ${data.message}`)
+            }
+
+            const data = await response.json()
+
+            if (data.message.includes("alert not found")) {
+                alert("Alert was not found. Please try again later.")
+            } else if(data.message.includes("something went wrong")) {
+                window.location.href = "/auth/login"
+            } else if (data.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (data.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (data.message.includes("marked as viewed")) {
+                window.location.reload()    
+            }
+        } catch(error) {
+            alert("Something went wrong while marking your alert as viewed. Please try again later.")
+        }
+    }
+
+    async deleteAlert(alert_id) {
+        try{
+            const markAsViewedJson = {
+                alert_id: alert_id
+            }
+            const response = await fetch("/api/v1/alerts/alerts", {
+                method: "DELETE",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(markAsViewedJson)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                alert(`HTTP error while deleting an alert: ${response.status}, ${data.message}`)
+            }
+
+            const data = await response.json()
+
+            if (data.message.includes("alert not found")) {
+                alert("Alert was not found. Please try again later.")
+            } else if(data.message.includes("something went wrong")) {
+                window.location.href = "/auth/login"
+            } else if (data.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (data.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (data.message.includes("deleted")) {
+                window.location.reload()    
+            }
+        } catch(error) {
+            alert("Something went wrong while deleting an alert. Please try again later.")
+        }
+    }
 }
 
 async function main() {
@@ -77,7 +152,7 @@ async function main() {
     const allAlerts = await alertsClass.fetchAlerts()
 
     if (Array.isArray(allAlerts.message)) {
-        const alertsContent = allAlerts.message.map((element) => {
+        const alertsContent = allAlerts.message.map(async (element) => {
             return `
                 <div class="alert-line ${element.viewed ? 'viewed' : 'unread'} ${element.level}">
                     <span class="alert-dot ${element.viewed ? 'viewed' : ''}"></span>
@@ -88,8 +163,8 @@ async function main() {
                     </span>
                     <div class="alert-actions">
                         ${element.viewed 
-                            ? `<button class="btn small danger">Delete</button>` 
-                            : `<button class="btn small">Mark Viewed</button><button class="btn small danger">Delete</button>`
+                            ? `<button onclick="${await alertsClass.deleteAlert(element.id)}" class="btn small danger">Delete</button>` 
+                            : `<button onclick="${await alertsClass.markAsViewed(element.id)}" class="btn small">Mark Viewed</button><button class="btn small danger">Delete</button>`
                         }
                     </div>
                 </div>`
