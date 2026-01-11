@@ -74,7 +74,7 @@ async function main() {
         document.querySelector(".env").innerHTML = credentials.message    
     }
 
-    const allAlerts = alertsClass.fetchAlerts()
+    const allAlerts = await alertsClass.fetchAlerts()
 
     if (Array.isArray(allAlerts.message)) {
         const alertsContent = allAlerts.message.map((element) => {
