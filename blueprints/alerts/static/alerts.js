@@ -165,7 +165,7 @@ async function main() {
                     <div class="alert-actions">
                         ${element.viewed 
                             ? `<button onclick="window.alertsClass.deleteAlert('${element.id}')" class="btn small danger">Delete</button>` 
-                            : `<button onclick="window.alertsClass.markAsViewed('${element.id}')" class="btn small">Mark Viewed</button><button class="btn small danger">Delete</button>`
+                            : `<button onclick="window.alertsClass.markAsViewed('${element.id}')" class="btn small">Mark Viewed</button><button onclick="window.alertsClass.deleteAlert('${element.id}')" class="btn small danger">Delete</button>`
                         }
                     </div>
                 </div>`
