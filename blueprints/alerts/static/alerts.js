@@ -152,7 +152,7 @@ async function main() {
     const allAlerts = await alertsClass.fetchAlerts()
 
     if (Array.isArray(allAlerts.message)) {
-        const alertsContent = allAlerts.message.map(async (element) => {
+        const alertsContent = allAlerts.message.map((element) => {
             return `
                 <div class="alert-line ${element.viewed ? 'viewed' : 'unread'} ${element.level}">
                     <span class="alert-dot ${element.viewed ? 'viewed' : ''}"></span>
