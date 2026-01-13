@@ -225,7 +225,7 @@ body {
 .log-line .level {
     font-weight: bold;
     white-space: nowrap;
-    margin-left: 80px;
+    margin-left: 100px;
     text-transform: uppercase;
 }
 
@@ -238,8 +238,10 @@ body {
 
 /* Levels */
 .log-line.info  .level { color: #00ff87; }
-.log-line.warn  .level { color: #ffd166; }
+.log-line.warning  .level { color: #ffd166; }
 .log-line.error .level { color: #ff6b6b; }
+.log-line.debug .level { color: gray; }
+.log-line.critical .level { color: red; }
 
 /* Alerts */
 .alert-line {
@@ -277,8 +279,10 @@ body {
 
 /* Levels */
 .alert-line.info  .level { color: #00ff87; }
-.alert-line.warn  .level { color: #ffd166; }
+.alert-line.warning  .level { color: #ffd166; }
 .alert-line.error .level { color: #ff6b6b; }
+.alert-line.debug .level { color: gray; }
+.alert-line.critical .level { color: red; }
 
 /* Mobile */
 @media (max-width: 768px) {

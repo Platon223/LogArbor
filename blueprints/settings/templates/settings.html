@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogArbor – Settings</title>
+
+    <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('home_blp.static', filename='dashboard.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <img class="img-logo-dashboard"
+             src="https://i.imgur.com/Gu7EcLR.jpeg"
+             alt="LogArbor Logo">
+
+        <nav class="sidebar-nav">
+            <a href="/home/dashboard">Dashboard</a>
+            <a href="/services">Services</a>
+            <a href="/logs">Logs</a>
+            <a href="/alerts">Alerts</a>
+            <a href="/settings" class="active">Settings</a>
+        </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <h1>Settings</h1>
+        </header>
+
+        <!-- SETTINGS -->
+        <section class="settings-section">
+
+            <!-- Account -->
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>Account</span>
+                    <span class="terminal-dot"></span>
+                </div>
+
+                <div class="terminal-body">
+
+                    <div class="setting-row">
+                        <label>Email</label>
+                        <input type="email" value="user@logarbor.com">
+                        <button class="btn small">Update</button>
+                    </div>
+
+                    <div class="setting-row">
+                        <label>Username</label>
+                        <input type="text" value="logarbor_user">
+                        <button class="btn small">Update</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Security -->
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>Security</span>
+                    <span class="terminal-dot"></span>
+                </div>
+
+                <div class="terminal-body">
+
+                    <div class="setting-row">
+                        <label>Password</label>
+                        <input type="password" placeholder="New password">
+                        <button class="btn small">Change</button>
+                    </div>
+
+                    <div class="setting-row">
+                        <label>Two-Factor Auth</label>
+                        <input type="text" value="Disabled" disabled>
+                        <button class="btn small">Enable</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>Notifications</span>
+                    <span class="terminal-dot"></span>
+                </div>
+
+                <div class="terminal-body">
+
+                    <div class="setting-row">
+                        <label>Email Alerts</label>
+                        <input type="text" value="Enabled" disabled>
+                        <button class="btn small">Toggle</button>
+                    </div>
+
+                    <div class="setting-row">
+                        <label>Critical Errors Only</label>
+                        <input type="text" value="No" disabled>
+                        <button class="btn small">Toggle</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- API -->
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span>API Keys</span>
+                    <span class="terminal-dot"></span>
+                </div>
+
+                <div class="terminal-body">
+
+                    <div class="setting-row">
+                        <label>Primary API Key</label>
+                        <input type="text" value="sk_live_************" disabled>
+                        <button class="btn small">Regenerate</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="terminal danger-zone">
+                <div class="terminal-header">
+                    <span>Danger Zone</span>
+                </div>
+
+                <div class="terminal-body">
+                    <p style="margin-bottom: 14px; color: #ffb3b3;">
+                        Deleting your account is permanent and cannot be undone.
+                    </p>
+
+                    <button class="btn danger">Delete Account</button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+</body>
+</html>
