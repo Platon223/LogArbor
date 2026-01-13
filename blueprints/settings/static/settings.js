@@ -132,7 +132,7 @@ async function main() {
                 </div>
             </div>`
         } else {
-            document.getElementById("settings-container").innerHTML = `<div style="margin-bottom: 50px; height: 200px;" class="terminal">
+            document.getElementById("settings-container").innerHTML = `<div style="margin-bottom: 50px; height: 500px;" class="terminal">
                 <div class="terminal-header">
                     <span>Account</span>
                     <span class="terminal-dot"></span>
@@ -156,7 +156,7 @@ async function main() {
             </div>
 
             <!-- Security -->
-            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
+            <div style="margin-bottom: 50px; height: 500px;" class="terminal">
                 <div class="terminal-header">
                     <span>Security</span>
                     <span class="terminal-dot"></span>
@@ -175,7 +175,7 @@ async function main() {
 
 
             <!-- API -->
-            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
+            <div style="margin-bottom: 50px; height: 500px;" class="terminal">
                 <div class="terminal-header">
                     <span>API Keys</span>
                     <span class="terminal-dot"></span>
@@ -193,7 +193,7 @@ async function main() {
             </div>
 
             <!-- Danger Zone -->
-            <div style="margin-bottom: 20px; height: 200px;" class="terminal danger-zone">
+            <div style="margin-bottom: 20px; height: 500px;" class="terminal danger-zone">
                 <div class="terminal-header">
                     <span>Danger Zone</span>
                 </div>
