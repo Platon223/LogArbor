@@ -78,13 +78,13 @@ async function main() {
 
     if (settings.message instanceof Object) {
         if (settings.message.auth_provider !== "LogArbor") {
-            document.getElementById("settings-container").innerHTML = `<div style="margin-bottom: 50px; height: 500px;" class="terminal">
+            document.getElementById("settings-container").innerHTML = `<div style="margin-bottom: 50px;" class="terminal">
                 <div class="terminal-header">
                     <span>Account</span>
                     <span class="terminal-dot"></span>
                 </div>
 
-                <div class="terminal-body">
+                <div style="height: 500px;" class="terminal-body">
 
                     <div style="margin-bottom: 20px;" class="setting-row">
                         <label>Email</label>
@@ -100,13 +100,13 @@ async function main() {
             </div>
 
             <!-- API -->
-            <div style="margin-bottom: 50px; height: 500px;" class="terminal">
+            <div style="margin-bottom: 50px;" class="terminal">
                 <div class="terminal-header">
                     <span>API Keys</span>
                     <span class="terminal-dot"></span>
                 </div>
 
-                <div class="terminal-body">
+                <div style="height: 500px;" class="terminal-body">
 
                     <div class="setting-row">
                         <label>API Key</label>
@@ -118,12 +118,12 @@ async function main() {
             </div>
 
             <!-- Danger Zone -->
-            <div style="margin-bottom: 20px; height: 500px;" class="terminal danger-zone">
+            <div style="margin-bottom: 20px;" class="terminal danger-zone">
                 <div class="terminal-header">
                     <span>Danger Zone</span>
                 </div>
 
-                <div class="terminal-body">
+                <div style="height: 500px;" class="terminal-body">
                     <p style="margin-bottom: 14px; color: #ffb3b3;">
                         Deleting your account is permanent and cannot be undone.
                     </p>
