@@ -78,7 +78,7 @@ async function main() {
 
     if (settings.message instanceof Object) {
         if (settings.message.auth_provider !== "LogArbor") {
-            document.getElementById("settings-container").innerHTML = `<div style="margin-bottom: 50px; height: 200px;" class="terminal">
+            document.getElementById("settings-container").innerHTML = `<div style="margin-bottom: 50px; height: 500px;" class="terminal">
                 <div class="terminal-header">
                     <span>Account</span>
                     <span class="terminal-dot"></span>
@@ -100,7 +100,7 @@ async function main() {
             </div>
 
             <!-- API -->
-            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
+            <div style="margin-bottom: 50px; height: 500px;" class="terminal">
                 <div class="terminal-header">
                     <span>API Keys</span>
                     <span class="terminal-dot"></span>
@@ -118,7 +118,7 @@ async function main() {
             </div>
 
             <!-- Danger Zone -->
-            <div style="margin-bottom: 20px; height: 200px;" class="terminal danger-zone">
+            <div style="margin-bottom: 20px; height: 500px;" class="terminal danger-zone">
                 <div class="terminal-header">
                     <span>Danger Zone</span>
                 </div>
