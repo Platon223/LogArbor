@@ -66,6 +66,16 @@ def settings_info():
     }
 
     return {"message": settings_object}, 200
+
+@settings_bl.route("/account", methods=["DELETE"])
+@auth_check_wrapper()
+def delete_account():
+    pass
+
+@settings_bl.route("/account_approve", methods=["DELETE"])
+@auth_check_wrapper()
+def approve_account_deletion():
+    pass
     
 
 

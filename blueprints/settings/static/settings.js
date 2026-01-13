@@ -84,7 +84,7 @@ async function main() {
                     <span class="terminal-dot"></span>
                 </div>
 
-                <div style="height: 600px;" class="terminal-body">
+                <div style="height: 400px;" class="terminal-body">
 
                     <div style="margin-bottom: 20px;" class="setting-row">
                         <label>Email</label>
@@ -106,7 +106,7 @@ async function main() {
                     <span class="terminal-dot"></span>
                 </div>
 
-                <div style="height: 600px;" class="terminal-body">
+                <div style="height: 400px;" class="terminal-body">
 
                     <div class="setting-row">
                         <label>API Key</label>
@@ -138,7 +138,7 @@ async function main() {
                     <span class="terminal-dot"></span>
                 </div>
 
-                <div style="height: 600px;" class="terminal-body">
+                <div style="height: 400px;" class="terminal-body">
 
                     <div style="margin-bottom: 20px;" class="setting-row">
                         <label>Email</label>
@@ -162,7 +162,7 @@ async function main() {
                     <span class="terminal-dot"></span>
                 </div>
 
-                <div style="height: 600px;" class="terminal-body">
+                <div style="height: 400px;" class="terminal-body">
 
                     <div style="margin-bottom: 20px;" class="setting-row">
                         <label>Password</label>
@@ -181,7 +181,7 @@ async function main() {
                     <span class="terminal-dot"></span>
                 </div>
 
-                <div style="height: 600px;" class="terminal-body">
+                <div style="height: 400px;" class="terminal-body">
 
                     <div class="setting-row">
                         <label>Primary API Key</label>
