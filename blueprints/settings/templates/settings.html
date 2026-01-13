@@ -33,13 +33,14 @@
         <!-- Topbar -->
         <header class="topbar">
             <h1>Settings</h1>
+            <span class="env">Account</span>
         </header>
 
         <!-- SETTINGS -->
-        <section class="settings-section">
+        <section id="settings-container" class="settings-section">
 
             <!-- Account -->
-            <div class="terminal">
+            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
                 <div class="terminal-header">
                     <span>Account</span>
                     <span class="terminal-dot"></span>
@@ -47,7 +48,7 @@
 
                 <div class="terminal-body">
 
-                    <div class="setting-row">
+                    <div style="margin-bottom: 20px;" class="setting-row">
                         <label>Email</label>
                         <input type="email" value="user@logarbor.com">
                         <button class="btn small">Update</button>
@@ -63,7 +64,7 @@
             </div>
 
             <!-- Security -->
-            <div class="terminal">
+            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
                 <div class="terminal-header">
                     <span>Security</span>
                     <span class="terminal-dot"></span>
@@ -71,7 +72,7 @@
 
                 <div class="terminal-body">
 
-                    <div class="setting-row">
+                    <div style="margin-bottom: 20px;" class="setting-row">
                         <label>Password</label>
                         <input type="password" placeholder="New password">
                         <button class="btn small">Change</button>
@@ -87,7 +88,7 @@
             </div>
 
             <!-- Notifications -->
-            <div class="terminal">
+            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
                 <div class="terminal-header">
                     <span>Notifications</span>
                     <span class="terminal-dot"></span>
@@ -95,7 +96,7 @@
 
                 <div class="terminal-body">
 
-                    <div class="setting-row">
+                    <div style="margin-bottom: 20px;" class="setting-row">
                         <label>Email Alerts</label>
                         <input type="text" value="Enabled" disabled>
                         <button class="btn small">Toggle</button>
@@ -111,7 +112,7 @@
             </div>
 
             <!-- API -->
-            <div class="terminal">
+            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
                 <div class="terminal-header">
                     <span>API Keys</span>
                     <span class="terminal-dot"></span>
@@ -129,7 +130,7 @@
             </div>
 
             <!-- Danger Zone -->
-            <div class="terminal danger-zone">
+            <div style="margin-bottom: 20px; height: 200px;" class="terminal danger-zone">
                 <div class="terminal-header">
                     <span>Danger Zone</span>
                 </div>
@@ -139,7 +140,7 @@
                         Deleting your account is permanent and cannot be undone.
                     </p>
 
-                    <button class="btn danger">Delete Account</button>
+                    <button style="margin-bottom: 20px;" class="btn danger">Delete Account</button>
                 </div>
             </div>
 
