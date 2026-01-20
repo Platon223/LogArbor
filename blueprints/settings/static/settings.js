@@ -76,7 +76,6 @@ async function main() {
 
     const settings = await settingsClass.fetchSettings()
 
-    console.log(settings.message)
 
     if (settings.message instanceof Object) {
         if (settings.message.auth_provider !== "LogArbor") {

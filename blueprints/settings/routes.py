@@ -42,8 +42,15 @@ def handle_operation_failure_pymongo(e):
 
 @settings_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
+
+    try:
+
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+    except Exception as loge:
+
+        return {"message": f"{loge}"}, 500
     
-    return {"message": f"something went wrong: {e}"}, 500
+    return {"message": f"something went wrong"}, 500
 
 @settings_bl.before_request
 def data_validation():
@@ -71,7 +78,7 @@ def settings_page():
 
     if not check["ok"]:
 
-        return check["message"], 404
+        return {"message": check["message"]}, 404
     
 
     # Renders settings.html
@@ -88,7 +95,7 @@ def settings_info():
 
     if not check["ok"]:
 
-        return check["message"], 404
+        return {"message": check["message"]}, 404
     
 
     # Gets settings    
@@ -97,10 +104,10 @@ def settings_info():
 
     if not settings["ok"]:
 
-        return settings["message"], settings["status"]
+        return {"message": settings["message"]}, settings["status"]
     else:
 
-        return settings["message"], 200
+        return {"message": settings["message"]}, 200
 
 @settings_bl.route("/account", methods=["DELETE"])
 @auth_check_wrapper()
@@ -112,7 +119,7 @@ def delete_account():
 
     if not check["ok"]:
 
-        return check["message"], 404
+        return {"message": check["message"]}, 404
     
 
     # Sends a request to delete an account
@@ -121,10 +128,10 @@ def delete_account():
 
     if not request_delete_email["ok"]:
 
-        return request_delete_email["message"], request_delete_email["status"]
+        return {"message": request_delete_email["message"]}, request_delete_email["status"]
     else:
 
-        return request_delete_email["message"], 200
+        return {"message": request_delete_email["message"]}, 200
 
 
 @settings_bl.route("/account_approve", methods=["DELETE"])
@@ -136,7 +143,7 @@ def approve_account_deletion():
 
     if not check["ok"]:
 
-        return check["message"], 404
+        return {"message": check["message"]}, 404
     
 
     # Deletes an account
@@ -145,10 +152,10 @@ def approve_account_deletion():
 
     if not delete_account_approve["ok"]:
 
-        return delete_account_approve["message"], delete_account_approve["status"]
+        return {"message": delete_account_approve["message"]}, delete_account_approve["status"]
     else:
 
-        return delete_account_approve["message"], 200
+        return {"message": delete_account_approve["message"]}, 200
 
     
 
