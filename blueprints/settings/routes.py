@@ -86,21 +86,21 @@ def settings_info():
 
     check = check_api_blueprint("SETTINGS", request.blueprint, "settings_api", request)
 
-    if not check.ok:
+    if not check["ok"]:
 
-        return check.message, 404
+        return check["message"], 404
     
 
     # Gets settings    
     
     settings = get_settings(getattr(request, "auth_identity", None), mongo.db.users, request)
 
-    if not settings.ok:
+    if not settings["ok"]:
 
-        return settings.message, settings.status
+        return settings["message"], settings["status"]
     else:
 
-        return settings.message, 200
+        return settings["message"], 200
 
 @settings_bl.route("/account", methods=["DELETE"])
 @auth_check_wrapper()
@@ -110,21 +110,21 @@ def delete_account():
 
     check = check_api_blueprint("SETTINGS", request.blueprint, "settings_api", request)
 
-    if not check.ok:
+    if not check["ok"]:
 
-        return check.message, 404
+        return check["message"], 404
     
 
     # Sends a request to delete an account
 
     request_delete_email = request_account_deletion(getattr(request, "auth_identity", None), mongo.db.users, request)
 
-    if not request_delete_email.ok:
+    if not request_delete_email["ok"]:
 
-        return request_delete_email.message, request_delete_email.status
+        return request_delete_email["message"], request_delete_email["status"]
     else:
 
-        return request_delete_email.message, 200
+        return request_delete_email["message"], 200
 
 
 @settings_bl.route("/account_approve", methods=["DELETE"])
@@ -134,21 +134,21 @@ def approve_account_deletion():
     
     check = check_api_blueprint("SETTINGS", request.blueprint, "settings_api", request)
 
-    if not check.ok:
+    if not check["ok"]:
 
-        return check.message, 404
+        return check["message"], 404
     
 
     # Deletes an account
 
     delete_account_approve = account_deletion(g.data.get("account_id"), mongo.db.users, g.data, request)
 
-    if not delete_account_approve.ok:
+    if not delete_account_approve["ok"]:
 
-        return delete_account_approve.message, delete_account_approve.status
+        return delete_account_approve["message"], delete_account_approve["status"]
     else:
 
-        return delete_account_approve.message, 200
+        return delete_account_approve["message"], 200
 
     
 
