@@ -12,7 +12,7 @@ def check_ui_blueprint(logging_service_name, blueprint_actual, blueprint_expecte
 
     if not blueprint_actual == blueprint_expected:
 
-        log(os.getenv(f"LOGARBOR_{logging_service_name}_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}")
+        log(os.getenv(f"LOGARBOR_{logging_service_name}_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "message": "ui route only"}
     
