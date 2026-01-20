@@ -14,7 +14,7 @@ def get_settings(user_id, user_collection, request):
 
     if not user:
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"user not found at {request.path} ({request.method})")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"user not found at {request.path} ({request.method})", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "status": 404, "message": "user not found"}
     

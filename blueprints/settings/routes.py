@@ -21,7 +21,7 @@ def handle_operation_failure(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -33,7 +33,7 @@ def handle_operation_failure_pymongo(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -45,7 +45,7 @@ def handle_operation_failure_exception(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -64,7 +64,7 @@ def data_validation():
         data = validate_route(request, path.removeprefix("/api/v1"))
 
         if "error" in data:
-            log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "error", f"failed api validation on: {request.path} with error: {data}")
+            log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "error", f"failed api validation on: {request.path} with error: {data}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
             return {"message": data}, 400
         
         g.data = data

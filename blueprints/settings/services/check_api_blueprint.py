@@ -12,7 +12,7 @@ def check_api_blueprint(logging_service_name, blueprint_actual, blueprint_expect
 
     if not blueprint_actual == blueprint_expected:
 
-        log(os.getenv(f"LOGARBOR_{logging_service_name}_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}")
+        log(os.getenv(f"LOGARBOR_{logging_service_name}_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "message": "api route only"}
     

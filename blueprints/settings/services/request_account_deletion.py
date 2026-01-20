@@ -15,7 +15,7 @@ def request_account_deletion(user_id, users_collection, request):
 
     if not user:
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"user not found at {request.path} ({request.method})")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"user not found at {request.path} ({request.method})", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "status": 404, "message": "user not found"}
 
@@ -23,7 +23,7 @@ def request_account_deletion(user_id, users_collection, request):
 
     if not result == "success":
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"user: {user["id"]} failed to recieve confirm delete account email")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"user: {user["id"]} failed to recieve confirm delete account email", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "status": 500, "message": f"something went wrong while sending an email: {result}"}
     
