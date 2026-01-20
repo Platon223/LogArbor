@@ -69,9 +69,9 @@ def settings_page():
 
     check = check_ui_blueprint("SETTINGS", request.blueprint, "settings_bl", request)
 
-    if not check.ok:
+    if not check["ok"]:
 
-        return check.message, 404
+        return check["message"], 404
     
 
     # Renders settings.html
