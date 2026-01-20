@@ -1,0 +1,11 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Request Delete Account",
+    "properties": {
+        "account_id": {
+            "type": "string"
+        }
+    },
+    "required": ["account_id"],
+    "additionalProperties": false
+}

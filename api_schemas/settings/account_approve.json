@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Approve Account Deletion",
+    "properties": {
+        "account_id": {
+            "type": "string"
+        },
+        "template_token": {
+            "type": "string"
+        }
+    },
+    "required": ["account_id", "template_token"],
+    "additionalProperties": false
+}

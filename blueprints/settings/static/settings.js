@@ -110,8 +110,8 @@ async function main() {
 
                     <div class="setting-row">
                         <label>API Key</label>
-                        <input type="text" value="sk_live_************" disabled>
-                        <button class="btn small">Regenerate</button>
+                        <p>Copy this and use it as a forth parameter(access token) in the log function, <a href="/docs/quick-setup">Learn More</a></p>
+                        <input readonly type="text" value="${settings.message.id}" disabled>
                     </div>
 
                 </div>
@@ -185,8 +185,8 @@ async function main() {
 
                     <div class="setting-row">
                         <label>Primary API Key</label>
-                        <input type="text" value="sk_live_************" disabled>
-                        <button class="btn small">Regenerate</button>
+                        <p>Copy this and use it as a forth parameter(access token) in the log function, <a href="/docs/quick-setup">Learn More</a></p>
+                        <input readonly type="text" value="${settings.message.id}" disabled>
                     </div>
 
                 </div>
