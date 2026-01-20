@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from extensions.mongo import mongo
 from validates.validate_api import validate_route
 from blueprints.settings.services.check_api_blueprint import check_api_blueprint
+from blueprints.settings.services.check_ui_blueprint import check_ui_blueprint
 from blueprints.settings.services.get_settings import get_settings
 from blueprints.settings.services.request_account_deletion import request_account_deletion
 from blueprints.settings.services.account_deletion import account_deletion
@@ -73,7 +74,7 @@ def settings_page():
     
     # Checks ui blueprint
 
-    check = check_api_blueprint("SETTINGS", request.blueprint, "settings_bl", request)
+    check = check_ui_blueprint("SETTINGS", request.blueprint, "settings_bl", request)
 
     if not check.ok:
 
