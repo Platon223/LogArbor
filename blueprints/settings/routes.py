@@ -43,7 +43,7 @@ def handle_operation_failure_pymongo(e):
 @settings_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
     
-    return {"message": "something went wrong"}, 500
+    return {"message": f"something went wrong: {e}"}, 500
 
 @settings_bl.before_request
 def data_validation():
