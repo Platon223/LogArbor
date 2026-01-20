@@ -131,6 +131,7 @@ async function main() {
                     <button style="margin-bottom: 20px;" class="btn danger">Delete Account</button>
                 </div>
             </div>`
+            return
         } else {
             document.getElementById("settings-container").innerHTML = `<div style="margin-bottom: 50px;" class="terminal">
                 <div class="terminal-header">
@@ -206,6 +207,7 @@ async function main() {
                     <button style="margin-bottom: 20px;" class="btn danger">Delete Account</button>
                 </div>
             </div>`
+            return
         }
     } else if(settings.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
