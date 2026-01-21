@@ -3,16 +3,10 @@ from handlers.auth_check_wrapper import auth_check_wrapper
 from pymongo.errors import OperationFailure, PyMongoError
 from log_arbor.utils import log
 import os
-from dotenv import load_dotenv
 from extensions.mongo import mongo
 from validates.validate_api import validate_route
-from blueprints.settings.services.check_api_blueprint import check_api_blueprint
-from blueprints.settings.services.check_ui_blueprint import check_ui_blueprint
-from blueprints.settings.services.get_settings import get_settings
-from blueprints.settings.services.request_account_deletion import request_account_deletion
-from blueprints.settings.services.account_deletion import account_deletion
-
-load_dotenv(dotenv_path='../../.env')
+from domains.service import check_ui_blueprint, check_api_blueprint
+from domains.settings.service import get_settings, account_deletion, request_account_deletion
 
 settings_bl = Blueprint("settings_bl", __name__, template_folder="templates", static_folder="static")
 

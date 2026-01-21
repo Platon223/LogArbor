@@ -9,9 +9,11 @@ from extensions.oauth import oauth
 from logg.log import setup
 import logging
 
-load_dotenv()
 
 def create_service():
+    
+    load_dotenv()
+
     app = Flask(__name__)
     setup()
     logging.getLogger("werkzeug").setLevel(logging.ERROR)
