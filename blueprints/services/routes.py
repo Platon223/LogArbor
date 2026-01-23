@@ -75,13 +75,15 @@ def services():
 
     # Checks ui blueprint
 
-    check = check_ui_blueprint("SERVICES", request.blueprint, "services_bl", request)
+    check = check_ui_blueprint(request.blueprint, "services_bl")
 
     if not check["ok"]:
 
+        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
         return {"message": check["message"]}, 404
     
-    # Renders service.html
+    # Renders services.html
 
     return render_template("services.html")
 
@@ -90,37 +92,32 @@ def services():
 @auth_check_wrapper()
 def create():
 
-    if not request.blueprint == "services_api":
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route: /create, was accessed with non api blueprint: {request.path}")
-        return {"message": "api route only"}, 404
-    
-    db_data = {
-        "id": str(uuid.uuid4()),
-        "name": g.data.get("name"),
-        "url": g.data.get("url"),
-        "alert_level": g.data.get("alert_level"),
-        "user_id": getattr(request, "auth_identity", None)
-    }
+    # Checks api blueprint
 
-    db_data_validated = validate_db_data(db_data, services_schema)
-    if "error" in db_data_validated:
-        log("AUTH", "warning", "user failed data validation on db_validate on /services/create")
-        return {"message": db_data_validated}, 400
-        
-    mongo.db.services.insert_one(db_data)
+    check = check_api_blueprint(request.blueprint, "services_api")
+
+    if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"message": check["message"]}, 404
     
     
-    log("SERVICES", "info", "user created a services successfully")
-    return {"message": "created"}, 200
 
 
 @services_bl.route("/update_service", methods=["POST"])
 @auth_check_wrapper()
 def update():
 
-    if not request.blueprint == "services_api":
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route: /update_service, was accessed with non api blueprint: {request.path}")
-        return {"message": "api route only"}, 404
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "services_api")
+
+    if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"message": check["message"]}, 404
     
     if g.data.get("parameter") == "name" or "url" or "alert_level":
         filter_query = {"id": g.data.get("service_id"), "user_id": getattr(request, "auth_identity", None)}
@@ -144,9 +141,15 @@ def update():
 @auth_check_wrapper()
 def request_delete():
 
-    if not request.blueprint == "services_api":
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route: /request_delete_service, was accessed with non api blueprint: {request.path}")
-        return {"message": "api route only"}, 404
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "services_api")
+
+    if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"message": check["message"]}, 404
     
     user = mongo.db.users.find_one({"id": getattr(request, "auth_identity", None)})
 
@@ -190,9 +193,15 @@ def request_delete():
 @auth_check_wrapper()
 def confirm_delete():
 
-    if not request.blueprint == "services_api":
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route: /confirm_delete_service, was accessed with non api blueprint: {request.path}")
-        return {"message": "api route only"}, 404
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "services_api")
+
+    if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"message": check["message"]}, 404
     
     current_verify_code = mongo.db.verify_codes.find_one({"code": g.data.get("code"), "user_id": getattr(request, "auth_identity", None)})
 
@@ -216,9 +225,15 @@ def confirm_delete():
 @auth_check_wrapper()
 def all():
 
-    if not request.blueprint == "services_api":
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route: /all_services, was accessed with non api blueprint: {request.path}")
-        return {"message": "api route only"}, 404
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "services_api")
+
+    if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"message": check["message"]}, 404
     
     all_user_services = mongo.db.services.find({"user_id": getattr(request, "auth_identity", None)})
 
@@ -233,9 +248,18 @@ def all():
 
 @services_bl.route("/<service_id>", methods=["GET"])
 def service_settings(service_id):
-    if not request.blueprint == "services_bl":
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route: /<service_id>, was accessed with non ui blueprint: {request.path}")
-        return {"message": "ui route only"}, 404
+
+    # Checks ui blueprint
+
+    check = check_ui_blueprint(request.blueprint, "services_bl")
+
+    if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"message": check["message"]}, 404
+    
+    # Renders service.html
 
     return render_template("service.html", serv_id=service_id)
 
@@ -243,9 +267,15 @@ def service_settings(service_id):
 @auth_check_wrapper()
 def settings_info():
 
-    if not request.blueprint == "services_api":
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route: /service, was accessed with non api blueprint: {request.path}")
-        return {"message": "api route only"}, 404
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "services_api")
+
+    if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"message": check["message"]}, 404
     
     service = mongo.db.services.find_one({"id": g.data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
     

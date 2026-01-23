@@ -1,6 +1,5 @@
 from log_arbor.utils import log
 import os
-from dotenv import load_dotenv
 from handlers.send_account_delete import send_account_delete_email
 
 def get_settings(user_id, user_collection, request):

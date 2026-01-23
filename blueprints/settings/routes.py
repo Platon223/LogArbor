@@ -68,9 +68,11 @@ def settings_page():
     
     # Checks ui blueprint
 
-    check = check_ui_blueprint("SETTINGS", request.blueprint, "settings_bl", request)
+    check = check_ui_blueprint(request.blueprint, "settings_bl")
 
     if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
@@ -85,9 +87,11 @@ def settings_info():
 
     # Checks api blueprint
 
-    check = check_api_blueprint("SETTINGS", request.blueprint, "settings_api", request)
+    check = check_api_blueprint(request.blueprint, "settings_api")
 
     if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
@@ -113,6 +117,8 @@ def delete_account():
 
     if not check["ok"]:
 
+        log(os.getenv(f"LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
         return {"message": check["message"]}, 404
     
 
@@ -136,6 +142,8 @@ def approve_account_deletion():
     check = check_api_blueprint("SETTINGS", request.blueprint, "settings_api", request)
 
     if not check["ok"]:
+
+        log(os.getenv(f"LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
