@@ -14,6 +14,7 @@ from handlers.send_delete_service_email import send_verify_delete_service_email
 from db_schemas.verify_codes import verify_codes_schema
 from log_arbor.utils import log as loggg
 from domains.service import check_api_blueprint, check_ui_blueprint
+from domains.services.service import create_service, update_service, request_delete_service
 
 
 services_bl = Blueprint("services_bl", __name__, template_folder="templates", static_folder="static")
@@ -79,7 +80,7 @@ def services():
 
     if not check["ok"]:
 
-        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
@@ -98,11 +99,19 @@ def create():
 
     if not check["ok"]:
 
-        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
+    # Creates a service
+
+    new_service = create_service(g.data, mongo.db.services, request)
+
+    if not new_service["ok"]:
+
+        return {"message": new_service["message"]}, new_service["status"]
     
+    return {"message": new_service["message"]}, 200
 
 
 @services_bl.route("/update_service", methods=["POST"])
@@ -115,27 +124,21 @@ def update():
 
     if not check["ok"]:
 
-        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
-    if g.data.get("parameter") == "name" or "url" or "alert_level":
-        filter_query = {"id": g.data.get("service_id"), "user_id": getattr(request, "auth_identity", None)}
+    # Updates a service
 
-        update_operation = {
-            "$set": {
-                f"{g.data.get('parameter')}": g.data.get("value")
-            }
-        }
+    updated_service = update_service(g.data, mongo.db.services, request)
 
-        mongo.db.services.update_one(filter_query, update_operation)
-    else:
-        log("SERVICES", "critical", "unknown parameter was provided at /services/update_service")
-        return {"message": "unknown parameter"}
+    if not updated_service["ok"]:
+
+        return {"message": updated_service["message"]}, updated_service["status"]
+    
+    return {"message": updated_service["message"]}, 200
     
     
-    log("SERVICES", "info", f"user updated service: {g.data.get('service_id')} successufully")
-    return {"message": "updated"}, 200
 
 @services_bl.route("/request_delete_service", methods=["POST"])
 @auth_check_wrapper()
@@ -147,47 +150,21 @@ def request_delete():
 
     if not check["ok"]:
 
-        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
-    user = mongo.db.users.find_one({"id": getattr(request, "auth_identity", None)})
+    # Requests deleting a service
 
-    verification_code = str(secrets.randbelow(1000000)).zfill(6)
+    request_result = request_delete_service(mongo.db.users, mongo.db.verify_codes, request)
 
-    result = send_verify_delete_service_email(
-        os.getenv("EMAILJS_SERVICE_ID"), 
-        os.getenv("DELETE_SERVICE_TEMPLATE_ID"),
-        os.getenv("PUBLIC_EMAILJS_KEY"),
-        os.getenv("ACCESS_TOKEN_EMAILJS"),
-        "LogArbor Support Team",
-        user["email"],
-        verification_code
-    )
+    if not request_result["ok"]:
 
-    if not result == "success":
-        log("AUTH", "critical", f"User: {user['username']} failed to receive verification code email")
-        return {"message": f"something went wrong while sending an email: {result}"}, 500
-
-
-
-    db_verify_code_data = {
-        "id": str(uuid.uuid4()),
-        "code": verification_code,
-        "user_id": user["id"],
-        "expiration_date": datetime.datetime.today() + timedelta(minutes=5)
-    }
+        return {"message": request_result["message"]}, request_result["status"]
     
-    db_verify_code_data_validate = validate_db_data(db_verify_code_data, verify_codes_schema)
-    if "error" in db_verify_code_data_validate:
-        log("AUTH", "warning", "user failed data validation on db_validate on login during verify code inserting")
-        return {"message": db_verify_code_data_validate}, 400
-            
-    mongo.db.verify_codes.insert_one(db_verify_code_data)
+    return {"message": request_result["message"]}, 200
     
-    
-    log("SERVICES", "info", f"user requested to delete a service: {g.data.get('service_id')} successufully")
-    return {"message": "sent"}, 200
+   
 
 @services_bl.route("/confirm_delete_service", methods=["POST"])
 @auth_check_wrapper()
@@ -199,27 +176,11 @@ def confirm_delete():
 
     if not check["ok"]:
 
-        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
-    current_verify_code = mongo.db.verify_codes.find_one({"code": g.data.get("code"), "user_id": getattr(request, "auth_identity", None)})
-
-    if not current_verify_code:
-        log("SERVICES", "warning", "user has provided a wrong verification code at delete service confirmation")
-        return {"message": "invalid code"}, 401
-        
-    if current_verify_code["expiration_date"] < datetime.datetime.today():
-        mongo.db.verify_codes.delete_one({"id": current_verify_code["id"]})
-        log("AUTH", "info", "user's verification code has been expired at delete service confirmation")
-        return {"message": "expired"}, 401
-        
-    mongo.db.verify_codes.delete_one({"id": current_verify_code["id"]})
-    mongo.db.services.delete_one({"id": g.data.get("service_id")})
     
-    
-    log("SERVICES", "info", "user deleted their service successfully")
-    return {"message": "deleted"}, 200
 
 @services_bl.route("/all_services", methods=["POST"])
 @auth_check_wrapper()
@@ -231,7 +192,7 @@ def all():
 
     if not check["ok"]:
 
-        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
@@ -255,7 +216,7 @@ def service_settings(service_id):
 
     if not check["ok"]:
 
-        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
@@ -273,7 +234,7 @@ def settings_info():
 
     if not check["ok"]:
 
-        log(os.getenv(f"LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"message": check["message"]}, 404
     
