@@ -43,14 +43,8 @@ def handle_operation_failure_pymongo(e):
 
 @home_blp.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
-    try:
-
-        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
-    except Exception as loge:
-
-        return {"message": f"{loge}"}, 500
     
-    return {"message": "something went wrong"}, 500
+    return {"message": f"something went wrong: {e}"}, 500
 
 
 
