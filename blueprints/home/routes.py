@@ -14,7 +14,7 @@ home_blp = Blueprint("home_blp", __name__, template_folder="templates", static_f
 def handle_operation_failure(e):
 
     try:
-        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -30,7 +30,7 @@ def handle_operation_failure_pymongo(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e} because of a pymongo error", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -46,7 +46,7 @@ def handle_operation_failure_exception(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {e}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
