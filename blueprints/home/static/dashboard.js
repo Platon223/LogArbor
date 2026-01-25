@@ -35,6 +35,8 @@ async function main() {
     const dashboardClass = new Dashboard()
     const credentials = await dashboardClass.fetchCredentials()
 
+    console.log(credentials.message)
+
     if (credentials.message.includes("user not found")) {
         window.location.href = "/auth/register"
     } else if(credentials.message.includes("something went wrong")) {
