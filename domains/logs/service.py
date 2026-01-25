@@ -5,6 +5,7 @@ from validates.validate_db import validate_db_data
 from db_schemas.logs import logs_schema
 from db_schemas.alerts import alerts_schema
 from handlers.send_alert_email import send_alert_email
+from logg.log import log as logg
 
 
 def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection, request):
@@ -17,7 +18,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
     
     if not service:
 
-        print("service not found")
+        logg("LOGS", "info", "service not found")
 
         log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "error", f"service couldn't be found on {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
