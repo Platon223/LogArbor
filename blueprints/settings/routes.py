@@ -22,6 +22,10 @@ def handle_operation_failure(e):
     
     return {"message": "something went wrong"}, 500
 
+
+
+
+
 @settings_bl.app_errorhandler(PyMongoError)
 def handle_operation_failure_pymongo(e):
 
@@ -34,6 +38,10 @@ def handle_operation_failure_pymongo(e):
     
     return {"message": "something went wrong"}, 500
 
+
+
+
+
 @settings_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
 
@@ -45,6 +53,10 @@ def handle_operation_failure_exception(e):
         return {"message": f"{loge}"}, 500
     
     return {"message": f"something went wrong"}, 500
+
+
+
+
 
 @settings_bl.before_request
 def data_validation():
@@ -63,6 +75,10 @@ def data_validation():
         
         g.data = data
 
+
+
+
+
 @settings_bl.route("/", methods=["GET"])
 def settings_page():
     
@@ -80,6 +96,10 @@ def settings_page():
     # Renders settings.html
 
     return render_template("settings.html")
+
+
+
+
 
 @settings_bl.route("/settings", methods=["GET"])
 @auth_check_wrapper()
@@ -106,6 +126,10 @@ def settings_info():
     else:
 
         return {"message": settings["message"]}, 200
+    
+
+
+
 
 @settings_bl.route("/account", methods=["DELETE"])
 @auth_check_wrapper()
@@ -132,6 +156,9 @@ def delete_account():
     else:
 
         return {"message": request_delete_email["message"]}, 200
+    
+
+
 
 
 @settings_bl.route("/account_approve", methods=["DELETE"])
@@ -158,7 +185,3 @@ def approve_account_deletion():
     else:
 
         return {"message": delete_account_approve["message"]}, 200
-
-    
-
-

@@ -12,9 +12,9 @@ from datetime import timedelta
 import os
 from handlers.send_delete_service_email import send_verify_delete_service_email
 from db_schemas.verify_codes import verify_codes_schema
-from log_arbor.utils import log as loggg
+from log_arbor.utils import log
 from domains.service import check_api_blueprint, check_ui_blueprint
-from domains.services.service import create_service, update_service, request_delete_service
+from domains.services.service import create_service, update_service, request_delete_service, confirm_delete_service, all_services, service
 
 
 services_bl = Blueprint("services_bl", __name__, template_folder="templates", static_folder="static")
@@ -24,36 +24,49 @@ def handle_operation_failure(e):
 
     try:
 
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
     
     return {"message": "something went wrong"}, 500
+
+
+
+
 
 @services_bl.app_errorhandler(PyMongoError)
 def handle_operation_failure_pymongo(e):
 
     try:
 
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
     
     return {"message": "something went wrong"}, 500
+
+
+
+
+
 
 @services_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
 
     try:
 
-        loggg(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
     
     return {"message": "something went wrong"}, 500
+
+
+
+
 
 @services_bl.before_request
 def data_validation():
@@ -65,10 +78,14 @@ def data_validation():
         data = validate_route(request, path.removeprefix("/api/v1"))
 
         if "error" in data:
-            log("SERVICES", "warning", f"user failed data validation on api_validate on {path}")
+            log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
             return {"message": data}, 400
         
         g.data = data
+
+
+
+
 
 
 @services_bl.route("/", methods=["GET"])
@@ -87,6 +104,9 @@ def services():
     # Renders services.html
 
     return render_template("services.html")
+
+
+
 
 
 @services_bl.route("/create", methods=["POST"])
@@ -114,6 +134,9 @@ def create():
     return {"message": new_service["message"]}, 200
 
 
+
+
+
 @services_bl.route("/update_service", methods=["POST"])
 @auth_check_wrapper()
 def update():
@@ -137,6 +160,8 @@ def update():
         return {"message": updated_service["message"]}, updated_service["status"]
     
     return {"message": updated_service["message"]}, 200
+
+
     
     
 
@@ -163,6 +188,8 @@ def request_delete():
         return {"message": request_result["message"]}, request_result["status"]
     
     return {"message": request_result["message"]}, 200
+
+
     
    
 
@@ -180,7 +207,19 @@ def confirm_delete():
 
         return {"message": check["message"]}, 404
     
+    # Deletes a service
     
+    confirm_result = confirm_delete_service(g.data, mongo.db.verify_codes, mongo.db.services, request)
+
+    if not confirm_result["ok"]:
+
+        return {"message": confirm_result["message"]}, confirm_result["status"]
+    
+    return {"message": confirm_result["message"]}, 200
+
+
+
+
 
 @services_bl.route("/all_services", methods=["POST"])
 @auth_check_wrapper()
@@ -196,16 +235,15 @@ def all():
 
         return {"message": check["message"]}, 404
     
-    all_user_services = mongo.db.services.find({"user_id": getattr(request, "auth_identity", None)})
+    # Finds all services
 
-    all_user_services_list = list(all_user_services)
+    all_services_result = all_services(mongo.db.services, request)
 
-    if len(all_user_services_list) == 0:
-        log("SERVICES", "info", "user has no services yet")
-        return {"message": "no services"}, 404
+    return {"message": all_services_result["message"]}, 200
 
-    log("SERVICES", "info", "user got all services successufully")
-    return {"message": all_user_services_list}, 200
+
+
+
 
 @services_bl.route("/<service_id>", methods=["GET"])
 def service_settings(service_id):
@@ -224,6 +262,10 @@ def service_settings(service_id):
 
     return render_template("service.html", serv_id=service_id)
 
+
+
+
+
 @services_bl.route("/service", methods=["POST"])
 @auth_check_wrapper()
 def settings_info():
@@ -238,18 +280,12 @@ def settings_info():
 
         return {"message": check["message"]}, 404
     
-    service = mongo.db.services.find_one({"id": g.data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
+    # Gets service settings
+
+    service_result = service(g.data, mongo.db.services, request)
+
+    if not service_result["ok"]:
+
+        return {"message": service_result["message"]}, service_result["status"]
     
-    if not service:
-        log("SERVICES", "warning", "service was not found")
-        return {"message": "service not found"}, 404
-    
-    log("SERVICES", "info", "user has found the service successfully")
-    return {
-        "message": {
-            "id": service["id"],
-            "name": service["name"],
-            "url": service["url"],
-            "alert_level": service["alert_level"]
-        }
-    }, 200
+    return {"message": service_result["message"]}, 200

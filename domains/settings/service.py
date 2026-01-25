@@ -29,6 +29,9 @@ def get_settings(user_id, user_collection, request):
     return {"ok": True, "message": settings_object}
 
 
+
+
+
 def request_account_deletion(user_id, users_collection, request):
 
     '''
@@ -52,6 +55,9 @@ def request_account_deletion(user_id, users_collection, request):
         return {"ok": False, "status": 500, "message": f"something went wrong while sending an email: {result}"}
     
     return {"ok": True, "message": "aproval email sent"}
+
+
+
 
 
 def account_deletion(user_id, users_collection, global_data, request):

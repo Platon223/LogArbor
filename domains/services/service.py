@@ -27,16 +27,19 @@ def create_service(global_data, services_collection, request):
     db_data_validated = validate_db_data(db_data, services_schema)
     if "error" in db_data_validated:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"user failed data validation on db_validate on {request.path}")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"user failed data validation on db_validate on {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "message": db_data_validated, "status": 400}
         
     services_collection.insert_one(db_data)
     
     
-    log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user created a services successfully")
+    log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user created a services successfully", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
     return {"ok": True, "message": "created"}
+
+
+
 
 
 def update_service(global_data, services_collection, request):
@@ -58,14 +61,17 @@ def update_service(global_data, services_collection, request):
         services_collection.update_one(filter_query, update_operation)
     else:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"unknown parameter was provided at {request.path}")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"unknown parameter was provided at {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "message": "unknown parameter", "status": 404}
     
     
-    log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user updated successufully")
+    log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user updated successufully", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
     return {"ok": True, "message": "updated"}
+
+
+
 
 
 def request_delete_service(users_collection, verify_codes_collection, request):
@@ -90,7 +96,7 @@ def request_delete_service(users_collection, verify_codes_collection, request):
 
     if not result == "success":
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", "User failed to receive verification code email")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", "User failed to receive verification code email", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "message": f"something went wrong while sending an email: {result}", "status": 500}
 
@@ -106,38 +112,102 @@ def request_delete_service(users_collection, verify_codes_collection, request):
     db_verify_code_data_validate = validate_db_data(db_verify_code_data, verify_codes_schema)
     if "error" in db_verify_code_data_validate:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", "user failed data validation on db_validate on login during verify code inserting")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", "user failed data validation on db_validate on login during verify code inserting", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "message": db_verify_code_data_validate, "status": 400}
             
     verify_codes_collection.insert_one(db_verify_code_data)
     
     
-    log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user requested to delete a service successufully")
+    log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user requested to delete a service successufully", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
     return {"ok": True, "message": "sent"}
 
 
-def confirm_delete_service():
+
+
+
+def confirm_delete_service(global_data, verify_codes_collection, services_collection, request):
 
     '''
         Confirms deletion of a service
     '''
 
-    current_verify_code = mongo.db.verify_codes.find_one({"code": g.data.get("code"), "user_id": getattr(request, "auth_identity", None)})
+    current_verify_code = verify_codes_collection.find_one({"code": global_data.get("code"), "user_id": getattr(request, "auth_identity", None)})
 
     if not current_verify_code:
-        log("SERVICES", "warning", "user has provided a wrong verification code at delete service confirmation")
-        return {"message": "invalid code"}, 401
+
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", "user has provided a wrong verification code at delete service confirmation", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"ok": False, "message": "invalid code", "status": 401}
         
     if current_verify_code["expiration_date"] < datetime.datetime.today():
-        mongo.db.verify_codes.delete_one({"id": current_verify_code["id"]})
-        log("AUTH", "info", "user's verification code has been expired at delete service confirmation")
-        return {"message": "expired"}, 401
+
+        verify_codes_collection.delete_one({"id": current_verify_code["id"]})
+
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user's verification code has been expired at delete service confirmation", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"ok": False, "message": "expired", "status": 401}
         
-    mongo.db.verify_codes.delete_one({"id": current_verify_code["id"]})
-    mongo.db.services.delete_one({"id": g.data.get("service_id")})
+    verify_codes_collection.delete_one({"id": current_verify_code["id"]})
+
+    services_collection.delete_one({"id": global_data.get("service_id")})
     
     
-    log("SERVICES", "info", "user deleted their service successfully")
-    return {"message": "deleted"}, 200
+    log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user deleted their service successfully", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+    return {"ok": True, "message": "deleted"}
+
+
+
+
+
+def all_services(services_collection, request):
+
+    '''
+        Finds all services user have created
+    '''
+
+    all_user_services = services_collection.find({"user_id": getattr(request, "auth_identity", None)})
+
+    all_user_services_list = list(all_user_services)
+
+    if len(all_user_services_list) == 0:
+
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user has no services yet", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"ok": True, "message": "no services"}
+
+    log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user got all services successufully", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+    return {"ok": True, "message": all_user_services_list}
+
+
+
+
+
+def service(global_data, services_collection, request):
+
+    '''
+        Finds settings about a speciffic service
+    '''
+
+    service = services_collection.find_one({"id": global_data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
+    
+    if not service:
+
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", "service was not found", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+        return {"ok": False, "message": "service not found", "status": 404}
+    
+    log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user has found the service successfully", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+
+    return {
+        "ok": True,
+        "message": {
+            "id": service["id"],
+            "name": service["name"],
+            "url": service["url"],
+            "alert_level": service["alert_level"]
+        }
+    }
