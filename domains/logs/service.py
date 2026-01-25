@@ -17,6 +17,8 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
     
     if not service:
 
+        print("service not found")
+
         log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "error", f"service couldn't be found on {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
 
         return {"ok": False, "message": "service not found", "status": 404}
