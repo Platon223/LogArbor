@@ -26,7 +26,7 @@ class Dashboard {
                 message: data.message
             }
         } catch(error) {
-            return `error: ${error}`
+            return {message: `error: ${error}`}
         }
     }
 }
