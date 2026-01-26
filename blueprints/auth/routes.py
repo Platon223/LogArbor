@@ -114,6 +114,8 @@ def login():
             return {"message": data}, 400
         
         # finding/inserting process
+
+        session.clear()
         
         user = mongo.db.users.find_one({"username": data.get("username")})
         if not user:

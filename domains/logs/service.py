@@ -37,7 +37,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
     if "error" in db_validated_data:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"user failed data validation on db_validate on {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"user failed data validation on db_validate on {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"ok": False, "message": db_validated_data, "status": 401}
     
@@ -64,7 +64,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
         if "error" in alert_db_data_validated:
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"user failed data validation on db_validate on {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"user failed data validation on db_validate on {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
             return {"ok": False, "message": alert_db_data_validated, "status": 401}
         
@@ -75,7 +75,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
         if not current_user:
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "user not found at alert sending api", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "user not found at alert sending api", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
             return {"ok": False, "message": "user not found", "status": 404}
         
@@ -94,7 +94,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
         if not result == "success":
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"User: {current_user['username']} failed to receive an alert email", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"User: {current_user['username']} failed to receive an alert email", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
             return {"ok": False, "message": f"something went wrong while sending an alert email: {result}", "status": 500}
         
@@ -115,7 +115,7 @@ def all_user_logs(services_collection, logs_collection, request):
 
     if len(services_list) == 0:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "user has no services yet", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "user has no services yet", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"ok": True, "message": "no services"}
 

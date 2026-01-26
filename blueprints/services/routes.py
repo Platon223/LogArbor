@@ -24,7 +24,7 @@ def handle_operation_failure(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", "5b522faa-76a4-444c-8253-7f045f5c06af")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -40,7 +40,7 @@ def handle_operation_failure_pymongo(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", "5b522faa-76a4-444c-8253-7f045f5c06af")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -57,7 +57,7 @@ def handle_operation_failure_exception(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "5b522faa-76a4-444c-8253-7f045f5c06af")
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -78,7 +78,7 @@ def data_validation():
         data = validate_route(request, path.removeprefix("/api/v1"))
 
         if "error" in data:
-            log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+            log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
             return {"message": data}, 400
         
         g.data = data
@@ -97,7 +97,7 @@ def services():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"message": check["message"]}, 404
     
@@ -119,7 +119,7 @@ def create():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"message": check["message"]}, 404
     
@@ -147,7 +147,7 @@ def update():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"message": check["message"]}, 404
     
@@ -175,7 +175,7 @@ def request_delete():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"message": check["message"]}, 404
     
@@ -203,7 +203,7 @@ def confirm_delete():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"message": check["message"]}, 404
     
@@ -231,7 +231,7 @@ def all():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"message": check["message"]}, 404
     
@@ -254,7 +254,7 @@ def service_settings(service_id):
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"message": check["message"]}, 404
     
@@ -276,7 +276,7 @@ def settings_info():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "ddcd3253-3d63-4254-9cbb-fc8531cef5f7")
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"message": check["message"]}, 404
     
