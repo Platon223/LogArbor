@@ -71,7 +71,7 @@ async function main() {
     } else if (credentials.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
     } else {
-        document.querySelector(".env").innerHTML = credentials.message    
+        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
     }
 
     const logs = await logsClass.fetchLogs()
@@ -82,7 +82,7 @@ async function main() {
 
 
         logs.message.forEach(element => {
-            servicesLogsContent += `<section class="terminal">
+            servicesLogsContent += `<div style='margin-bottom: 20px;' id="alerts-container" class="terminal-body">
                 <div class="terminal-header">
                     <span>${element.service_name}</span>
                     <span class="terminal-dot green"></span>
@@ -115,7 +115,7 @@ async function main() {
                     <button class="clear-btn">Clear</button>
                 </div>
 
-            </section>`
+            </div>`
         })
 
         document.getElementById("terminalServicesWrapper").innerHTML = servicesLogsContent

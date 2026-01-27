@@ -46,7 +46,7 @@ async function main() {
     } else if (credentials.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
     } else {
-        document.querySelector(".env").innerHTML = credentials.message    
+        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
     }
 }
 
