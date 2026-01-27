@@ -21,9 +21,9 @@ def create_service():
     app.config["MONGO_URI"] = os.getenv("MONGO")
     app.secret_key = os.getenv("APP_SECRET")
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET")
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=10)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
     app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(hours=24)
-    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=5)
+    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
     app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
     app.config["JWT_ACCESS_COOKIE_NAME"] = "actk"
     app.config["JWT_REFRESH_COOKIE_NAME"] = "rftk"
@@ -48,13 +48,13 @@ def create_service():
     def unauth(callback):
         return jsonify({'message': 'no token provided'})
 
-    from blueprints.auth.routes import auth_bl
-    from blueprints.home.routes import home_blp
-    from blueprints.services.routes import services_bl
-    from blueprints.logs_bl.routes import logs_bl
-    from blueprints.guest.routes import guest_bl
-    from blueprints.alerts.routes import alerts_bl
-    from blueprints.settings.routes import settings_bl
+    from api.v1.auth.routes import auth_bl
+    from api.v1.home.routes import home_blp
+    from api.v1.services.routes import services_bl
+    from api.v1.logs_bl.routes import logs_bl
+    from api.v1.guest.routes import guest_bl
+    from api.v1.alerts.routes import alerts_bl
+    from api.v1.settings.routes import settings_bl
     
     app.register_blueprint(auth_bl, url_prefix='/auth')
     app.register_blueprint(home_blp, url_prefix='/home')
