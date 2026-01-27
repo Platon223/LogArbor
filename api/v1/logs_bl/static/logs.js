@@ -82,7 +82,7 @@ async function main() {
 
 
         logs.message.forEach(element => {
-            servicesLogsContent += `<div style='margin-bottom: 20px;' id="alerts-container" class="terminal-body">
+            servicesLogsContent += `<section style='margin-bottom: 20px;' class="terminal">
                 <div class="terminal-header">
                     <span>${element.service_name}</span>
                     <span class="terminal-dot green"></span>
@@ -115,7 +115,7 @@ async function main() {
                     <button class="clear-btn">Clear</button>
                 </div>
 
-            </div>`
+            </section>`
         })
 
         document.getElementById("terminalServicesWrapper").innerHTML = servicesLogsContent
