@@ -101,6 +101,19 @@ body {
     min-height: 0;
 }
 
+.terminal-logs-page {
+    flex: none;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    background: #050805;
+    border: 1px solid rgba(0,255,135,0.2);
+    border-radius: 10px;
+    font-family: "JetBrains Mono", monospace;
+    overflow: hidden;
+    min-height: 0;
+}
+
 /* Header */
 .terminal-header {
     padding: 10px 14px;
