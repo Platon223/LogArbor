@@ -48,6 +48,60 @@ async function main() {
     } else {
         document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
     }
+
+    const ctx = document.getElementById("logsPerServiceChart");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            datasets: [
+                {
+                    label: "Auth Service",
+                    data: [120, 190, 300, 250, 220, 170, 200],
+                    borderColor: "#00ff87",
+                    backgroundColor: "rgba(0,255,135,0.15)",
+                    tension: 0.35
+                },
+                {
+                    label: "API Gateway",
+                    data: [90, 140, 180, 160, 200, 210, 230],
+                    borderColor: "#ffd166",
+                    backgroundColor: "rgba(255,209,102,0.15)",
+                    tension: 0.35
+                },
+                {
+                    label: "Database",
+                    data: [40, 60, 55, 80, 70, 65, 90],
+                    borderColor: "#ff6b6b",
+                    backgroundColor: "rgba(255,107,107,0.15)",
+                    tension: 0.35
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#c8e6c9"
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: "#6fae70" },
+                    grid: { color: "rgba(255,255,255,0.05)" }
+                },
+                y: {
+                    ticks: { color: "#6fae70" },
+                    grid: { color: "rgba(255,255,255,0.05)" }
+                }
+            }
+        }
+    });
+
 }
 
 main()

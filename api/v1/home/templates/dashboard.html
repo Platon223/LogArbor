@@ -31,56 +31,22 @@
             <span class="env">Account</span>
         </header>
 
-        <!-- Terminal Logs -->
         <section class="terminal">
             <div class="terminal-header">
-                <span>service_name</span>
-                <span class="terminal-dot green"></span>
+                <span>Logs per Service (Daily)</span>
+                <span class="terminal-dot"></span>
             </div>
 
             <div class="terminal-body">
-                <div class="log-line info">
-                    <span class="time">12:01:24</span>
-                    <span class="level">INFO</span>
-                    <span class="message">User logged in successfully</span>
-                </div>
-
-                <div class="log-line warn">
-                    <span class="time">12:01:40</span>
-                    <span class="level">WARN</span>
-                    <span class="message">Slow database response detected</span>
-                </div>
-
-                <div class="log-line error">
-                    <span class="time">12:02:01</span>
-                    <span class="level">ERROR</span>
-                    <span class="message">Invalid JWT token provided</span>
-                </div>
+                <canvas id="logsPerServiceChart"></canvas>
             </div>
-
-            <div class="terminal-toolbar">
-                <input
-                    type="text"
-                    class="log-search"
-                    placeholder="Search logs..."
-                >
-
-                <div class="log-filters">
-                    <button class="filter-btn active" data-level="all">ALL</button>
-                    <button class="filter-btn info" data-level="info">INFO</button>
-                    <button class="filter-btn warn" data-level="warn">WARN</button>
-                    <button class="filter-btn error" data-level="error">ERROR</button>
-                </div>
-
-                <button class="clear-btn">Clear</button>
-            </div>
-
         </section>
 
     </main>
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('home_blp.static', filename='dashboard.js') }}"></script>
 
 </body>

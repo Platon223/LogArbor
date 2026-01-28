@@ -238,7 +238,7 @@ body {
 .log-line .level {
     font-weight: bold;
     white-space: nowrap;
-    margin-left: 100px;
+    margin-left: 50px;
     text-transform: uppercase;
 }
 
