@@ -81,6 +81,20 @@ async function main() {
 
     console.log(metrics)
 
+    const dates = []
+
+    metrics.forEach(service => {
+        if (service.logs_metrics[1]) {
+            service.logs_metrics.forEach(log => {
+                if (!dates[log.date]) {
+                    dates.push(log.date)
+                }
+            })
+        }
+    })
+
+    console.log(dates)
+
     const ctx = document.getElementById("logsPerServiceChart");
 
     new Chart(ctx, {
