@@ -95,6 +95,8 @@ async function main() {
         }
     })
 
+    const randomBackgroundColors = ["rgba(0,255,135,0.15)", "rgba(255,209,102,0.15)", "rgba(255,107,107,0.15)", "rgba(255, 0, 189, 0.15)", "rgba(157, 0, 255, 0.15)", "rgba(135, 206, 235, 0.15)", "rgba(168, 220, 171, 0.15)"]
+
     metrics.message.forEach(service => {
         const service_dataset = {}
 
@@ -108,10 +110,18 @@ async function main() {
             }
         })
 
+        const randomColor = randomBackgroundColors[Math.floor(Math.random() * randomBackgroundColors.length)]
+
         service_dataset.data = log_count_array
-        service_dataset.borderColor = "#00ff87"
-        service_dataset.backgroundColor = "rgba(0,255,135,0.15)"
+        service_dataset.borderColor = randomColor
+        service_dataset.backgroundColor = randomColor
         service_dataset.tension = 0.35
+
+        let indexRandomColor = randomBackgroundColors.indexOf(randomColor)
+
+        if (indexRandomColor > -1) {
+            randomBackgroundColors.splice(indexRandomColor, 1)
+        }
 
         services_data.push(service_dataset)
 
