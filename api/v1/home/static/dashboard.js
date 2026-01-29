@@ -86,7 +86,7 @@ async function main() {
     metrics.message.forEach(service => {
         if (service.logs_metrics.length !== 1) {
             service.logs_metrics.forEach(log => {
-                if (!dates.includes(log.date)) {
+                if (!dates.includes(log.date) && log.date !== "") {
                     dates.push(log.date)
                 }
             })
@@ -100,7 +100,7 @@ async function main() {
     new Chart(ctx, {
         type: "line",
         data: {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            labels: dates,
             datasets: [
                 {
                     label: "Auth Service",
