@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('support_bl.static', filename='support.css') }}">
+    <title>LogArbor Docs • Support</title>
+</head>
+<body>
+
+<div class="support-layout">
+
+    <!-- Sidebar -->
+    <aside class="support-sidebar">
+        <h2>LogArbor Support</h2>
+        <nav>
+            <a href="/support">Support Home</a>
+            <a class="active" href="/support/feedback">Feedback</a>
+            <a href="/support/community">Community</a>
+        </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="support-main">
+
+        <!-- Header -->
+        <div class="page-title">
+            <h1>Support</h1>
+            <span>LogArbor</span>
+        </div>
+
+        <!-- Feedback -->
+        <section class="support-section" id="feedback">
+            <h2>Send Feedback</h2>
+            <p>
+                Have a question, issue, or feature request?
+                Send a message directly to the LogArbor Support Team.
+            </p>
+
+            <form class="support-form">
+                <input type="email" placeholder="Your email" required />
+                <input type="text" placeholder="Subject" required />
+                <textarea placeholder="Describe your issue or feedback..." required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

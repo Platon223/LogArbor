@@ -55,6 +55,7 @@ def create_service():
     from api.v1.guest.routes import guest_bl
     from api.v1.alerts.routes import alerts_bl
     from api.v1.settings.routes import settings_bl
+    from api.v1.support.routes import support_bl
     
     app.register_blueprint(auth_bl, url_prefix='/auth')
     app.register_blueprint(home_blp, url_prefix='/home')
@@ -68,6 +69,9 @@ def create_service():
     app.register_blueprint(alerts_bl, url_prefix='/api/v1/alerts', name='alerts_api')
     app.register_blueprint(settings_bl, url_prefix='/settings')
     app.register_blueprint(settings_bl, url_prefix='/api/v1/settings', name='settings_api')
+    app.register_blueprint(support_bl, url_prefix='/support')
+    app.register_blueprint(support_bl, url_prefix='/api/v1/support', name='support_api')
+
 
 
 
