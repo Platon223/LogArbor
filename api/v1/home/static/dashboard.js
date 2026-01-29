@@ -95,7 +95,7 @@ async function main() {
         }
     })
 
-    const randomBackgroundColors = ["rgba(0,255,135,0.80)", "rgba(255,209,102,0.80)", "rgba(255,107,107,0.80)", "rgba(255, 0, 189, 0.80)", "rgba(157, 0, 255, 0.80)", "rgba(135, 206, 235, 0.80)", "rgba(168, 220, 171, 0.80)"]
+    const randomBackgroundColors = ["rgba(0,255,135,0.7)", "rgba(255,209,102,0.7)", "rgba(255,107,107,0.7)", "rgba(5, 60, 225, 0.7)", "rgba(255, 0, 0, 0.7)", "rgba(135, 206, 235, 0.7)", "rgba(168, 220, 171, 0.7)"]
 
     metrics.message.forEach(service => {
         const service_dataset = {}
