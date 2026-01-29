@@ -29,6 +29,34 @@ class Dashboard {
             return {message: `error: ${error}`}
         }
     }
+
+    async fetchMetrics() {
+
+        try{
+            const response = await fetch("/api/v1/logs/metrics", {
+                method: "GET",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while getting metrics of your services: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return {message: `error: ${error}`}
+        }
+    }
 }
 
 async function main() {
@@ -48,6 +76,10 @@ async function main() {
     } else {
         document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
     }
+
+    const metrics = await dashboardClass.fetchMetrics()
+
+    console.log(metrics)
 
     const ctx = document.getElementById("logsPerServiceChart");
 

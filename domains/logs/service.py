@@ -128,3 +128,68 @@ def all_user_logs(services_collection, logs_collection, request):
         logs_list.append(service_obj)
     
     return {"ok": True, "message": logs_list}
+
+
+
+
+
+def get_log_count_metrics(services_collection, logs_collection, request):
+
+    '''
+        Gets user's amount of logs each day for every service
+    '''
+
+    all_user_services = services_collection.find({"user_id": getattr(request, "auth_identity", None)})
+
+    all_user_services_list = list(all_user_services)
+
+    if len(all_user_services_list) == 0:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "user has no services yet", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": True, "message": "no services"}
+    
+    metrics_list = []
+    
+    for service in all_user_services_list:
+
+        filtered_logs_list = []
+
+        user_logs = logs_collection.find({"service_id": service["id"]})
+
+        user_logs_list = list(user_logs)
+
+        user_logs_list.append({"time": "arrayendingforlogic"})
+
+        date = ""
+        count = 0
+
+        for log in user_logs_list:
+
+            log_time_string = log["time"]
+
+            if log_time_string[0:10] == date:
+                
+                count += 1
+            else:
+
+                filtered_log_object = {
+                    "date": date,
+                    "count": count
+                }
+
+                filtered_logs_list.append(filtered_log_object)
+                
+                date = log_time_string[0:10]
+
+                count = 1
+        
+        metric_object = {
+            "service_name": service["name"],
+            "service_id": service["id"],
+            "logs_metrics": filtered_logs_list
+        }
+
+        metrics_list.append(metric_object)
+
+    return {"ok": True, "message": metrics_list}
