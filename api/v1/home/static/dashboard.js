@@ -84,9 +84,9 @@ async function main() {
     const dates = []
 
     metrics.message.forEach(service => {
-        if (service.logs_metrics[1]) {
+        if (service.logs_metrics.length !== 1) {
             service.logs_metrics.forEach(log => {
-                if (!dates[log.date]) {
+                if (!dates.includes(log.date)) {
                     dates.push(log.date)
                 }
             })
