@@ -83,6 +83,8 @@ async function main() {
 
     const dates = []
 
+    const services_data = []
+
     metrics.message.forEach(service => {
         if (service.logs_metrics.length !== 1) {
             service.logs_metrics.forEach(log => {
@@ -93,6 +95,28 @@ async function main() {
         }
     })
 
+    metrics.message.forEach(service => {
+        const service_dataset = {}
+
+        service_dataset.label = service.service_name
+
+        const log_count_array = []
+
+        service.logs_metrics.forEach(log => {
+            if (log.date !== "") {
+                log_count_array.push(log.count)
+            }
+        })
+
+        service_dataset.data = log_count_array
+        service_dataset.borderColor = "#00ff87"
+        service_dataset.backgroundColor = "rgba(0,255,135,0.15)"
+        service_dataset.tension = 0.35
+
+        services_data.push(service_dataset)
+
+    })
+
     console.log(dates)
 
     const ctx = document.getElementById("logsPerServiceChart");
@@ -101,29 +125,7 @@ async function main() {
         type: "line",
         data: {
             labels: dates,
-            datasets: [
-                {
-                    label: "Auth Service",
-                    data: [120, 190, 300, 250, 220, 170, 200],
-                    borderColor: "#00ff87",
-                    backgroundColor: "rgba(0,255,135,0.15)",
-                    tension: 0.35
-                },
-                {
-                    label: "API Gateway",
-                    data: [90, 140, 180, 160, 200, 210, 230],
-                    borderColor: "#ffd166",
-                    backgroundColor: "rgba(255,209,102,0.15)",
-                    tension: 0.35
-                },
-                {
-                    label: "Database",
-                    data: [40, 60, 55, 80, 70, 65, 90],
-                    borderColor: "#ff6b6b",
-                    backgroundColor: "rgba(255,107,107,0.15)",
-                    tension: 0.35
-                }
-            ]
+            datasets: services_data
         },
         options: {
             responsive: true,
