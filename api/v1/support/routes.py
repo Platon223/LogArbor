@@ -85,7 +85,6 @@ def feedback():
 
 
 @support_bl.route("/feedback", methods=["POST"])
-@auth_check_wrapper()
 def post_feedback():
     
     # Checks api blueprint
