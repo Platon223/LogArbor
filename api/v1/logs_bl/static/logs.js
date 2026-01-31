@@ -60,74 +60,75 @@ class Logs {
 
 async function main() {
     const logsClass = new Logs()
-    const credentials = await logsClass.fetchCredentials()
 
-    if (credentials.message.includes("user not found")) {
+    logsClass.fetchCredentials().then(credentials => {
+        if (credentials.message.includes("user not found")) {
         window.location.href = "/auth/register"
-    } else if(credentials.message.includes("something went wrong")) {
-        window.location.href = "/auth/login"
-    } else if (credentials.message.includes("oauth user was not found")) {
-        window.location.href = "/auth/login"
-    } else if (credentials.message.includes("missing or invalid token")) {
-        window.location.href = "/auth/login"
-    } else {
-        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
-    }
-
-    const logs = await logsClass.fetchLogs()
-
-
-    if (Array.isArray(logs.message)) {
-        let servicesLogsContent = ""
+        } else if(credentials.message.includes("something went wrong")) {
+            window.location.href = "/auth/login"
+        } else if (credentials.message.includes("oauth user was not found")) {
+            window.location.href = "/auth/login"
+        } else if (credentials.message.includes("missing or invalid token")) {
+            window.location.href = "/auth/login"
+        } else {
+            document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
+        }
+    });
 
 
-        logs.message.forEach(element => {
-            servicesLogsContent += `<section style='margin-bottom: 20px;' class="terminal-logs-page">
-                <div class="terminal-header">
-                    <span>${element.service_name}</span>
-                    <span class="terminal-dot green"></span>
-                </div>
+    logsClass.fetchLogs().then(logs => {
+        if (Array.isArray(logs.message)) {
+            let servicesLogsContent = ""
 
-                <div class="terminal-body">
-                    ${element.logs.length === 0 ? `No Logs Yet` : element.logs.map(logElement => `
-                        <div class="log-line ${logElement.level}">
-                            <span class="time">${logElement.time}</span>
-                            <span class="level">${logElement.level}</span>
-                            <span class="message">${logElement.message}</span>
-                        </div>
-                    `).join('')}
-                </div>
 
-                <div class="terminal-toolbar">
-                    <input
-                        type="text"
-                        class="log-search"
-                        placeholder="Search logs..."
-                    >
-
-                    <div class="log-filters">
-                        <button class="filter-btn active" data-level="all">ALL</button>
-                        <button class="filter-btn info" data-level="info">INFO</button>
-                        <button class="filter-btn warn" data-level="warn">WARN</button>
-                        <button class="filter-btn error" data-level="error">ERROR</button>
+            logs.message.forEach(element => {
+                servicesLogsContent += `<section style='margin-bottom: 20px;' class="terminal-logs-page">
+                    <div class="terminal-header">
+                        <span>${element.service_name}</span>
+                        <span class="terminal-dot green"></span>
                     </div>
 
-                    <button class="clear-btn">Clear</button>
-                </div>
+                    <div class="terminal-body">
+                        ${element.logs.length === 0 ? `No Logs Yet` : element.logs.map(logElement => `
+                            <div class="log-line ${logElement.level}">
+                                <span class="time">${logElement.time}</span>
+                                <span class="level">${logElement.level}</span>
+                                <span class="message">${logElement.message}</span>
+                            </div>
+                        `).join('')}
+                    </div>
 
-            </section>`
-        })
+                    <div class="terminal-toolbar">
+                        <input
+                            type="text"
+                            class="log-search"
+                            placeholder="Search logs..."
+                        >
 
-        document.getElementById("terminalServicesWrapper").innerHTML = servicesLogsContent
-    } else if(logs.message.includes("something went wrong")) {
-        window.location.href = "/auth/login"
-    } else if (logs.message.includes("oauth user was not found")) {
-        window.location.href = "/auth/login"
-    } else if (logs.message.includes("missing or invalid token")) {
-        window.location.href = "/auth/login"
-    } else if (logs.message.includes("no services")) {
-        document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"  
-    }
+                        <div class="log-filters">
+                            <button class="filter-btn active" data-level="all">ALL</button>
+                            <button class="filter-btn info" data-level="info">INFO</button>
+                            <button class="filter-btn warn" data-level="warn">WARN</button>
+                            <button class="filter-btn error" data-level="error">ERROR</button>
+                        </div>
+
+                        <button class="clear-btn">Clear</button>
+                    </div>
+
+                </section>`
+            })
+
+            document.getElementById("terminalServicesWrapper").innerHTML = servicesLogsContent
+        } else if(logs.message.includes("something went wrong")) {
+            window.location.href = "/auth/login"
+        } else if (logs.message.includes("oauth user was not found")) {
+            window.location.href = "/auth/login"
+        } else if (logs.message.includes("missing or invalid token")) {
+            window.location.href = "/auth/login"
+        } else if (logs.message.includes("no services")) {
+            document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"  
+        }
+    });
 }
 
 main()
