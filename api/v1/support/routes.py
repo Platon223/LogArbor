@@ -90,11 +90,11 @@ def post_feedback():
     
     # Checks api blueprint
 
-    check = check_api_blueprint(request.blueprint, "home_api")
+    check = check_api_blueprint(request.blueprint, "support_api")
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
         return {"message": check["message"]}, 404
     
