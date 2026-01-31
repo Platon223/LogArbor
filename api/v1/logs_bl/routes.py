@@ -17,84 +17,84 @@ from domains.logs.service import write_log, all_user_logs, get_log_count_metrics
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
 
-@logs_bl.app_errorhandler(OperationFailure)
-def handle_operation_failure(e):
+# @logs_bl.app_errorhandler(OperationFailure)
+# def handle_operation_failure(e):
 
-    try:
+#     try:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", "5b522faa-76a4-444c-8253-7f045f5c06af")
-    except Exception as loge:
+#         log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+#     except Exception as loge:
 
-        return {"message": f"{loge}"}, 500
+#         return {"message": f"{loge}"}, 500
     
-    return {"message": "something went wrong"}, 500
+#     return {"message": "something went wrong"}, 500
 
 
 
 
 
-@logs_bl.app_errorhandler(PyMongoError)
-def handle_operation_failure_pymongo(e):
+# @logs_bl.app_errorhandler(PyMongoError)
+# def handle_operation_failure_pymongo(e):
 
-    try:
+#     try:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", "5b522faa-76a4-444c-8253-7f045f5c06af")
-    except Exception as loge:
+#         log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", "5b522faa-76a4-444c-8253-7f045f5c06af")
+#     except Exception as loge:
 
-        return {"message": f"{loge}"}, 500
+#         return {"message": f"{loge}"}, 500
     
-    return {"message": "something went wrong"}, 500
+#     return {"message": "something went wrong"}, 500
 
 
 
 
 
-@logs_bl.app_errorhandler(Exception)
-def handle_operation_failure_exception(e):
+# @logs_bl.app_errorhandler(Exception)
+# def handle_operation_failure_exception(e):
 
-    try:
+#     try:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "5b522faa-76a4-444c-8253-7f045f5c06af")
-    except Exception as loge:
+#         log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+#     except Exception as loge:
 
-        return {"message": f"{loge}"}, 500
+#         return {"message": f"{loge}"}, 500
     
-    return {"message": "something went wrong"}, 500
+#     return {"message": "something went wrong"}, 500
 
 
 
 
 
-@logs_bl.before_request
-def data_validation():
+# @logs_bl.before_request
+# def data_validation():
 
-    if request.method == "POST" and not request.path == "/api/v1/logs/all_logs":
+#     if request.method == "POST" and not request.path == "/api/v1/logs/all_logs":
 
-        path = request.path
+#         path = request.path
 
-        data = validate_route(request, path.removeprefix("/api/v1"))
+#         data = validate_route(request, path.removeprefix("/api/v1"))
 
-        if "error" in data:
+#         if "error" in data:
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+#             log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
-            return {"message": data}, 400
+#             return {"message": data}, 400
         
-        if not data.get("token") == os.getenv("LOGARBOR_LIBRARY_TOKEN"):
+#         if not data.get("token") == os.getenv("LOGARBOR_LIBRARY_TOKEN"):
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "error", "user tried to access the system not using the library", "5b522faa-76a4-444c-8253-7f045f5c06af")
+#             log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "error", "user tried to access the system not using the library", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
-            return {"message": "invalid library token"}, 401
+#             return {"message": "invalid library token"}, 401
         
-        allowed_log_levels = ["debug", "info", "warning", "error", "critical"]
+#         allowed_log_levels = ["debug", "info", "warning", "error", "critical"]
 
-        if not data.get("level") in allowed_log_levels:
+#         if not data.get("level") in allowed_log_levels:
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "invalid log level provided", "5b522faa-76a4-444c-8253-7f045f5c06af")
+#             log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "invalid log level provided", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
-            return {"message": "invalid log level"}, 401
+#             return {"message": "invalid log level"}, 401
         
-        g.data = data
+#         g.data = data
 
 
 
