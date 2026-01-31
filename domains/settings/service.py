@@ -46,7 +46,7 @@ def request_account_deletion(user_id, users_collection, request):
 
         return {"ok": False, "status": 404, "message": "user not found"}
 
-    result = send_account_delete_email(os.getenv(""))
+    result = send_account_delete_email(os.getenv("EMAILJS_SERVICE_ID"), os.getenv("SEND_ACCOUNT_DELETE_EMAIL_TEMPLATE_ID"), os.getenv("PUBLIC_EMAILJS_KEY"), os.getenv("ACCESS_TOKEN_EMAILJS"), user["username"], "LogArbor Support Team", user["email"], "message", user["id"])
 
     if not result == "success":
 
@@ -66,7 +66,7 @@ def account_deletion(user_id, users_collection, global_data, request):
         Deletes user's account
     '''
 
-    if not global_data("template_token") == os.getenv("APPROVE_ACCOUNT_DELETE_TOKEN"):
+    if not global_data.get("template_token") == os.getenv("APPROVE_ACCOUNT_DELETE_TOKEN"):
 
         log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"the template_token was invalid on /account_approve to delete an account: {user_id}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
