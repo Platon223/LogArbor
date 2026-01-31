@@ -215,7 +215,7 @@ document.getElementById("deleteServiceFinalButton").onclick = async () => {
     } else if (confirmDeleteService.message.includes("deleted")) {
         confirmModal.style.display = "none";
         codeModal.style.display = "none";
-        window.location.reload()
+        window.location.href = "/services"
     } else if (confirmDeleteService.message.includes("invalid code")) {
         alert("Invalid code provided.")
     } else if (confirmDeleteService.message.includes("expired")) {

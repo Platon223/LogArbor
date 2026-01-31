@@ -44,9 +44,9 @@
             </p>
 
             <form class="support-form">
-                <input type="email" placeholder="Your email" required />
-                <input type="text" placeholder="Subject" required />
-                <textarea placeholder="Describe your issue or feedback..." required></textarea>
+                <input id="email" type="email" placeholder="Your email" required />
+                <input id="subject" type="text" placeholder="Subject" required />
+                <textarea id="message" placeholder="Describe your issue or feedback..." required></textarea>
                 <button type="submit">Submit</button>
             </form>
         </section>
@@ -54,6 +54,8 @@
     </main>
 
 </div>
+
+<script src="{{ url_for('support_bl.static', filename='feedback.js') }}"></script>
 
 </body>
 </html>

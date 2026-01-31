@@ -4,6 +4,7 @@ from log_arbor.utils import log
 import os
 from domains.service import check_api_blueprint, check_ui_blueprint
 from handlers.auth_check_wrapper import auth_check_wrapper
+from domains.support.service import send_feedback
 
 
 support_bl = Blueprint("support_bl", __name__, template_folder="templates", static_folder="static")
@@ -86,7 +87,26 @@ def feedback():
 @support_bl.route("/feedback", methods=["POST"])
 @auth_check_wrapper()
 def post_feedback():
-    pass
+    
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "home_api")
+
+    if not check["ok"]:
+
+        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"message": check["message"]}, 404
+    
+    # Sends an email to LogArbor Support Team with feedback
+
+    send_feedback_result = send_feedback(g.data, request)
+
+    if not send_feedback_result["ok"]:
+
+        return {"message": send_feedback_result["message"]}, send_feedback_result["status"]
+    
+    return {"message": send_feedback_result["message"]}, 200
 
 
 
