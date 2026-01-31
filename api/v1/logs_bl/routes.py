@@ -76,7 +76,7 @@ def data_validation():
 
         if "error" in data:
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}, error: {data}", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
             return {"message": data}, 400
         
