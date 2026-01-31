@@ -56,6 +56,6 @@ feedbackForm.addEventListener("submit", async (event) => {
     } else if(feedbackResult.message.includes("something went wrong")) {
         alert("Something went wrong while sending an email. Please try again later.")
     } else if (feedbackResult.message.includes("sent a feedback email")) {
-        alert("Your feedback was sent. Please check your inbox for response from LogArbor Support Team soon.")
+        alert("Your feedback was sent. Please check your inbox for response from LogArbor Support Team, soon.")
     }
 })
