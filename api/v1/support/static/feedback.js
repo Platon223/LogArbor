@@ -32,7 +32,7 @@ class Feedback {
     }
 }
 
-const feedbackForm = document.querySelector("support-form")
+const feedbackForm = document.querySelector(".support-form")
 
 feedbackForm.addEventListener("submit", async (event) => {
     event.preventDefault()
@@ -51,11 +51,11 @@ feedbackForm.addEventListener("submit", async (event) => {
 
     const feedbackResult = await feedbackClass.sendFeedback(feedbackData)
 
-    if (credentials.message.includes("invalid email")) {
+    if (feedbackResult.message.includes("invalid email")) {
         alert("Provide a valid email please.")
-    } else if(credentials.message.includes("something went wrong")) {
+    } else if(feedbackResult.message.includes("something went wrong")) {
         alert("Something went wrong while sending an email. Please try again later.")
-    } else if (credentials.message.includes("sent a feedback email")) {
+    } else if (feedbackResult.message.includes("sent a feedback email")) {
         alert("Your feedback was sent. Please check your inbox for response from LogArbor Support Team soon.")
     }
 })
