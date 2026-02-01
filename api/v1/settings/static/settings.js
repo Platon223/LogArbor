@@ -85,25 +85,6 @@ class Settings {
     }
 }
 
-document.getElementById("delete-account-button").onclick = async () => {
-    const settingsClass = new Settings()
-    const deleteAccountResult = await settingsClass.deleteAccount()
-
-    if (deleteAccountResult.message.includes("user not found")) {
-        alert("User was not found. Couldn't delete an account. Please contact support team for support.")
-    } else if(deleteAccountResult.message.includes("something went wrong")) {
-        window.location.href = "/auth/login"
-    } else if (deleteAccountResult.message.includes("oauth user was not found")) {
-        window.location.href = "/auth/login"
-    } else if (deleteAccountResult.message.includes("missing or invalid token")) {
-        window.location.href = "/auth/login"
-    } else if (deleteAccountResult.message.includes("something went wrong while sending an email")) {
-        alert("Something went wrong while sending an approval email. Please try again later.")    
-    } else if (deleteAccountResult.message.includes("aproval email sent")) {
-        alert("An approval email was sent to your email. Please confirm.")
-    }
-
-}
 
 async function main() {
     const settingsClass = new Settings()
@@ -267,3 +248,23 @@ async function main() {
 }
 
 main()
+
+document.getElementById("delete-account-button").onclick = async () => {
+    const settingsClass = new Settings()
+    const deleteAccountResult = await settingsClass.deleteAccount()
+
+    if (deleteAccountResult.message.includes("user not found")) {
+        alert("User was not found. Couldn't delete an account. Please contact support team for support.")
+    } else if(deleteAccountResult.message.includes("something went wrong")) {
+        window.location.href = "/auth/login"
+    } else if (deleteAccountResult.message.includes("oauth user was not found")) {
+        window.location.href = "/auth/login"
+    } else if (deleteAccountResult.message.includes("missing or invalid token")) {
+        window.location.href = "/auth/login"
+    } else if (deleteAccountResult.message.includes("something went wrong while sending an email")) {
+        alert("Something went wrong while sending an approval email. Please try again later.")    
+    } else if (deleteAccountResult.message.includes("aproval email sent")) {
+        alert("An approval email was sent to your email. Please confirm.")
+    }
+
+}
