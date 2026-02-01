@@ -85,11 +85,20 @@ async function main() {
 
     const services_data = []
 
+    let smallestDate = 999999999999
+
     metrics.message.forEach(service => {
         if (service.logs_metrics.length !== 1) {
             service.logs_metrics.forEach(log => {
                 if (!dates.includes(log.date) && log.date !== "") {
-                    dates.push(log.date)
+                    let logDate = log.date
+                    if (Number(logDate.replace(/-/g, "")) < smallestDate) {
+                        dates[0] = log.date
+
+                        smallestDate = Number(logDate.replace(/-/g, ""))
+                    } else {
+                        dates.push(log.date)
+                    }
                 }
             })
         }
@@ -104,9 +113,18 @@ async function main() {
 
         const log_count_array = []
 
+        let smallestDate = 999999999999
+
         service.logs_metrics.forEach(log => {
             if (log.date !== "") {
-                log_count_array.push(log.count)
+                let logDate = log.date
+                if (Number(logDate.replace(/-/g, "")) < smallestDate) {
+                    log_count_array[0] = log.count
+
+                    smallestDate = Number(logDate.replace(/-/g, ""))
+                } else {
+                    log_count_array.push(log.count)
+                }
             }
         })
 
