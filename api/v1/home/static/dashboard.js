@@ -113,18 +113,11 @@ async function main() {
 
         const log_count_array = []
 
-        let smallestDate = 999999999999
-
         service.logs_metrics.forEach(log => {
             if (log.date !== "") {
-                let logDate = log.date
-                if (Number(logDate.replace(/-/g, "")) < smallestDate) {
-                    log_count_array[0] = log.count
+                const indexInLogCountArray = dates.indexOf(log.date)
 
-                    smallestDate = Number(logDate.replace(/-/g, ""))
-                } else {
-                    log_count_array.push(log.count)
-                }
+                log_count_array[indexInLogCountArray] = log.count
             }
         })
 
