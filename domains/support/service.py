@@ -24,7 +24,6 @@ def send_feedback(global_data, request):
         os.getenv("SEND_FEEDBACK_TEMPLATE_ID"),
         os.getenv("PUBLIC_EMAILJS_KEY"),
         os.getenv("ACCESS_TOKEN_EMAILJS"),
-        "LogArbor Support Team",
         global_data.get("subject"),
         global_data.get("email"),
         global_data.get("message")
