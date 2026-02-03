@@ -197,7 +197,7 @@ async function main() {
                 terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
-                        <span class="level">${logElement.level}</span>
+                        <span class="level">${log.level}</span>
                         <span class="message">${log.message}</span>
                     </div>
                 `).join('')

@@ -92,16 +92,20 @@ async function main() {
             service.logs_metrics.forEach(log => {
                 if (!dates.includes(log.date) && log.date !== "") {
                     let logDate = log.date
-                    if (Number(logDate.replace(/-/g, "")) < smallestDate) {
-                        dates[0] = log.date
-
-                        smallestDate = Number(logDate.replace(/-/g, ""))
-                    } else {
-                        dates.push(log.date)
-                    }
+                    let dateAsNumber = Number(logDate.replace(/-/g, ""))
+                    dates.push(dateAsNumber)
                 }
             })
         }
+    })
+
+    dates.sort((a, b) => a - b)
+
+    dates.forEach((date, index) => {
+        const dateAsString = date.toString()
+        const formatedString = dateAsString.slice(0, 4) + "-" + dateAsString.slice(4, 6) + "-" + dateAsString.slice(6)
+
+        dates[index] = formatedString
     })
 
     const randomBackgroundColors = ["rgba(0,255,135,0.7)", "rgba(255,209,102,0.7)", "rgba(255,107,107,0.7)", "rgba(5, 60, 225, 0.7)", "rgba(255, 0, 0, 0.7)", "rgba(135, 206, 235, 0.7)", "rgba(168, 220, 171, 0.7)"]
