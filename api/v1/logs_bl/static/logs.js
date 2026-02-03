@@ -134,7 +134,7 @@ async function main() {
                         >
 
                         <div class="log-filters">
-                            <button class="filter-btn active" data-level="all">Search</button>
+                            <button class="filter-btn active search-trigger" data-level="all">Search</button>
                             <button class="filter-btn info" data-level="info">INFO</button>
                             <button class="filter-btn warn" data-level="warn">WARN</button>
                             <button class="filter-btn error" data-level="error">ERROR</button>
