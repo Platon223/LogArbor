@@ -110,7 +110,7 @@ async function main() {
 
 
             logs.message.forEach(element => {
-                servicesLogsContent += `<section style='margin-bottom: 20px;' class="terminal-logs-page">
+                servicesLogsContent += `<section id="${element.service_id}" style='margin-bottom: 20px;' class="terminal-logs-page">
                     <div class="terminal-header">
                         <span>${element.service_name}</span>
                         <span class="terminal-dot green"></span>
