@@ -56,6 +56,34 @@ class Logs {
             return `error: ${error}`
         }
     }
+
+    async searchLogs(bodyData) {
+        try{
+            const response = await fetch("/api/v1/logs/search_by_message", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(bodyData)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while searching logs: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
 }
 
 async function main() {
@@ -106,7 +134,7 @@ async function main() {
                         >
 
                         <div class="log-filters">
-                            <button class="filter-btn active" data-level="all">ALL</button>
+                            <button class="filter-btn active" data-level="all">Search</button>
                             <button class="filter-btn info" data-level="info">INFO</button>
                             <button class="filter-btn warn" data-level="warn">WARN</button>
                             <button class="filter-btn error" data-level="error">ERROR</button>
@@ -129,6 +157,57 @@ async function main() {
             document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"  
         }
     });
+
+    const wrapper = document.getElementById('terminalServicesWrapper')
+
+    wrapper.addEventListener('click', async (event) => {
+  
+        if (event.target.classList.contains('search-trigger')) {
+            
+           
+            const terminalSection = event.target.closest('section')
+            const sectionId = terminalSection.id
+
+          
+            const messageInput = terminalSection.querySelector('.log-search').value
+            if (!messageInput) {
+                alert("Please provide the log message")
+            }
+
+            const bodyData = {
+                service_id: sectionId,
+                message: messageInput
+            }
+
+     
+            const results = await logsClass.searchLogs(bodyData)
+
+            if (results.message.includes("service not found")) {
+                alert("Service was not found. Please try again later or contact our support.")
+            } else if(results.message.includes("something went wrong")) {
+                alert("Something went wrong.")
+            } else if (results.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("no logs found")) {
+                terminalSection.querySelector('.terminal-body') = "No logs found"
+            } else if (Array.isArray(results.message)) {
+                const terminalBody = terminalSection.querySelector('.terminal-body')
+                terminalBody.innerHTML = results.message.map(log => `
+                    <div class="log-line ${log.level}">
+                        <span class="time">${log.time}</span>
+                        <span class="level">${logElement.level}</span>
+                        <span class="message">${log.message}</span>
+                    </div>
+                `).join('')
+
+                if (results.message.length > 50) {
+                    terminalBody.innerHTML += `<button>Load more</button>`
+                }
+            }
+        }
+    })
 }
 
 main()

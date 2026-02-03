@@ -12,7 +12,7 @@ from handlers.auth_check_wrapper import auth_check_wrapper
 from handlers.send_alert_email import send_alert_email
 from log_arbor.utils import log
 from domains.service import check_api_blueprint, check_ui_blueprint
-from domains.logs.service import write_log, all_user_logs, get_log_count_metrics
+from domains.logs.service import write_log, all_user_logs, get_log_count_metrics, search_logs_by_message, search_logs_by_message_extra
 
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
@@ -80,7 +80,7 @@ def data_validation():
 
             return {"message": data}, 400
         
-        if not data.get("token") == os.getenv("LOGARBOR_LIBRARY_TOKEN"):
+        if request.path == "/api/v1/logs/add" and not data.get("token") == os.getenv("LOGARBOR_LIBRARY_TOKEN"):
 
             log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "error", "user tried to access the system not using the library", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
@@ -88,7 +88,7 @@ def data_validation():
         
         allowed_log_levels = ["debug", "info", "warning", "error", "critical"]
 
-        if not data.get("level") in allowed_log_levels:
+        if request.path == "/api/v1/logs/add" and  not data.get("level") in allowed_log_levels:
 
             log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "invalid log level provided", "5b522faa-76a4-444c-8253-7f045f5c06af")
 
@@ -191,3 +191,60 @@ def metrics_log_count():
     user_metrics = get_log_count_metrics(mongo.db.services, mongo.db.logs, request)
 
     return {"message": user_metrics["message"]}, 200
+
+
+
+
+
+@logs_bl.route("/search_by_message", methods=["POST"])
+@auth_check_wrapper()
+def search_log():
+
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "logs_api")
+
+    if not check["ok"]:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"message": check["message"]}, 404
+    
+    # Filters logs
+
+    filtered_logs = search_logs_by_message(g.data, mongo.db.services, mongo.db.logs, request)
+
+    if not filtered_logs["ok"]:
+
+        return {"message": filtered_logs["message"]}, filtered_logs["status"]
+    
+    return {"message": filtered_logs["message"]}, 200
+
+
+
+
+
+@logs_bl.route("/search_by_message_extra", methods=["POST"])
+@auth_check_wrapper()
+def search_extra_logs():
+
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "logs_api")
+
+    if not check["ok"]:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"message": check["message"]}, 404
+    
+    # Searches more logs
+
+    more_filtered_logs = search_logs_by_message_extra(g.data, mongo.db.services, mongo.db.logs, request)
+
+    if not more_filtered_logs["ok"]:
+
+        return {"message": more_filtered_logs["message"]}, more_filtered_logs["status"]
+    
+    return {"message": more_filtered_logs["message"]}, 200
+

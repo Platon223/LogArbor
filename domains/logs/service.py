@@ -164,9 +164,9 @@ def get_log_count_metrics(services_collection, logs_collection, request):
         date = ""
         count = 0
 
-        for log in user_logs_list:
+        for logg in user_logs_list:
 
-            log_time_string = log["time"]
+            log_time_string = logg["time"]
 
             if log_time_string[0:10] == date:
                 
@@ -193,3 +193,77 @@ def get_log_count_metrics(services_collection, logs_collection, request):
         metrics_list.append(metric_object)
 
     return {"ok": True, "message": metrics_list}
+
+
+
+
+
+def search_logs_by_message(global_data, services_collection, logs_collection, request):
+
+    '''
+        Searches logs by message in a service
+    '''
+
+    service = services_collection.find_one({"id": global_data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
+
+    if not service:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": False, "message": "service not found", "status": 404}
+    
+    logs = logs_collection.find({"service_id": service["id"], "message": global_data.get("message")})
+
+    logs_list = list(logs)
+
+    if len(logs_list) == 0:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": True, "message": "no logs found"}
+    
+    if len(logs_list) > 50:
+
+        filtered_logs = logs_list[:49]
+
+        return {"ok": True, "message": filtered_logs}
+    else:
+
+        return {"ok": True, "message": logs_list}
+    
+
+
+
+
+def search_logs_by_message_extra(global_data, services_collection, logs_collection, request):
+
+    '''
+        Searches for more logs in a service
+    '''
+
+    service = services_collection.find_one({"id": global_data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
+
+    if not service:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": False, "message": "service not found", "status": 404}
+    
+    logs = logs_collection.find({"service_id": service["id"], "message": global_data.get("message")})
+
+    logs_list = list(logs)
+
+    if len(logs_list) == 0:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": True, "message": "no logs found"}
+    
+    if len(logs_list) > global_data.get("extra"):
+
+        filtered_logs = logs_list[:global_data.get("extra")]
+
+        return {"ok": True, "message": filtered_logs}
+    else:
+
+        return {"ok": True, "message": logs_list}
