@@ -90,8 +90,8 @@ async function main() {
     metrics.message.forEach(service => {
         if (service.logs_metrics.length !== 1) {
             service.logs_metrics.forEach(log => {
-                if (!dates.includes(log.date) && log.date !== "") {
-                    let logDate = log.date
+                let logDate = log.date
+                if (!dates.includes(Number(logDate.replace(/-/g, ""))) && log.date !== "") {
                     let dateAsNumber = Number(logDate.replace(/-/g, ""))
                     dates.push(dateAsNumber)
                 }

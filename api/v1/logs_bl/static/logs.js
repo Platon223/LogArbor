@@ -191,7 +191,7 @@ async function main() {
             } else if (results.message.includes("missing or invalid token")) {
                 window.location.href = "/auth/login"
             } else if (results.message.includes("no logs found")) {
-                terminalSection.querySelector('.terminal-body') = "No logs found"
+                terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
                 terminalBody.innerHTML = results.message.map(log => `
