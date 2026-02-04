@@ -224,7 +224,7 @@ def search_logs_by_message(global_data, services_collection, logs_collection, re
     
     if len(logs_list) > 50:
 
-        filtered_logs = logs_list[:49]
+        filtered_logs = logs_list[:50]
 
         return {"ok": True, "message": filtered_logs}
     else:

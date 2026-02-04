@@ -202,10 +202,21 @@ async function main() {
                     </div>
                 `).join('')
 
-                if (results.message.length > 50) {
-                    terminalBody.innerHTML += `<button>Load more</button>`
+                if (results.message.length = 50) {
+                    terminalBody.innerHTML += `<button class="load-more-search-message">Load more</button>`
                 }
             }
+        }
+    })
+
+    wrapper.addEventListener("click", async (event) => {
+        if (event.target.classList.contains("oad-more-search-message")) {
+            console.log("clicked load more button")
+
+            const terminalSection = event.target.closest('section')
+            const sectionId = terminalSection.id
+
+            console.log(sectionId)
         }
     })
 }
