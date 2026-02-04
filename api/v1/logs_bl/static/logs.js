@@ -84,6 +84,34 @@ class Logs {
             return `error: ${error}`
         }
     }
+
+    async searchMoreLogs(bodyData) {
+        try{
+            const response = await fetch("/api/v1/logs/search_by_message_extra", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(bodyData)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while searching more logs: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
 }
 
 async function main() {
@@ -160,6 +188,8 @@ async function main() {
 
     const wrapper = document.getElementById('terminalServicesWrapper')
 
+    let extra = 100
+
     wrapper.addEventListener('click', async (event) => {
   
         if (event.target.classList.contains('search-trigger')) {
@@ -211,12 +241,50 @@ async function main() {
 
     wrapper.addEventListener("click", async (event) => {
         if (event.target.classList.contains("load-more-search-message")) {
-            console.log("clicked load more button")
 
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
-            console.log(sectionId)
+            const messageInput = terminalSection.querySelector('.log-search').value
+            if (!messageInput) {
+                alert("Please provide the log message")
+            }
+
+            const bodyData = {
+                service_id: sectionId,
+                message: messageInput,
+                extra: extra
+            }
+
+     
+            const results = await logsClass.searchMoreLogs(bodyData)
+
+            if (results.message.includes("service not found")) {
+                alert("Service was not found. Please try again later or contact our support.")
+            } else if(results.message.includes("something went wrong")) {
+                alert("Something went wrong.")
+            } else if (results.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("no logs found")) {
+                terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
+            } else if (Array.isArray(results.message)) {
+                const terminalBody = terminalSection.querySelector('.terminal-body')
+                terminalBody.innerHTML = results.message.map(log => `
+                    <div class="log-line ${log.level}">
+                        <span class="time">${log.time}</span>
+                        <span class="level">${log.level}</span>
+                        <span class="message">${log.message}</span>
+                    </div>
+                `).join('')
+
+                if (results.message.length = extra) {
+                    terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
+                }
+            }
+
+            extra += 50
         }
     })
 }
