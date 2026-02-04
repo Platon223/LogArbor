@@ -245,6 +245,8 @@ async function main() {
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
+            terminalSection.querySelector(".terminal-body").innerHTML -= `<button class="filter-btn active load-more-search-message">Load more</button>`
+
             const messageInput = terminalSection.querySelector('.log-search').value
             if (!messageInput) {
                 alert("Please provide the log message")
@@ -281,10 +283,9 @@ async function main() {
 
                 if (results.message.length = extra) {
                     terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
+                    extra += 50
                 }
             }
-
-            extra += 50
         }
     })
 }
