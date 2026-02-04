@@ -203,14 +203,14 @@ async function main() {
                 `).join('')
 
                 if (results.message.length = 50) {
-                    terminalBody.innerHTML += `<button class="load-more-search-message">Load more</button>`
+                    terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
                 }
             }
         }
     })
 
     wrapper.addEventListener("click", async (event) => {
-        if (event.target.classList.contains("oad-more-search-message")) {
+        if (event.target.classList.contains("load-more-search-message")) {
             console.log("clicked load more button")
 
             const terminalSection = event.target.closest('section')
