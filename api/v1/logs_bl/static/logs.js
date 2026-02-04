@@ -245,7 +245,8 @@ async function main() {
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
-            terminalSection.querySelector(".terminal-body").innerHTML -= `<button class="filter-btn active load-more-search-message">Load more</button>`
+            const loadMoreButton = document.querySelector(".load-more-search-message")
+            loadMoreButton.remove()
 
             const messageInput = terminalSection.querySelector('.log-search').value
             if (!messageInput) {
