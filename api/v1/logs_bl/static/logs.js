@@ -232,7 +232,7 @@ async function main() {
                     </div>
                 `).join('')
 
-                if (results.message.length = 50) {
+                if (results.message.length === 50) {
                     terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
                 }
             }
@@ -282,7 +282,9 @@ async function main() {
                     </div>
                 `).join('')
 
-                if (results.message.length = extra) {
+                console.log(results.message.length)
+
+                if (results.message.length === extra) {
                     console.log("another more log button")
                     terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
                     extra += 50
