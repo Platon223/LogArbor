@@ -245,7 +245,7 @@ async function main() {
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
-            const loadMoreButton = document.querySelector(".load-more-search-message")
+            const loadMoreButton = terminalSection.querySelector(".load-more-search-message")
             loadMoreButton.remove()
 
             const messageInput = terminalSection.querySelector('.log-search').value
@@ -283,6 +283,7 @@ async function main() {
                 `).join('')
 
                 if (results.message.length = extra) {
+                    console.log("another more log button")
                     terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
                     extra += 50
                 }
