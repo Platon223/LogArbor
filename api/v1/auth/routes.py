@@ -236,7 +236,7 @@ def jwt():
     res.set_cookie(
         "actk",
         access_token,
-        max_age=timedelta(minutes=10).total_seconds(),
+        max_age=timedelta(minutes=30).total_seconds(),
         secure=False,
         httponly=True,
         samesite="Lax"
