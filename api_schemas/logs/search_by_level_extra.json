@@ -12,6 +12,6 @@
             "type": "number"
         }
     },
-    "required": ["service_id", "message", "extra"],
+    "required": ["service_id", "level", "extra"],
     "additionalProperties": false
 }

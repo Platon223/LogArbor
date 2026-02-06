@@ -9,6 +9,6 @@
             "type": "string"
         }
     },
-    "required": ["service_id", "message"],
+    "required": ["service_id", "level"],
     "additionalProperties": false
 }
