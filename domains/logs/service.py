@@ -267,3 +267,77 @@ def search_logs_by_message_extra(global_data, services_collection, logs_collecti
     else:
 
         return {"ok": True, "message": logs_list}
+
+
+
+
+
+def search_logs_by_type(global_data, services_collection, logs_collection, request):
+
+    '''
+        Searches logs in a service by log type
+    '''
+
+    service = services_collection.find_one({"id": global_data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
+
+    if not service:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": False, "message": "service not found", "status": 404}
+    
+    logs = logs_collection.find({"service_id": service["id"], "level": global_data.get("level")})
+
+    logs_list = list(logs)
+
+    if len(logs_list) == 0:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": True, "message": "no logs found"}
+    
+    if len(logs_list) > 50:
+
+        filtered_logs = logs_list[:50]
+
+        return {"ok": True, "message": filtered_logs}
+    else:
+
+        return {"ok": True, "message": logs_list}
+
+
+
+
+
+def search_logs_by_type_extra(global_data, services_collection, logs_collection, request):
+
+    '''
+        Searches for more logs by type in a service
+    '''
+
+    service = services_collection.find_one({"id": global_data.get("service_id"), "user_id": getattr(request, "auth_identity", None)})
+
+    if not service:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": False, "message": "service not found", "status": 404}
+    
+    logs = logs_collection.find({"service_id": service["id"], "level": global_data.get("level")})
+
+    logs_list = list(logs)
+
+    if len(logs_list) == 0:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": True, "message": "no logs found"}
+    
+    if len(logs_list) > global_data.get("extra"):
+
+        filtered_logs = logs_list[:global_data.get("extra")]
+
+        return {"ok": True, "message": filtered_logs}
+    else:
+
+        return {"ok": True, "message": logs_list}

@@ -6,6 +6,7 @@ from extensions.mongo import mongo
 from extensions.bcrypt import bcrypt
 from extensions.jwt import jwt
 from extensions.oauth import oauth
+from extensions.limiter import limiter
 from logg.log import setup
 import logging
 
@@ -33,6 +34,7 @@ def create_service():
     bcrypt.init_app(app)
     jwt.init_app(app)
     oauth.init_app(app)
+    limiter.init_app(app)
 
     
     @jwt.expired_token_loader
@@ -47,6 +49,10 @@ def create_service():
     @jwt.unauthorized_loader
     def unauth(callback):
         return jsonify({'message': 'no token provided'})
+    
+    @app.errorhandler(429)
+    def ratelimit_handler(e):
+        return jsonify({"message": "Rate limit exceeded"})
 
     from api.v1.auth.routes import auth_bl
     from api.v1.home.routes import home_blp

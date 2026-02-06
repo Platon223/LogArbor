@@ -30,6 +30,10 @@ class Logs {
         }
     }
 
+
+
+
+
     async fetchLogs() {
         try{
             const response = await fetch("/api/v1/logs/all_logs", {
@@ -56,6 +60,10 @@ class Logs {
             return `error: ${error}`
         }
     }
+
+
+
+
 
     async searchLogs(bodyData) {
         try{
@@ -85,6 +93,42 @@ class Logs {
         }
     }
 
+
+
+
+
+    async searchLogsByLevel(bodyData) {
+        try{
+            const response = await fetch("/api/v1/logs/search_by_level", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(bodyData)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while searching logs by level: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
+
+
+
+
+
     async searchMoreLogs(bodyData) {
         try{
             const response = await fetch("/api/v1/logs/search_by_message_extra", {
@@ -100,6 +144,39 @@ class Logs {
                 const data = await response.json()
                 return {
                     message: `HTTP error while searching more logs: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
+
+
+
+
+
+
+    async searchLogsByLevelExtra(bodyData) {
+        try{
+            const response = await fetch("/api/v1/logs/search_by_level_extra", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(bodyData)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while searching more logs by level: ${response.status}, ${data.message}`
                 }
             }
 
@@ -130,6 +207,8 @@ async function main() {
             document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
         }
     });
+
+
 
 
     logsClass.fetchLogs().then(logs => {
@@ -163,12 +242,13 @@ async function main() {
 
                         <div class="log-filters">
                             <button class="filter-btn active search-trigger" data-level="all">Search</button>
-                            <button class="filter-btn info" data-level="info">INFO</button>
-                            <button class="filter-btn warn" data-level="warn">WARN</button>
-                            <button class="filter-btn error" data-level="error">ERROR</button>
+                            <button class="filter-btn info info-search-button" data-level="info">INFO</button>
+                            <button class="filter-btn warn warn-search-button" data-level="warn">WARN</button>
+                            <button class="filter-btn error error-search-button" data-level="error">ERROR</button>
+                            <button class="filter-btn error critical-search-button" data-level="error">CRITICAL</button>
                         </div>
 
-                        <button class="clear-btn">Clear</button>
+                        <button onclick="location.reload()" class="clear-btn">Clear</button>
                     </div>
 
                 </section>`
@@ -185,6 +265,9 @@ async function main() {
             document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"  
         }
     });
+
+
+
 
     const wrapper = document.getElementById('terminalServicesWrapper')
 
@@ -238,6 +321,197 @@ async function main() {
             }
         }
     })
+
+
+
+
+
+    wrapper.addEventListener('click', async (event) => {
+  
+        if (event.target.classList.contains('info-search-button')) {
+            
+           
+            const terminalSection = event.target.closest('section')
+            const sectionId = terminalSection.id
+
+            const bodyData = {
+                service_id: sectionId,
+                level: "info"
+            }
+
+     
+            const results = await logsClass.searchLogsByLevel(bodyData)
+
+            if (results.message.includes("service not found")) {
+                alert("Service was not found. Please try again later or contact our support.")
+            } else if(results.message.includes("something went wrong")) {
+                alert("Something went wrong.")
+            } else if (results.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("no logs found")) {
+                terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
+            } else if (Array.isArray(results.message)) {
+                const terminalBody = terminalSection.querySelector('.terminal-body')
+                terminalBody.innerHTML = results.message.map(log => `
+                    <div class="log-line ${log.level}">
+                        <span class="time">${log.time}</span>
+                        <span class="level">${log.level}</span>
+                        <span class="message">${log.message}</span>
+                    </div>
+                `).join('')
+
+                if (results.message.length === 50) {
+                    terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
+                }
+            }
+        }
+    })
+
+
+
+
+
+    wrapper.addEventListener('click', async (event) => {
+  
+        if (event.target.classList.contains('warn-search-button')) {
+            
+           
+            const terminalSection = event.target.closest('section')
+            const sectionId = terminalSection.id
+
+            const bodyData = {
+                service_id: sectionId,
+                level: "warning"
+            }
+
+     
+            const results = await logsClass.searchLogsByLevel(bodyData)
+
+            if (results.message.includes("service not found")) {
+                alert("Service was not found. Please try again later or contact our support.")
+            } else if(results.message.includes("something went wrong")) {
+                alert("Something went wrong.")
+            } else if (results.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("no logs found")) {
+                terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
+            } else if (Array.isArray(results.message)) {
+                const terminalBody = terminalSection.querySelector('.terminal-body')
+                terminalBody.innerHTML = results.message.map(log => `
+                    <div class="log-line ${log.level}">
+                        <span class="time">${log.time}</span>
+                        <span class="level">${log.level}</span>
+                        <span class="message">${log.message}</span>
+                    </div>
+                `).join('')
+
+                if (results.message.length === 50) {
+                    terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
+                }
+            }
+        }
+    })
+
+
+
+
+
+    wrapper.addEventListener('click', async (event) => {
+  
+        if (event.target.classList.contains('error-search-button')) {
+            
+           
+            const terminalSection = event.target.closest('section')
+            const sectionId = terminalSection.id
+
+            const bodyData = {
+                service_id: sectionId,
+                level: "error"
+            }
+
+     
+            const results = await logsClass.searchLogsByLevel(bodyData)
+
+            if (results.message.includes("service not found")) {
+                alert("Service was not found. Please try again later or contact our support.")
+            } else if(results.message.includes("something went wrong")) {
+                alert("Something went wrong.")
+            } else if (results.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("no logs found")) {
+                terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
+            } else if (Array.isArray(results.message)) {
+                const terminalBody = terminalSection.querySelector('.terminal-body')
+                terminalBody.innerHTML = results.message.map(log => `
+                    <div class="log-line ${log.level}">
+                        <span class="time">${log.time}</span>
+                        <span class="level">${log.level}</span>
+                        <span class="message">${log.message}</span>
+                    </div>
+                `).join('')
+
+                if (results.message.length === 50) {
+                    terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
+                }
+            }
+        }
+    })
+
+
+
+
+
+    wrapper.addEventListener('click', async (event) => {
+  
+        if (event.target.classList.contains('critical-search-button')) {
+            
+           
+            const terminalSection = event.target.closest('section')
+            const sectionId = terminalSection.id
+
+            const bodyData = {
+                service_id: sectionId,
+                level: "critical"
+            }
+
+     
+            const results = await logsClass.searchLogsByLevel(bodyData)
+
+            if (results.message.includes("service not found")) {
+                alert("Service was not found. Please try again later or contact our support.")
+            } else if(results.message.includes("something went wrong")) {
+                alert("Something went wrong.")
+            } else if (results.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (results.message.includes("no logs found")) {
+                terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
+            } else if (Array.isArray(results.message)) {
+                const terminalBody = terminalSection.querySelector('.terminal-body')
+                terminalBody.innerHTML = results.message.map(log => `
+                    <div class="log-line ${log.level}">
+                        <span class="time">${log.time}</span>
+                        <span class="level">${log.level}</span>
+                        <span class="message">${log.message}</span>
+                    </div>
+                `).join('')
+
+                if (results.message.length === 50) {
+                    terminalBody.innerHTML += `<button class="filter-btn active load-more-search-message">Load more</button>`
+                }
+            }
+        }
+    })
+
+
+
 
     wrapper.addEventListener("click", async (event) => {
         if (event.target.classList.contains("load-more-search-message")) {

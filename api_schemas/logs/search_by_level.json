@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Search logs by level",
+    "properties": {
+        "service_id": {
+            "type": "string"
+        },
+        "level": {
+            "type": "string"
+        }
+    },
+    "required": ["service_id", "message"],
+    "additionalProperties": false
+}
