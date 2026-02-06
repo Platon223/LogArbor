@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Loads more logs",
+    "properties": {
+        "service_id": {
+            "type": "string"
+        },
+        "extra": {
+            "type": "number"
+        }
+    },
+    "required": ["service_id", "extra"],
+    "additionalProperties": false
+}

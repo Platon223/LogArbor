@@ -12,7 +12,7 @@ from handlers.auth_check_wrapper import auth_check_wrapper
 from handlers.send_alert_email import send_alert_email
 from log_arbor.utils import log
 from domains.service import check_api_blueprint, check_ui_blueprint
-from domains.logs.service import write_log, all_user_logs, get_log_count_metrics, search_logs_by_message, search_logs_by_message_extra, search_logs_by_type, search_logs_by_type_extra
+from domains.logs.service import write_log, all_user_logs, get_log_count_metrics, search_logs_by_message, search_logs_by_message_extra, search_logs_by_type, search_logs_by_type_extra, all_user_logs_more
 
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
@@ -165,6 +165,34 @@ def all_logs():
     # Finds all user's logs
 
     all_logs_result = all_user_logs(mongo.db.services, mongo.db.logs, request)
+
+    return {"message": all_logs_result["message"]}, 200
+
+
+
+
+
+@logs_bl.route("/all_logs_extra", methods=["POST"])
+@auth_check_wrapper()
+def all_logs():
+
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "logs_api")
+
+    if not check["ok"]:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"message": check["message"]}, 404
+
+    # Loads more user's logs
+
+    all_logs_result = all_user_logs_more(g.data, mongo.db.services, mongo.db.logs, request)
+
+    if not all_logs_result["ok"]:
+
+        return {"message": all_logs_result["message"]}, all_logs_result["status"]
 
     return {"message": all_logs_result["message"]}, 200
 

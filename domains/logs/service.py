@@ -119,6 +119,9 @@ def all_user_logs(services_collection, logs_collection, request):
 
         service_logs_list = list(service_logs)
 
+        if len(service_logs_list) > 50:
+            service_logs_list = service_logs_list[:50]
+
         service_obj = {
             "service_id": service["id"],
             "service_name": service["name"], 
@@ -127,8 +130,35 @@ def all_user_logs(services_collection, logs_collection, request):
 
         logs_list.append(service_obj)
     
+    
     return {"ok": True, "message": logs_list}
 
+
+
+
+
+def all_user_logs_more(global_data, services_collection, logs_collection, request):
+
+    '''
+        Loads more logs
+    '''
+
+    service = services_collection.find_one({"user_id": getattr(request, "auth_identity", None), "id": global_data.get("service_id")})
+
+    if not service:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+
+        return {"ok": False, "message": "service was not found", "status": 404}
+    
+    more_logs = logs_collection.find({"service_id": service["id"]})
+
+    more_logs_list = list(more_logs)
+
+    if len(more_logs_list) > global_data.get("extra"):
+        more_logs_list = more_logs_list[:global_data.get("extra")]
+    
+    return {"ok": True, "message": more_logs_list}
 
 
 
