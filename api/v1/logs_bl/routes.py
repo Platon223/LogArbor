@@ -174,7 +174,7 @@ def all_logs():
 
 @logs_bl.route("/all_logs_extra", methods=["POST"])
 @auth_check_wrapper()
-def all_logs():
+def all_logs_extra():
 
     # Checks api blueprint
 
