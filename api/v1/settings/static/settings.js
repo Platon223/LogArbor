@@ -232,7 +232,7 @@ async function main() {
                         Deleting your account is permanent and cannot be undone.
                     </p>
 
-                    <button id="delete-account-button" style="margin-bottom: 20px;" class="btn danger">Delete Account</button>
+                    <button style="margin-bottom: 20px;" class="btn danger delete-account-button">Delete Account</button>
                 </div>
             </div>`
         }
@@ -245,26 +245,31 @@ async function main() {
     } else if (settings.message.includes("user not found")) {
         window.location.href = "/auth/login" 
     }
+
+    wrapper.addEventListener('click', async (event) => {
+  
+        if (event.target.classList.contains('delete-account-button')) {
+            
+           
+            const settingsClass = new Settings()
+            const deleteAccountResult = await settingsClass.deleteAccount()
+
+            if (deleteAccountResult.message.includes("user not found")) {
+                alert("User was not found. Couldn't delete an account. Please contact support team for support.")
+            } else if(deleteAccountResult.message.includes("something went wrong")) {
+                window.location.href = "/auth/login"
+            } else if (deleteAccountResult.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (deleteAccountResult.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (deleteAccountResult.message.includes("something went wrong while sending an email")) {
+                alert("Something went wrong while sending an approval email. Please try again later.")    
+            } else if (deleteAccountResult.message.includes("aproval email sent")) {
+                alert("An approval email was sent to your email. Please confirm.")
+            }
+        }
+
+    })
 }
 
 main()
-
-document.getElementById("delete-account-button").onclick = async () => {
-    const settingsClass = new Settings()
-    const deleteAccountResult = await settingsClass.deleteAccount()
-
-    if (deleteAccountResult.message.includes("user not found")) {
-        alert("User was not found. Couldn't delete an account. Please contact support team for support.")
-    } else if(deleteAccountResult.message.includes("something went wrong")) {
-        window.location.href = "/auth/login"
-    } else if (deleteAccountResult.message.includes("oauth user was not found")) {
-        window.location.href = "/auth/login"
-    } else if (deleteAccountResult.message.includes("missing or invalid token")) {
-        window.location.href = "/auth/login"
-    } else if (deleteAccountResult.message.includes("something went wrong while sending an email")) {
-        alert("Something went wrong while sending an approval email. Please try again later.")    
-    } else if (deleteAccountResult.message.includes("aproval email sent")) {
-        alert("An approval email was sent to your email. Please confirm.")
-    }
-
-}

@@ -21,7 +21,8 @@ def create_service(global_data, services_collection, request):
         "name": global_data.get("name"),
         "url": global_data.get("url"),
         "alert_level": global_data.get("alert_level"),
-        "user_id": getattr(request, "auth_identity", None)
+        "user_id": getattr(request, "auth_identity", None),
+        "log_retention": datetime.datetime.today() + timedelta(minutes=10) # For development purposes
     }
 
     db_data_validated = validate_db_data(db_data, services_schema)
