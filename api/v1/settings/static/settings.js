@@ -259,7 +259,7 @@ async function main() {
             if (deleteAccountResult.message.includes("user not found")) {
                 alert("User was not found. Couldn't delete an account. Please contact support team for support.")
             } else if(deleteAccountResult.message.includes("something went wrong")) {
-                window.location.href = "/auth/login"
+                console.log(deleteAccountResult.message)
             } else if (deleteAccountResult.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
             } else if (deleteAccountResult.message.includes("missing or invalid token")) {
