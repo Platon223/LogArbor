@@ -246,6 +246,8 @@ async function main() {
         window.location.href = "/auth/login" 
     }
 
+    const wrapper = document.getElementById("settings-wrapper")
+
     wrapper.addEventListener('click', async (event) => {
   
         if (event.target.classList.contains('delete-account-button')) {
