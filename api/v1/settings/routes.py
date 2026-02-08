@@ -1,4 +1,4 @@
-from flask import Blueprint, request, g, render_template
+from flask import Blueprint, request, g, render_template, redirect, url_for
 from handlers.auth_check_wrapper import auth_check_wrapper
 from pymongo.errors import OperationFailure, PyMongoError
 from log_arbor.utils import log
@@ -156,13 +156,13 @@ def delete_account():
     else:
 
         return {"message": request_delete_email["message"]}, 200
-    
 
 
 
 
-@settings_bl.route("/account_approve", methods=["DELETE"])
-def approve_account_deletion():
+
+@settings_bl.route("/confirm_deletion/<user_id>", methods=["GET"])
+def confirm_deletion_page(user_id):
 
     # Checks api blueprint
     
@@ -174,14 +174,17 @@ def approve_account_deletion():
 
         return {"message": check["message"]}, 404
     
-
     # Deletes an account
 
-    delete_account_approve = account_deletion(g.data.get("account_id"), mongo.db.users, g.data, request)
+    delete_account_approve = account_deletion(user_id, mongo.db.users, request)
 
     if not delete_account_approve["ok"]:
 
         return {"message": delete_account_approve["message"]}, delete_account_approve["status"]
     else:
 
-        return {"message": delete_account_approve["message"]}, 200
+        return redirect(url_for("auth_bl.register"))
+    
+    
+
+

@@ -60,17 +60,11 @@ def request_account_deletion(user_id, users_collection, request):
 
 
 
-def account_deletion(user_id, users_collection, global_data, request):
+def account_deletion(user_id, users_collection, request):
 
     ''' 
         Deletes user's account
     '''
-
-    if not global_data.get("template_token") == os.getenv("APPROVE_ACCOUNT_DELETE_TOKEN"):
-
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"the template_token was invalid on /account_approve to delete an account: {user_id}", "5b522faa-76a4-444c-8253-7f045f5c06af")
-
-        return {"ok": False, "status": 401, "message": "invalid template token"}
     
     user = users_collection.find_one({"id": user_id})
 
@@ -82,4 +76,4 @@ def account_deletion(user_id, users_collection, global_data, request):
     
     users_collection.delete_one({"id": user_id})
     
-    return {"ok": True, "message": "deleted"}
+    return {"ok": True, "message": "redirect"}
