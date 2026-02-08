@@ -52,7 +52,7 @@ def handle_operation_failure_exception(e):
 
         return {"message": f"{loge}"}, 500
     
-    return {"message": f"something went wrong: {e}"}, 500
+    return {"message": f"something went wrong: {str(e)}"}, 500
 
 
 
@@ -137,7 +137,7 @@ def delete_account():
 
     # Checks api blueprint
 
-    check = check_api_blueprint("SETTINGS", request.blueprint, "settings_api", request)
+    check = check_api_blueprint(request.blueprint, "settings_api")
 
     if not check["ok"]:
 
@@ -166,7 +166,7 @@ def approve_account_deletion():
 
     # Checks api blueprint
     
-    check = check_api_blueprint("SETTINGS", request.blueprint, "settings_api", request)
+    check = check_api_blueprint(request.blueprint, "settings_api")
 
     if not check["ok"]:
 
