@@ -60,7 +60,7 @@ def request_account_deletion(user_id, users_collection, request):
 
 
 
-def account_deletion(user_id, users_collection, request):
+def account_deletion(user_id, users_collection, logs_collection, services_collection, alerts_collection, jwt_collection, verify_codes_collection, request):
 
     ''' 
         Deletes user's account
@@ -74,6 +74,13 @@ def account_deletion(user_id, users_collection, request):
 
         return {"ok": False, "status": 404, "message": "user not found"}
     
+    # Deletion proccess
+    
     users_collection.delete_one({"id": user_id})
+    logs_collection.delete({"user_id": user_id})
+    services_collection.delete({"user_id": user_id})
+    alerts_collection.delete({"user_id": user_id})
+    jwt_collection.delete({"user_id": user_id})
+    verify_codes_collection.delete({"user_id": user_id})
     
     return {"ok": True, "message": "redirect"}

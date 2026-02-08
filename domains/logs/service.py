@@ -44,6 +44,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
     new_log_db_data = {
         "id": str(uuid.uuid4()),
         "service_id": service["id"],
+        "user_id": global_data.get("user_id"),
         "message": global_data.get("message"),
         "level": global_data.get("level"),
         "time": global_data.get("time")
