@@ -13,7 +13,7 @@ support_bl = Blueprint("support_bl", __name__, template_folder="templates", stat
 @support_bl.app_errorhandler(OperationFailure)
 def handle_operation_failure(e):
 
-    log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+    log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     
     return {"message": "something went wrong"}, 500
 
@@ -24,7 +24,7 @@ def handle_operation_failure(e):
 @support_bl.app_errorhandler(PyMongoError)
 def handle_operation_failure_pymongo(e):
 
-    log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e} because of a pymongo error", "5b522faa-76a4-444c-8253-7f045f5c06af")
+    log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e} because of a pymongo error", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     
     return {"message": "something went wrong"}, 500
 
@@ -35,7 +35,7 @@ def handle_operation_failure_pymongo(e):
 @support_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
 
-    log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+    log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     
     return {"message": "something went wrong"}, 500
 
@@ -54,7 +54,7 @@ def data_validation():
 
         if "error" in data:
 
-            log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+            log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
             return {"message": data}, 400
         
@@ -74,7 +74,7 @@ def support():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -95,7 +95,7 @@ def feedback():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -116,7 +116,7 @@ def post_feedback():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -143,7 +143,7 @@ def community_page():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     

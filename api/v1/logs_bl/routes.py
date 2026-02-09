@@ -22,7 +22,7 @@ def handle_operation_failure(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -38,7 +38,7 @@ def handle_operation_failure_pymongo(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -54,7 +54,7 @@ def handle_operation_failure_exception(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -76,13 +76,13 @@ def data_validation():
 
         if "error" in data:
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
             return {"message": data}, 400
         
         if request.path == "/api/v1/logs/add" and not data.get("token") == os.getenv("LOGARBOR_LIBRARY_TOKEN"):
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "error", "user tried to access the system not using the library", "5b522faa-76a4-444c-8253-7f045f5c06af")
+            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "error", "user tried to access the system not using the library", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
             return {"message": "invalid library token"}, 401
         
@@ -90,7 +90,7 @@ def data_validation():
 
         if request.path == "/api/v1/logs/add" and  not data.get("level") in allowed_log_levels:
 
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "invalid log level provided", "5b522faa-76a4-444c-8253-7f045f5c06af")
+            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "invalid log level provided", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
             return {"message": "invalid log level"}, 401
         
@@ -109,7 +109,7 @@ def logs():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -130,7 +130,7 @@ def add_log():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -158,7 +158,7 @@ def all_logs():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
 
@@ -182,7 +182,7 @@ def all_logs_extra():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
 
@@ -210,7 +210,7 @@ def metrics_log_count():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -234,7 +234,7 @@ def search_log():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -262,7 +262,7 @@ def search_extra_logs():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -290,7 +290,7 @@ def search_log_by_type():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -318,7 +318,7 @@ def search_log_by_type_extra():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     

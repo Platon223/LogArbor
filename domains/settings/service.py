@@ -12,7 +12,7 @@ def get_settings(user_id, user_collection, request):
 
     if not user:
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"user not found at {request.path} ({request.method})", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"user not found at {request.path} ({request.method})", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "status": 404, "message": "user not found"}
     
@@ -42,7 +42,7 @@ def request_account_deletion(user_id, users_collection, request):
 
     if not user:
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"user not found at {request.path} ({request.method})", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "warning", f"user not found at {request.path} ({request.method})", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "status": 404, "message": "user not found"}
 
@@ -50,7 +50,7 @@ def request_account_deletion(user_id, users_collection, request):
 
     if not result == "success":
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"user: {user["id"]} failed to recieve confirm delete account email", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"user: {user["id"]} failed to recieve confirm delete account email", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "status": 500, "message": f"something went wrong while sending an email: {result}"}
     
@@ -70,7 +70,7 @@ def account_deletion(user_id, users_collection, logs_collection, services_collec
 
     if not user:
         
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "error", f"user was not found on: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "error", f"user was not found on: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "status": 404, "message": "user not found"}
     

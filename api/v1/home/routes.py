@@ -13,7 +13,7 @@ home_blp = Blueprint("home_blp", __name__, template_folder="templates", static_f
 @home_blp.app_errorhandler(OperationFailure)
 def handle_operation_failure(e):
 
-    log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+    log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     
     return {"message": "something went wrong"}, 500
 
@@ -24,7 +24,7 @@ def handle_operation_failure(e):
 @home_blp.app_errorhandler(PyMongoError)
 def handle_operation_failure_pymongo(e):
 
-    log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e} because of a pymongo error", "5b522faa-76a4-444c-8253-7f045f5c06af")
+    log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {e} because of a pymongo error", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     
     return {"message": "something went wrong"}, 500
 
@@ -35,7 +35,7 @@ def handle_operation_failure_pymongo(e):
 @home_blp.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
 
-    log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {e}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+    log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {e}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     
     return {"message": "something went wrong"}, 500
 
@@ -52,7 +52,7 @@ def dashboard():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "warning", f"ui route was accessed with non ui blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     
@@ -74,7 +74,7 @@ def username_info():
 
     if not check["ok"]:
 
-        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"message": check["message"]}, 404
     

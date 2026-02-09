@@ -124,7 +124,7 @@ def all_user_logs(services_collection, logs_collection, request):
 
     if len(services_list) == 0:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "user has no services yet", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "user has no services yet", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": True, "message": "no services"}
 
@@ -164,7 +164,7 @@ def all_user_logs_more(global_data, services_collection, logs_collection, reques
 
     if not service:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "message": "service was not found", "status": 404}
     
@@ -192,7 +192,7 @@ def get_log_count_metrics(services_collection, logs_collection, request):
 
     if len(all_user_services_list) == 0:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "user has no services yet", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "user has no services yet", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": True, "message": "no services"}
     
@@ -255,7 +255,7 @@ def search_logs_by_message(global_data, services_collection, logs_collection, re
 
     if not service:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "message": "service not found", "status": 404}
     
@@ -265,7 +265,7 @@ def search_logs_by_message(global_data, services_collection, logs_collection, re
 
     if len(logs_list) == 0:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": True, "message": "no logs found"}
     
@@ -292,7 +292,7 @@ def search_logs_by_message_extra(global_data, services_collection, logs_collecti
 
     if not service:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "message": "service not found", "status": 404}
     
@@ -302,7 +302,7 @@ def search_logs_by_message_extra(global_data, services_collection, logs_collecti
 
     if len(logs_list) == 0:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": True, "message": "no logs found"}
     
@@ -329,7 +329,7 @@ def search_logs_by_type(global_data, services_collection, logs_collection, reque
 
     if not service:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "message": "service not found", "status": 404}
     
@@ -339,7 +339,7 @@ def search_logs_by_type(global_data, services_collection, logs_collection, reque
 
     if len(logs_list) == 0:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": True, "message": "no logs found"}
     
@@ -366,7 +366,7 @@ def search_logs_by_type_extra(global_data, services_collection, logs_collection,
 
     if not service:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "service was not found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "message": "service not found", "status": 404}
     
@@ -376,7 +376,7 @@ def search_logs_by_type_extra(global_data, services_collection, logs_collection,
 
     if len(logs_list) == 0:
 
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", "5b522faa-76a4-444c-8253-7f045f5c06af")
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "no logs were found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": True, "message": "no logs found"}
     
