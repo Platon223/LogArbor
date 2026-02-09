@@ -26,7 +26,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
         return {"ok": False, "message": "invalid access token provided", "status": 401}
     
-    if service["log_retention"] > datetime.datetime.today():
+    if service["log_retention"] < datetime.datetime.today():
 
         logs_collection.delete({"user_id": global_data.get("user_id"), "service_id": service["id"]})
 
