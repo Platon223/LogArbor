@@ -26,6 +26,20 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
         return {"ok": False, "message": "invalid access token provided", "status": 401}
     
+    if service["log_retention"] > datetime.datetime.today():
+
+        logs_collection.delete({"user_id": global_data.get("user_id"), "service_id": service["id"]})
+
+        filter_query = {"id": global_data.get("service_id"), "user_id": global_data.get("user_id")}
+
+        update_operation = {
+            "$set": {
+                "log_retention": datetime.datetime.today() + timedelta(minutes=10) # For development purposes
+            }
+        }
+
+        services_collection.update_one(filter_query, update_operation)
+    
 
 
     new_log_db_data = {
