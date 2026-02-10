@@ -15,6 +15,7 @@ body {
     background: #0a0f0a;
     color: #c8e6c9;
     overflow: hidden; /* prevent page-wide overflow */
+    padding-bottom: 60px;
 }
 
 /* ================== LAYOUT ================== */
@@ -293,7 +294,7 @@ body {
 
 /* Persistent Footer */
 .app-footer {
-    position: fixed;
+    position: sticky;
     bottom: 0;
     left: 0;
     width: 100%;
