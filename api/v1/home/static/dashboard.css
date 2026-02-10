@@ -20,7 +20,6 @@ body {
 /* ================== LAYOUT ================== */
 .dashboard {
     display: flex;
-    height: 100vh;          /* KEY FIX */
     width: 100%;
     overflow: hidden;
     min-height: 100vh;
