@@ -2,7 +2,7 @@
 html, body {
     min-height: 100%;
     font-family: "Inter", sans-serif;
-    overflow: hidden;
+    overflow-x: hidden;  /* allow vertical scroll */
 }
 
 * {
@@ -14,7 +14,6 @@ html, body {
 body {
     background: #0a0f0a;
     color: #c8e6c9;
-    overflow: hidden; /* prevent page-wide overflow */
     padding-bottom: 60px;
 }
 
@@ -294,7 +293,7 @@ body {
 
 /* Persistent Footer */
 .app-footer {
-    position: sticky;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
