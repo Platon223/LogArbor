@@ -15,6 +15,7 @@ body {
     background: #0a0f0a;
     color: #c8e6c9;
     overflow: hidden; /* prevent page-wide overflow */
+    padding-bottom: 60px;
 }
 
 /* ================== LAYOUT ================== */
@@ -288,6 +289,78 @@ body {
 .alert-actions {
     display: flex;
     gap: 6px;
+}
+
+
+/* Persistent Footer */
+.app-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+
+    background: #070c07;
+    border-top: 1px solid rgba(0,255,135,0.2);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 25px;
+    z-index: 999;
+}
+
+/* Left side links */
+.footer-left {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-left a {
+    text-decoration: none;
+    color: #bdecc3;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.footer-left a:hover {
+    color: #00ff87;
+}
+
+/* Right side status */
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+/* Status dot */
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* Status states */
+.status-dot.online {
+    background: #00ff87;
+    box-shadow: 0 0 8px #00ff87;
+}
+
+.status-dot.warning {
+    background: #ffd166;
+    box-shadow: 0 0 8px #ffd166;
+}
+
+.status-dot.down {
+    background: #ff6b6b;
+    box-shadow: 0 0 8px #ff6b6b;
+}
+
+.status-text {
+    color: #6fae70;
 }
 
 /* Levels */
