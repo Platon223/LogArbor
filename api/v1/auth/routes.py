@@ -1,6 +1,5 @@
 from flask import Blueprint, request, Response, render_template, g, make_response, url_for, session, redirect
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
-from dotenv import load_dotenv
 from validates.validate_api import validate_route
 from validates.validate_db import validate_db_data
 from extensions.mongo import mongo
@@ -19,155 +18,114 @@ import os
 from datetime import timedelta
 from extensions.oauth import github
 from log_arbor.utils import log as loggg
+from domains.auth.service import register_account
 
-load_dotenv()
+
 
 auth_bl = Blueprint("auth_bl", __name__, template_folder="templates", static_folder="static")
 
 @auth_bl.app_errorhandler(OperationFailure)
 def handle_operation_failure(e):
+
     try:
+
         loggg(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}")
     except Exception as loge:
+
         return {"message": f"{loge}"}, 500
+    
     return {"message": "something went wrong"}, 500
+
+
+
+
 
 @auth_bl.app_errorhandler(PyMongoError)
 def handle_operation_failure_pymongo(e):
+
     try:
+
         loggg(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
     except Exception as loge:
+
         return {"message": f"{loge}"}, 500
+    
     return {"message": "something went wrong"}, 500
+
+
+
+
 
 @auth_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
+
     try:
+
         loggg(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}")
     except Exception as loge:
+
         return {"message": f"{loge}"}, 500
+    
     return {"message": "something went wrong"}, 500
+
+
+
+
 
 @auth_bl.before_request
 def data_validation():
+
     if request.method == "POST":
+
         path = request.path
+
         schema_name = path.replace("/auth/", "")
+
         data = validate_route(request, schema_name)
+
         if "error" in data:
+
             log("AUTH", "warning", f"user failed data validation on api_validate on {schema_name}")
             return {"message": data}, 400
         
         g.data = data
+
+
+
         
         
 @auth_bl.route("/register", methods=["GET", "POST"])
 def register():
-    if request.method == "POST":
-        #validation process
-        data = validate_route(request, "register")
-        if "error" in data:
-            log("AUTH", "warning", "user failed data validation on api_validate on register")
-            return {"message": data}, 400
-        
 
-        db_data = {
-            "id": str(uuid.uuid4()),
-            "username": data.get("username"),
-            "password": data.get("password"),
-            "email": data.get("email"),
-            "account_type": data.get("account_type"),
-            "remember": False,
-            "remember_expiration_date": datetime.datetime.today()
-        }
-        db_validated_data = validate_db_data(db_data, users_schema)
-        if "error" in db_validated_data:
-            log("AUTH", "warning", "user failed data validation on db_validate on register")
-            return {"message": db_validated_data}, 400
+    if request.method == "POST":
+
+        # Registers an account
+
+        register_user_result = register_account(g.data, mongo.db.users, request)
+
+        if not register_user_result["ok"]:
+
+            return {"message": register_user_result["message"]}, register_user_result["status"]
         
-        # finding/inserting process
-        
-        duplicated_user = mongo.db.users.find_one({"username": data.get("username")})
-        if duplicated_user:
-            log("AUTH", "info", "user tried using someone's username on register")
-            return {"message": "username is already taken"}, 400
-        
-        
-        
-        db_data["password"] = bcrypt.generate_password_hash(data.get("password"))
-        mongo.db.users.insert_one(db_validated_data)
-        
-        
-        log("AUTH", "info", f"user: {data.get('username')} has been created")
-        return {"message": f"user: {data.get('username')} has created an account"}, 200
+        return {"message": register_user_result["message"]}, 200
     elif request.method == "GET":
-        # GET request response
+
+        # Renders register.html
         return render_template("register.html")
+    
+
+
+
     
 @auth_bl.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
-        # validation process
-        data = validate_route(request, "login")
-        if "error" in data:
-            log("AUTH", "warning", "user failed data validation on api_validate on login")
-            return {"message": data}, 400
-        
-        # finding/inserting process
 
+        # Cleans the previous session
+        
         session.clear()
-        
-        user = mongo.db.users.find_one({"username": data.get("username")})
-        if not user:
-            log("AUTH", "info", "user was not found on login")
-            return {"message": "user not found"}, 404
-            
-        if not bcrypt.check_password_hash(user["password"], data.get('password')):
-            log("AUTH", "info", f"User: {data.get('username')} provided invalid password")
-            return {"message": "invalid password"}, 401
-        
-        if user["remember"] and user["remember_expiration_date"] > datetime.datetime.today():
-            log("AUTH", "info", f"User: {data.get('username')} was remembered and skipped the MFA process")
-            return {"message": "fetch for jwt"}
-    
-        
-        
 
-        verification_code = str(secrets.randbelow(1000000)).zfill(6)
-
-        result = send_verification_email(
-            os.getenv("EMAILJS_SERVICE_ID"), 
-            os.getenv("VERIFY_EMAIL_TEMPLATE_ID"),
-            os.getenv("PUBLIC_EMAILJS_KEY"),
-            os.getenv("ACCESS_TOKEN_EMAILJS"),
-            user["username"],
-            "LogArbor Support Team",
-            user["email"],
-            verification_code
-        )
-
-        if not result == "success":
-            log("AUTH", "critical", f"User: {user['username']} failed to receive verification code email")
-            return {"message": f"something went wrong while sending an email: {result}"}
-
-
-
-        db_verify_code_data = {
-            "id": str(uuid.uuid4()),
-            "code": verification_code,
-            "user_id": user["id"],
-            "expiration_date": datetime.datetime.today() + timedelta(minutes=5)
-        }
-        
-        db_verify_code_data_validate = validate_db_data(db_verify_code_data, verify_codes_schema)
-        if "error" in db_verify_code_data_validate:
-            log("AUTH", "warning", "user failed data validation on db_validate on login during verify code inserting")
-            return {"message": db_verify_code_data_validate}, 400
-            
-        mongo.db.verify_codes.insert_one(db_verify_code_data)
-        
-        log("AUTH", "info", f"User: {data.get('username')}, logged in and needs to be verified, user {'remembered' if data.get('remember') else 'not remembered'}")
-        return {"message": "redirect to verify", "user_id": user["id"], "remember": True if data.get("remember") else False}, 200
+        # Logs in the user
     elif request.method == "GET":
         # GET request response
         return render_template("login.html")
