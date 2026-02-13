@@ -16,11 +16,51 @@ Follow these steps to get started with LogArbor
 
 ## 📋 1️⃣ Create an account
 
-Go to the sign up page and create an account
+1. Go to https://logarbor.com/auth/register
+2. Create an account or just sign in with github.
 
 ## 📋 2️⃣ Create a service
 
-Create a service
+1. Log in to your account.
+2. Go to "Services".
+3. Click "New Service" button.
+4. Fill out information about your service like name and alert level, etc.
+5. Go to the created service and copy the service id.
+
+## 📋 3️⃣ Get your access token
+
+1. Go to "Settings".
+2. Under the "API Keys", copy the "Primary API Key".
+
+## 📋 4️⃣ Secure your keys
+
+1. Create an .env file.
+2. Place your api key and service id in the file.
+
+## 📋 5️⃣ Send logs
+
+1. Install LogArbor Client.
+```bash
+pip install log-arbor
+```
+2. Send logs.
+```python
+from log_arbor.utils import log
+import os
+
+def event_that_needs_logged():
+
+  # Some operations...
+
+  # Allowed log levels: [debug, info, warning, error, critical]
+  log(os.getenv("YOUR_SERVICE_ID"), "info", "some message over here", os.getenv("YOUR_ACCESS_TOKEN"))
+```
+
+## 📋 6️⃣ View/Search/Detect your logs
+
+1. Go to the "Dashboard" there you will see your log count graph.
+2. Go to "Logs" and see and search your logs. If you don't see your logs, probably something went wrong, so check "Alerts".
+3. Alerts are usually triggered if your log's level is worse than your service's alert level. For example: In your application you have an error handler which sends a log with log() function, that log will contain "error" as a level because it is an error handler. Your service that the log is sending to has an alert level of "warning" which means that if the log that is going to this service has a level of "warning" or beyond there will be an alert triggered. In other cases an alert is going to be triggered because something went wrong with the log function, it could be the wrong access token or invalid service id. The alert message will tell you what's going on.
 
 ---
 

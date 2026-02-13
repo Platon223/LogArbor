@@ -18,7 +18,7 @@ import os
 from datetime import timedelta
 from extensions.oauth import github
 from log_arbor.utils import log as loggg
-from domains.auth.service import register_account
+from domains.auth.service import register_account, login_account, verify_account, jwt_credentials, github_oauth
 
 
 
@@ -108,9 +108,11 @@ def register():
             return {"message": register_user_result["message"]}, register_user_result["status"]
         
         return {"message": register_user_result["message"]}, 200
+
     elif request.method == "GET":
 
         # Renders register.html
+
         return render_template("register.html")
     
 
@@ -125,9 +127,22 @@ def login():
         
         session.clear()
 
-        # Logs in the user
+        # Login process
+
+        login_result = login_account(g.data, mongo.db.users, mongo.db.verify_codes, request)
+
+        if not login_result["ok"]:
+
+            return {"message": login_result["message"]}, login_result["status"]
+        
+        if login_result["message"] == "redirect to verify":
+
+            return {"message": login_result["message"], "user_id": login_result["user_id"], "remember": login_result["remember"]}, 200
+
     elif request.method == "GET":
-        # GET request response
+
+        # Renders login.html
+
         return render_template("login.html")
     
 
@@ -135,137 +150,79 @@ def login():
 def verify():
     if request.method == "POST":
         
-        
-        verify_code = mongo.db.verify_codes.find_one({"code": g.data.get("code"), "user_id": g.data.get("user_id")})
-        if not verify_code:
-            log("AUTH", "warning", f"User: {g.data.get('user_id')} provided an invalid verification code")
-            return {"message": "invalid code"}, 401
-            
-        if verify_code["expiration_date"] < datetime.datetime.today():
-            mongo.db.verify_codes.delete_one({"id": verify_code["id"]})
-            log("AUTH", "info", "user's verification code has been expired")
-            return {"message": "expired"}, 401
-            
-        mongo.db.verify_codes.delete_one({"id": verify_code["id"]})
-        
-        if g.data.get("remember"):
+        # Verifies user's account
 
-            filter_query = {"id": g.data.get("user_id")}
+        verify_result = verify_account(g.data, mongo.db.verify_codes, mongo.db.users, request)
 
-            update_operation = {
-                "$set": {
-                    "remember": True,
-                    "remember_expiration_date": datetime.datetime.today() + timedelta(minutes=5)
-                }
-            }
+        if not verify_result["ok"]:
 
-            mongo.db.users.update_one(filter_query, update_operation)
+            return {"message": verify_result["message"]}, verify_result["status"]
         
-        
-        log("AUTH", "info", "user has been verified")
-        return {"message": "verified"}, 200
+        return {"message": verify_result["message"]}, 200
 
     elif request.method == "GET":
+
+        # Renders verify.html
+
         return render_template("verify.html")
     
 
 @auth_bl.route("/jwt", methods=["POST"])
 def jwt():
 
-    access_token = create_access_token(identity=g.data.get("user_id"))
-    refresh_token = create_refresh_token(identity=g.data.get("user_id"))
+    # Gives the user JWT credentials
 
+    jwt_result = jwt_credentials(g.data, mongo.db.jwt, request)
+
+    if not jwt_result["ok"]:
+
+        return {"message": jwt_result["message"]}, jwt_result["status"]
     
+    if jwt_result["message"] == "send credentials":
 
-    db_jwt_data = {
-        "id": str(uuid.uuid4()),
-        "token": refresh_token,
-        "user_id": g.data.get("user_id")
-    }
+        res = make_response({"message": "success"})
 
-    db_jwt_validated_data = validate_db_data(db_jwt_data, jwt_schema)
-    if "error" in db_jwt_validated_data:
-        log("AUTH", "warning", "user failed data validation on db_validate on verify")
-        return {"message": db_jwt_validated_data}, 400
-            
-    mongo.db.jwt.insert_one(db_jwt_data)
+        res.set_cookie(
+            "actk",
+            jwt_result["actk"],
+            max_age=timedelta(minutes=30).total_seconds(),
+            secure=False,
+            httponly=True,
+            samesite="Lax"
+        )
 
-    res = make_response({"message": "success"})
-    res.set_cookie(
-        "actk",
-        access_token,
-        max_age=timedelta(minutes=30).total_seconds(),
-        secure=False,
-        httponly=True,
-        samesite="Lax"
-    )
-    res.set_cookie(
-        "rftk",
-        refresh_token,
-        max_age=timedelta(hours=24).total_seconds(),
-        secure=False,
-        httponly=True,
-        samesite="Lax"
-    )
-    log("AUTH", "info", "user has gotten their jwt tokens")
-    return res, 200
+        res.set_cookie(
+            "rftk",
+            jwt_result["rftk"],
+            max_age=timedelta(hours=24).total_seconds(),
+            secure=False,
+            httponly=True,
+            samesite="Lax"
+        )
+
+        return res, 200
 
 
 @auth_bl.route("/oauth_github_login")
 def github_login():
+
+    # Redirects to github login
+
     redirect_uri = url_for("auth_bl.github_callback", _external=True)
+
     return github.authorize_redirect(redirect_uri)
 
 @auth_bl.route("/oauth_github_callback")
 def github_callback():
 
-    try:
+    # Logs user in with github oauth
 
-        token = github.authorize_access_token()
-    except Exception as e:
-        log("AUTH", "critical", f"something went wrong at oauth with github at a callback: {e}")
-        return {"message": "something went wrong"}, 500
+    oauth_result = github_oauth(mongo.db.users, request)
 
-    user_data = github.get("user", token=token).json()
-    emails_data = github.get("user/emails").json()
+    if not oauth_result["ok"]:
 
-    primary_email = next(
-        (e['email'] for e in emails_data if e['primary'] and e['verified']), 
-        None
-    )
-
+        return {"message": oauth_result["message"]}, oauth_result["status"]
     
-    oauth_user = mongo.db.users.find_one({"email": primary_email, "password": "Github User"})
-    
-    
-    user_id = str(uuid.uuid4())
-
-    if not oauth_user:
-        db_data = {
-            "id": user_id,
-            "username": user_data.get("name"),
-            "password": "Github User",
-            "email": primary_email,
-            "account_type": "Default",
-            "remember": False,
-            "remember_expiration_date": datetime.datetime.today()
-        }
-
-        db_validated_data = validate_db_data(db_data, users_schema)
-        if "error" in db_validated_data:
-            log("AUTH", "warning", "user failed data validation on db_validate on oauth callback")
-            return {"message": db_validated_data}, 400
-        
-
-        
-        mongo.db.users.insert_one(db_data)
-        
-
-
-
-
-    session["oauth_user"] = oauth_user["id"] if oauth_user else user_id
-    session.permanent = True
     return redirect("/home/dashboard")
 
     
