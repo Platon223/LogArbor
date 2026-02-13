@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8888", "service:create_service()"]
+CMD ["gunicorn", "--timeout", "120", "--bind", "0.0.0.0:8888", "service:create_service()"]
