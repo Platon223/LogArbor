@@ -321,6 +321,7 @@ async function main() {
             if (document.getElementById("codeModalInput").value === "") {
                 alert("Don't leave the previous password blank.")
             } else {
+                console.log("final change password button clicked")
                 const bodyData = {
                     current_password: document.getElementById("codeModalInput").value,
                     new_password: document.getElementById("change_password_new_input").value
