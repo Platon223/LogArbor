@@ -14,11 +14,12 @@ import uuid
 import secrets
 import datetime
 from handlers.email_verify import send_verification_email
+from handlers.auth_check_wrapper import auth_check_wrapper
 import os
 from datetime import timedelta
 from extensions.oauth import github
 from log_arbor.utils import log as loggg
-from domains.auth.service import register_account, login_account, verify_account, jwt_credentials, github_oauth
+from domains.auth.service import register_account, login_account, verify_account, jwt_credentials, github_oauth, change_password
 
 
 
@@ -229,3 +230,16 @@ def github_callback():
 
     
     
+@auth_bl.route("/update_password", methods=["POST"])
+@auth_check_wrapper()
+def new_password():
+
+    # Changes user's password
+
+    new_password_result = change_password(g.data, mongo.db.users, request)
+
+    if not new_password_result["ok"]:
+
+        return {"message": new_password_result["message"]}, new_password_result["status"]
+    
+    return {"message": new_password_result["message"]}, 200

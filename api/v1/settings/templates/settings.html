@@ -162,6 +162,16 @@
     </footer>
 </div>
 
+<div class="modal" id="codeModal">
+    <div class="modal-content">
+        <h3>Enter your previous password</h3>
+
+        <input id="codeModalInput" type="text" placeholder="">
+        <button id="changePasswordFinal" class="btn danger change_password_button_final">Change</button>
+        <button class="btn cancel_change_password">Cancel</button>
+    </div>
+</div>
+
 <script src="{{ url_for('settings_bl.static', filename='settings.js') }}"></script>
 
 </body>

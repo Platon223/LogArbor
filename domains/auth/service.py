@@ -83,7 +83,7 @@ def login_account(global_data, users_collection, verify_codes_collection, reques
     '''
 
     
-# Finds the user
+    # Finds the user
         
     user = users_collection.find_one({"username": global_data.get("username")})
 
@@ -324,3 +324,51 @@ def github_oauth(users_collection, request):
     session.permanent = True
 
     return {"ok": True, "message": "redirect to dashboard"}
+
+
+
+
+
+def change_password(global_data, users_collection, request):
+
+    '''
+        Changes the user's password
+    '''
+
+    # Finds the user
+        
+    user = users_collection.find_one({"id": getattr(request, "auth_identity", None)})
+
+    if not user:
+
+        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "warning", f"user was not found at {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+
+        return {"ok": False, "message": "user not found", "status": 404}
+
+    
+    # Checks the password
+        
+    if not bcrypt.check_password_hash(user["password"], global_data.get('current_password')):
+
+        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "warning", f"invalid password at {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+
+        return {"ok": True, "message": "invalid password", "status": 401}
+    
+
+    # Changes the password
+
+    new_password = bcrypt.generate_password_hash(global_data.get("new_password"))
+
+    filter_query = {"id": user["id"]}
+
+    update_operation = {
+        "$set": {
+            "password": new_password
+        }
+    }
+
+    users_collection.update_one(filter_query, update_operation)
+
+
+    return {"ok": True, "message": "password updated"}
+

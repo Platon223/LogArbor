@@ -83,6 +83,34 @@ class Settings {
             return `error: ${error}`
         }
     }
+
+    async changePassword(bodyData) {
+        try{
+            const response = await fetch("/auth/update_password", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(bodyData)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while changing your password: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch(error) {
+            return `error: ${error}`
+        }
+    }
 }
 
 
@@ -195,8 +223,8 @@ async function main() {
 
                     <div style="margin-bottom: 20px;" class="setting-row">
                         <label>Password</label>
-                        <input type="password" placeholder="New password">
-                        <button class="btn small">Change</button>
+                        <input id="change_password_new_input" type="password" placeholder="New password">
+                        <button class="btn small change_password_button">Change</button>
                     </div>
 
                 </div>
@@ -259,7 +287,7 @@ async function main() {
             if (deleteAccountResult.message.includes("user not found")) {
                 alert("User was not found. Couldn't delete an account. Please contact support team for support.")
             } else if(deleteAccountResult.message.includes("something went wrong")) {
-                console.log(deleteAccountResult.message)
+                alert("Something went wrong.")
             } else if (deleteAccountResult.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
             } else if (deleteAccountResult.message.includes("missing or invalid token")) {
@@ -269,6 +297,60 @@ async function main() {
             } else if (deleteAccountResult.message.includes("aproval email sent")) {
                 alert("An approval email was sent to your email. Please confirm.")
             }
+        }
+
+    })
+
+    wrapper.addEventListener('click', async (event) => {
+  
+        if (event.target.classList.contains('change_password_button')) {
+           
+            if (document.getElementById("change_password_new_input").value === "" || document.getElementById("change_password_new_input").value.length < 6 || document.getElementById("change_password_new_input").value.length > 15) {
+                alert("Don't leave the new password input blank. Min: 6 characters, Max: 15 characters.")
+            } else {
+                document.getElementById("codeModal").style.display = "flex"
+            }
+        }
+
+    })
+
+    wrapper.addEventListener('click', async (event) => {
+  
+        if (event.target.classList.contains('change_password_button_final')) {
+           
+            if (document.getElementById("codeModalInput").value === "") {
+                alert("Don't leave the previous password blank.")
+            } else {
+                const bodyData = {
+                    current_password: document.getElementById("codeModalInput").value,
+                    new_password: document.getElementById("change_password_new_input").value
+                }
+                const settingsClass = new Settings()
+                const deleteAccountResult = await settingsClass.changePassword(bodyData)
+
+                if (deleteAccountResult.message.includes("user not found")) {
+                    alert("User was not found. Couldn't change password. Please contact support team for support.")
+                } else if(deleteAccountResult.message.includes("something went wrong")) {
+                    alert("Something went wrong.")
+                } else if (deleteAccountResult.message.includes("oauth user was not found")) {
+                    window.location.href = "/auth/login"
+                } else if (deleteAccountResult.message.includes("missing or invalid token")) {
+                    window.location.href = "/auth/login"
+                } else if (deleteAccountResult.message.includes("invalid password")) {
+                    alert("Invalid password")
+                } else if (deleteAccountResult.message.includes("password updated")) {
+                    alert("Your password has been updated")
+                    window.location.reload()
+                }
+            }
+        }
+
+    })
+
+    wrapper.addEventListener('click', async (event) => {
+  
+        if (event.target.classList.contains('cancel_change_password')) {
+           document.getElementById("codeModal").style.display = "none"
         }
 
     })
