@@ -15,6 +15,7 @@ from db_schemas.verify_codes import verify_codes_schema
 from log_arbor.utils import log
 from domains.service import check_api_blueprint, check_ui_blueprint
 from domains.services.service import create_service, update_service, request_delete_service, confirm_delete_service, all_services, service
+from extensions.limiter import limiter
 
 
 services_bl = Blueprint("services_bl", __name__, template_folder="templates", static_folder="static")
@@ -110,6 +111,7 @@ def services():
 
 
 @services_bl.route("/create", methods=["POST"])
+@limiter.limit("10 per minute")
 @auth_check_wrapper()
 def create():
 

@@ -20,6 +20,7 @@ from datetime import timedelta
 from extensions.oauth import github
 from log_arbor.utils import log as loggg
 from domains.auth.service import register_account, login_account, verify_account, jwt_credentials, github_oauth, change_password
+from extensions.limiter import limiter
 
 
 
@@ -96,6 +97,7 @@ def data_validation():
         
         
 @auth_bl.route("/register", methods=["GET", "POST"])
+@limiter.limit("3 per minute")
 def register():
 
     if request.method == "POST":
@@ -121,6 +123,7 @@ def register():
 
     
 @auth_bl.route("/login", methods=["POST", "GET"])
+@limiter.limit("3 per minute")
 def login():
     if request.method == "POST":
 
@@ -148,6 +151,7 @@ def login():
     
 
 @auth_bl.route("/verify", methods=["POST", "GET"])
+@limiter.limit("3 per minute")
 def verify():
     if request.method == "POST":
         
@@ -169,6 +173,7 @@ def verify():
     
 
 @auth_bl.route("/jwt", methods=["POST"])
+@limiter.limit("3 per minute")
 def jwt():
 
     # Gives the user JWT credentials
@@ -205,6 +210,7 @@ def jwt():
 
 
 @auth_bl.route("/oauth_github_login")
+@limiter.limit("3 per minute")
 def github_login():
 
     # Redirects to github login
@@ -231,6 +237,7 @@ def github_callback():
     
     
 @auth_bl.route("/update_password", methods=["POST"])
+@limiter.limit("3 per minute")
 @auth_check_wrapper()
 def new_password():
 

@@ -6,6 +6,7 @@ from domains.service import check_api_blueprint, check_ui_blueprint
 from handlers.auth_check_wrapper import auth_check_wrapper
 from domains.support.service import send_feedback
 from validates.validate_api import validate_route
+from extensions.limiter import limiter
 
 
 support_bl = Blueprint("support_bl", __name__, template_folder="templates", static_folder="static")
@@ -108,6 +109,7 @@ def feedback():
 
 
 @support_bl.route("/feedback", methods=["POST"])
+@limiter.limit("10 per minute")
 def post_feedback():
     
     # Checks api blueprint

@@ -40,19 +40,19 @@ def create_service():
     @jwt.expired_token_loader
     def expired_access_token(jwt_header, jwt_payload):
         token = jwt_payload.get('type')
-        return jsonify({'message': f'{token} token has expired'})
+        return jsonify({'message': f'{token} token has expired'}), 401
     
     @jwt.invalid_token_loader
     def invalid(callback):
-        return jsonify({'message': 'Invalid access token'})
+        return jsonify({'message': 'Invalid access token'}), 401
     
     @jwt.unauthorized_loader
     def unauth(callback):
-        return jsonify({'message': 'no token provided'})
+        return jsonify({'message': 'no token provided'}), 401
     
     @app.errorhandler(429)
     def ratelimit_handler(e):
-        return jsonify({"message": "Rate limit exceeded"})
+        return jsonify({"message": "Rate limit exceeded"}), 429
 
     from api.v1.auth.routes import auth_bl
     from api.v1.home.routes import home_blp
