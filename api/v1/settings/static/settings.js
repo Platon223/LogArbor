@@ -316,7 +316,7 @@ async function main() {
 
     wrapper.addEventListener('click', async (event) => {
   
-        if (event.target.closest('.change_password_button_final')) {
+        if (event.target.classList.contains('change_password_button_final')) {
            
             if (document.getElementById("codeModalInput").value === "") {
                 alert("Don't leave the previous password blank.")
