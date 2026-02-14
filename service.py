@@ -40,6 +40,8 @@ def create_service():
     limiter.init_app(app)
     socketio.init_app(app)
 
+    main_socket_events()
+
     
     @jwt.expired_token_loader
     def expired_access_token(jwt_header, jwt_payload):
