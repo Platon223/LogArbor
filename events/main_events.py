@@ -1,6 +1,8 @@
 from extensions.socket import socketio
 from flask_socketio import join_room
 from flask import request
+import os
+from log_arbor.utils import log
 
 
 def main_socket_events():
@@ -17,3 +19,5 @@ def main_socket_events():
         if user_id:
 
             join_room(f"user_{user_id}")
+
+            log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "info", f"user has joined the room: {user_id}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
