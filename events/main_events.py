@@ -10,9 +10,9 @@ def main_socket_events():
     '''
 
     @socketio.on("connect")
-    def join_log_stream():
+    def join_log_stream(auth):
         
-        user_id = request.args.get("user_id")
+        user_id = auth.get("user_id")
 
         if user_id:
 

@@ -304,8 +304,8 @@ async function main() {
 
 
 
-    const socket = io({
-        query: {
+    const socket = io("http://localhost:8888", {
+        auth: {
             user_id: localStorage.getItem("user_id")
         }
     })
