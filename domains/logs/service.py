@@ -61,7 +61,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
     logs_collection.insert_one(new_log_db_data)
 
-    socketio.emit("new-log", {"message": "new log"}, room=global_data.get("user_id"))
+    socketio.emit("new-log", {"message": "new log"}, room=f"user_{global_data.get("user_id")}")
 
     
     level_of_logs = ["debug", "info", "warning", "error", "critical"]
