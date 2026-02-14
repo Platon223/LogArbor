@@ -304,7 +304,7 @@ async function main() {
 
 
 
-    const socket = io("http://localhost:8888", {
+    const socket = io({
         auth: {
             user_id: localStorage.getItem("user_id")
         }
