@@ -1,3 +1,6 @@
+
+# Use this file in development only
+
 from service import create_service
 
 app = create_service()

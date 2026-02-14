@@ -7,8 +7,10 @@ from extensions.bcrypt import bcrypt
 from extensions.jwt import jwt
 from extensions.oauth import oauth
 from extensions.limiter import limiter
+from extensions.socket import socketio
 from logg.log import setup
 import logging
+from events.main_events import main_socket_events
 
 
 def create_service():
@@ -19,6 +21,7 @@ def create_service():
     setup()
     logging.getLogger("werkzeug").setLevel(logging.ERROR)
     logging.getLogger("pymongo").setLevel(logging.ERROR)
+    app.config["DEBUG"] = False
     app.config["MONGO_URI"] = os.getenv("MONGO")
     app.secret_key = os.getenv("APP_SECRET")
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET")
@@ -35,6 +38,9 @@ def create_service():
     jwt.init_app(app)
     oauth.init_app(app)
     limiter.init_app(app)
+    socketio.init_app(app)
+
+    main_socket_events()
 
     
     @jwt.expired_token_loader

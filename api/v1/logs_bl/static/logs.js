@@ -242,7 +242,6 @@ async function main() {
 
 
 
-
     logsClass.fetchLogs().then(logs => {
         if (Array.isArray(logs.message)) {
             let servicesLogsContent = ""
@@ -256,7 +255,7 @@ async function main() {
                     </div>
 
                     <div class="terminal-body">
-                        ${element.logs.length === 0 ? `No Logs Yet` : element.logs.map(logElement => `
+                        ${element.logs.length === 0 ? `No Logs Yet` : element.logs.reverse().map(logElement => `
                             <div class="log-line ${logElement.level}">
                                 <span class="time">${logElement.time}</span>
                                 <span class="level">${logElement.level}</span>
@@ -299,6 +298,76 @@ async function main() {
             document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"  
         }
     });
+
+
+
+
+
+
+    const socket = io({
+        query: {
+            user_id: localStorage.getItem("user_id")
+        }
+    })
+
+    socket.on("new-log", () => {
+        logsClass.fetchLogs().then(logs => {
+            if (Array.isArray(logs.message)) {
+                let servicesLogsContent = ""
+
+
+                logs.message.forEach(element => {
+                    servicesLogsContent += `<section id="${element.service_id}" style='margin-bottom: 20px;' class="terminal-logs-page">
+                        <div class="terminal-header">
+                            <span>${element.service_name}</span>
+                            <span class="terminal-dot green"></span>
+                        </div>
+
+                        <div class="terminal-body">
+                            ${element.logs.length === 0 ? `No Logs Yet` : element.logs.reverse().map(logElement => `
+                                <div class="log-line ${logElement.level}">
+                                    <span class="time">${logElement.time}</span>
+                                    <span class="level">${logElement.level}</span>
+                                    <span class="message">${logElement.message}</span>
+                                </div>
+                            `).join('')}
+
+                            ${element.logs.length === 50 ? `<button class="filter-btn active load-more-logs">Load more</button>` : ``}
+                        </div>
+
+                        <div class="terminal-toolbar">
+                            <input
+                                type="text"
+                                class="log-search"
+                                placeholder="Search logs..."
+                            >
+
+                            <div class="log-filters">
+                                <button class="filter-btn active search-trigger" data-level="all">Search</button>
+                                <button class="filter-btn info info-search-button" data-level="info">INFO</button>
+                                <button class="filter-btn warn warn-search-button" data-level="warn">WARN</button>
+                                <button class="filter-btn error error-search-button" data-level="error">ERROR</button>
+                                <button class="filter-btn error critical-search-button" data-level="error">CRITICAL</button>
+                            </div>
+
+                            <button onclick="location.reload()" class="clear-btn">Clear</button>
+                        </div>
+
+                    </section>`
+                })
+
+                document.getElementById("terminalServicesWrapper").innerHTML = servicesLogsContent
+            } else if(logs.message.includes("something went wrong")) {
+                window.location.href = "/auth/login"
+            } else if (logs.message.includes("oauth user was not found")) {
+                window.location.href = "/auth/login"
+            } else if (logs.message.includes("missing or invalid token")) {
+                window.location.href = "/auth/login"
+            } else if (logs.message.includes("no services")) {
+                document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"  
+            }
+    });
+    })
 
 
 
