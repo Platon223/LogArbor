@@ -311,6 +311,8 @@ async function main() {
         }
     })
 
+    console.log(localStorage.getItem("user_id"))
+
     socket.on("new-log", () => {
         console.log("new log")
         logsClass.fetchLogs().then(logs => {
