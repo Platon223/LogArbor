@@ -90,3 +90,4 @@ def create_service():
     return app
 
 
+app = create_service()
