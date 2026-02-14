@@ -305,6 +305,7 @@ async function main() {
 
 
     const socket = io({
+        transports: ["websocket"],
         auth: {
             user_id: localStorage.getItem("user_id")
         }
