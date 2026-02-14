@@ -312,6 +312,7 @@ async function main() {
     })
 
     socket.on("new-log", () => {
+        console.log("new log")
         logsClass.fetchLogs().then(logs => {
             if (Array.isArray(logs.message)) {
                 let servicesLogsContent = ""
