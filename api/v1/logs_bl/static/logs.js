@@ -313,7 +313,7 @@ async function main() {
 
     console.log(localStorage.getItem("user_id"))
 
-    socket.on("new-log", () => {
+    socket.on("new-log", (data) => {
         console.log("new log")
         logsClass.fetchLogs().then(logs => {
             if (Array.isArray(logs.message)) {
