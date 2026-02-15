@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,60 +8,64 @@
     <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
     <link rel="stylesheet" href="{{ url_for('home_blp.static', filename='dashboard.css') }}">
 </head>
+
 <body>
 
-<div class="dashboard">
+    <div class="dashboard">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <img class="img-logo-dashboard" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo" srcset="" referrerpolicy="no-referrer">
-        <nav class="sidebar-nav">
-            <a href="/home/dashboard" class="active">Dashboard</a>
-            <a href="/services/">Services</a>
-            <a href="/logs/">Logs</a>
-            <a href="/alerts/">Alerts</a>
-            <a href="/settings/">Settings</a>
-        </nav>
-    </aside>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <img class="img-logo-dashboard" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo" srcset=""
+                referrerpolicy="no-referrer">
+            <nav class="sidebar-nav">
+                <a href="/home/dashboard" class="active">Dashboard</a>
+                <a href="/services/">Services</a>
+                <a href="/logs/">Logs</a>
+                <a href="/alerts/">Alerts</a>
+                <a href="/settings/">Settings</a>
+            </nav>
+        </aside>
 
-    <!-- Main -->
-    <main class="main">
+        <!-- Main -->
+        <main class="main">
 
-        <header class="topbar">
-            <h1>Logs</h1>
-            <span class="env">Account</span>
-        </header>
+            <header class="topbar">
+                <h1>Logs</h1>
+                <span class="env">Account</span>
+            </header>
 
-        <section class="terminal">
-            <div class="terminal-header">
-                <span>Logs per Service (Daily)</span>
-                <span class="terminal-dot"></span>
+            <section class="terminal">
+                <div class="terminal-header">
+                    <span>Logs per Service (Daily)</span>
+                    <span class="terminal-dot"></span>
+                </div>
+
+                <div class="terminal-body">
+                    <canvas id="logsPerServiceChart"></canvas>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="app-footer">
+            <div class="footer-left">
+                <a href="/support">Need Help</a>
+                <a href="/docs">Documentation</a>
+                <a href="/support/feedback">Seeing something unexpected?</a>
             </div>
 
-            <div class="terminal-body">
-                <canvas id="logsPerServiceChart"></canvas>
+            <div class="footer-right">
+                <span class="status-dot online"></span>
+                <span class="status-text">System Status: All good</span>
             </div>
-        </section>
+        </footer>
 
-    </main>
+    </div>
 
-    <footer class="app-footer">
-        <div class="footer-left">
-            <a href="/support">Need Help</a>
-            <a href="/docs">Documentation</a>
-            <a href="/support/feedback">Seeing something unexpected?</a>
-        </div>
-
-        <div class="footer-right">
-            <span class="status-dot online"></span>
-            <span class="status-text">System Status: All good</span>
-        </div>
-    </footer>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{ url_for('home_blp.static', filename='dashboard.js') }}"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('home_blp.static', filename='dashboard.js') }}"></script>
 
 </body>
+
 </html>
