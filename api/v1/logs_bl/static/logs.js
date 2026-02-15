@@ -936,3 +936,5 @@ async function main() {
         }
     })
 }
+
+main()
