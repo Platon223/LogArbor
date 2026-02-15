@@ -1,5 +1,6 @@
-from gevent import monkey
-monkey.patch_all()
+import eventlet
+eventlet.monkey_patch()
+
 
 from flask import Flask, request, Response, jsonify
 from dotenv import load_dotenv
