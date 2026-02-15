@@ -12,7 +12,7 @@ def main_socket_events():
     '''
 
     @socketio.on("connect")
-    def join_log_stream(auth):
+    def connect(auth):
 
         log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "info", f"user has joined the room: {user_id}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
         
