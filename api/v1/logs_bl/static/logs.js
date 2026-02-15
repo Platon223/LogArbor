@@ -4,7 +4,7 @@ class Logs {
 
     async fetchCredentials() {
 
-        try{
+        try {
             const response = await fetch("/api/v1/home/credentials/username", {
                 method: "POST",
                 credentials: "same-origin",
@@ -25,7 +25,7 @@ class Logs {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -35,7 +35,7 @@ class Logs {
 
 
     async fetchLogs() {
-        try{
+        try {
             const response = await fetch("/api/v1/logs/all_logs", {
                 method: "POST",
                 credentials: "same-origin",
@@ -56,7 +56,7 @@ class Logs {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -66,7 +66,7 @@ class Logs {
 
 
     async fetchMoreLogs(bodyData) {
-        try{
+        try {
             const response = await fetch("/api/v1/logs/all_logs_extra", {
                 method: "POST",
                 credentials: "same-origin",
@@ -88,7 +88,7 @@ class Logs {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -98,7 +98,7 @@ class Logs {
 
 
     async searchLogs(bodyData) {
-        try{
+        try {
             const response = await fetch("/api/v1/logs/search_by_message", {
                 method: "POST",
                 credentials: "same-origin",
@@ -120,7 +120,7 @@ class Logs {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -130,7 +130,7 @@ class Logs {
 
 
     async searchLogsByLevel(bodyData) {
-        try{
+        try {
             const response = await fetch("/api/v1/logs/search_by_level", {
                 method: "POST",
                 credentials: "same-origin",
@@ -152,7 +152,7 @@ class Logs {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -162,7 +162,7 @@ class Logs {
 
 
     async searchMoreLogs(bodyData) {
-        try{
+        try {
             const response = await fetch("/api/v1/logs/search_by_message_extra", {
                 method: "POST",
                 credentials: "same-origin",
@@ -184,7 +184,7 @@ class Logs {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -195,7 +195,7 @@ class Logs {
 
 
     async searchLogsByLevelExtra(bodyData) {
-        try{
+        try {
             const response = await fetch("/api/v1/logs/search_by_level_extra", {
                 method: "POST",
                 credentials: "same-origin",
@@ -217,7 +217,7 @@ class Logs {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -228,15 +228,15 @@ async function main() {
 
     logsClass.fetchCredentials().then(credentials => {
         if (credentials.message.includes("user not found")) {
-        window.location.href = "/auth/register"
-        } else if(credentials.message.includes("something went wrong")) {
+            window.location.href = "/auth/register"
+        } else if (credentials.message.includes("something went wrong")) {
             window.location.href = "/auth/login"
         } else if (credentials.message.includes("oauth user was not found")) {
             window.location.href = "/auth/login"
         } else if (credentials.message.includes("missing or invalid token")) {
             window.location.href = "/auth/login"
         } else {
-            document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
+            document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`
         }
     });
 
@@ -288,14 +288,14 @@ async function main() {
             })
 
             document.getElementById("terminalServicesWrapper").innerHTML = servicesLogsContent
-        } else if(logs.message.includes("something went wrong")) {
+        } else if (logs.message.includes("something went wrong")) {
             window.location.href = "/auth/login"
         } else if (logs.message.includes("oauth user was not found")) {
             window.location.href = "/auth/login"
         } else if (logs.message.includes("missing or invalid token")) {
             window.location.href = "/auth/login"
         } else if (logs.message.includes("no services")) {
-            document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"  
+            document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"
         }
     });
 
@@ -361,16 +361,16 @@ async function main() {
                 })
 
                 document.getElementById("terminalServicesWrapper").innerHTML = servicesLogsContent
-            } else if(logs.message.includes("something went wrong")) {
+            } else if (logs.message.includes("something went wrong")) {
                 window.location.href = "/auth/login"
             } else if (logs.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
             } else if (logs.message.includes("missing or invalid token")) {
                 window.location.href = "/auth/login"
             } else if (logs.message.includes("no services")) {
-                document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"  
+                document.getElementById("terminalServicesWrapper").innerHTML = "No Services Yet"
             }
-    });
+        });
     })
 
 
@@ -383,10 +383,10 @@ async function main() {
 
 
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('load-more-logs')) {
-            
-           
+
+
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
@@ -398,12 +398,12 @@ async function main() {
                 extra: extra
             }
 
-     
+
             const results = await logsClass.fetchMoreLogs(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -432,14 +432,14 @@ async function main() {
 
 
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('search-trigger')) {
-            
-           
+
+
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
-          
+
             const messageInput = terminalSection.querySelector('.log-search').value
             if (!messageInput) {
                 alert("Please provide the log message")
@@ -450,12 +450,12 @@ async function main() {
                 message: messageInput
             }
 
-     
+
             const results = await logsClass.searchLogs(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -485,10 +485,10 @@ async function main() {
 
 
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('info-search-button')) {
-            
-           
+
+
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
@@ -497,12 +497,12 @@ async function main() {
                 level: "info"
             }
 
-     
+
             const results = await logsClass.searchLogsByLevel(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -532,10 +532,10 @@ async function main() {
 
 
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('warn-search-button')) {
-            
-           
+
+
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
@@ -544,12 +544,12 @@ async function main() {
                 level: "warning"
             }
 
-     
+
             const results = await logsClass.searchLogsByLevel(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -579,10 +579,10 @@ async function main() {
 
 
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('error-search-button')) {
-            
-           
+
+
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
@@ -591,12 +591,12 @@ async function main() {
                 level: "error"
             }
 
-     
+
             const results = await logsClass.searchLogsByLevel(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -626,10 +626,10 @@ async function main() {
 
 
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('critical-search-button')) {
-            
-           
+
+
             const terminalSection = event.target.closest('section')
             const sectionId = terminalSection.id
 
@@ -638,12 +638,12 @@ async function main() {
                 level: "critical"
             }
 
-     
+
             const results = await logsClass.searchLogsByLevel(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -691,12 +691,12 @@ async function main() {
                 extra: extra
             }
 
-     
+
             const results = await logsClass.searchMoreLogs(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -743,12 +743,12 @@ async function main() {
                 extra: extra
             }
 
-     
+
             const results = await logsClass.searchLogsByLevelExtra(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -796,12 +796,12 @@ async function main() {
                 extra: extra
             }
 
-     
+
             const results = await logsClass.searchLogsByLevelExtra(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -849,12 +849,12 @@ async function main() {
                 extra: extra
             }
 
-     
+
             const results = await logsClass.searchLogsByLevelExtra(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -902,12 +902,12 @@ async function main() {
                 extra: extra
             }
 
-     
+
             const results = await logsClass.searchLogsByLevelExtra(bodyData)
 
             if (results.message.includes("service not found")) {
                 alert("Service was not found. Please try again later or contact our support.")
-            } else if(results.message.includes("something went wrong")) {
+            } else if (results.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (results.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
@@ -936,5 +936,3 @@ async function main() {
         }
     })
 }
-
-main()
