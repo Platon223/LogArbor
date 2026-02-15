@@ -14,9 +14,9 @@ def main_socket_events():
     @socketio.on("connect")
     def connect(auth):
 
-        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "info", f"user has joined the room: {user_id}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
-        
         user_id = auth.get("user_id")
+
+        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "info", f"user has joined the room: {user_id}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         if user_id:
 
