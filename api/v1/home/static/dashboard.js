@@ -250,6 +250,10 @@ async function main() {
 
         console.log(dates)
 
+        const chartInstance = Chart.getChart("logsPerServiceChart")
+
+        chartInstance.destroy()
+
         const ctx = document.getElementById("logsPerServiceChart");
 
         new Chart(ctx, {
