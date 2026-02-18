@@ -252,20 +252,43 @@ async function main() {
                 }
             })
 
-            const randomColor = randomBackgroundColors[Math.floor(Math.random() * randomBackgroundColors.length)]
+            if (localStorage.getItem(`${service.service_id}`)) {
+                service_dataset.borderColor = localStorage.getItem(`${service.service_id}`)
+                service_dataset.backgroundColor = localStorage.getItem(`${service.service_id}`)
+                service_dataset.tension = 0.35
+                service_dataset.data = log_count_array
 
-            service_dataset.data = log_count_array
-            service_dataset.borderColor = randomColor
-            service_dataset.backgroundColor = randomColor
-            service_dataset.tension = 0.35
+                let indexRandomColor = randomBackgroundColors.indexOf(localStorage.getItem(`${service.service_id}`))
 
-            let indexRandomColor = randomBackgroundColors.indexOf(randomColor)
+                if (indexRandomColor > -1) {
+                    randomBackgroundColors.splice(indexRandomColor, 1)
+                }
 
-            if (indexRandomColor > -1) {
-                randomBackgroundColors.splice(indexRandomColor, 1)
+                services_data.push(service_dataset)
+
+            } else {
+
+                const randomColor = randomBackgroundColors[Math.floor(Math.random() * randomBackgroundColors.length)]
+
+                service_dataset.data = log_count_array
+                service_dataset.borderColor = randomColor
+                service_dataset.backgroundColor = randomColor
+                service_dataset.tension = 0.35
+
+                let indexRandomColor = randomBackgroundColors.indexOf(randomColor)
+
+                if (indexRandomColor > -1) {
+                    randomBackgroundColors.splice(indexRandomColor, 1)
+                }
+
+                localStorage.setItem(`${service.service_id}`, randomColor)
+
+                services_data.push(service_dataset)
+
+
             }
 
-            services_data.push(service_dataset)
+
 
         })
 
