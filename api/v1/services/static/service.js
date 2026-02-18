@@ -3,7 +3,7 @@ class Service {
 
     async fetchCredentials() {
 
-        try{
+        try {
             const response = await fetch("/api/v1/home/credentials/username", {
                 method: "POST",
                 credentials: "same-origin",
@@ -24,13 +24,13 @@ class Service {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
     async fetchSettings() {
-        try{
+        try {
 
             const service_json = {
                 "service_id": service_id
@@ -58,13 +58,13 @@ class Service {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
     async deleteService() {
-        try{
+        try {
 
             const service_json = {
                 "service_id": service_id
@@ -92,13 +92,13 @@ class Service {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
     async confirmDeleteService(code) {
-        try{
+        try {
 
             const delete_service_json = {
                 "code": code,
@@ -127,14 +127,14 @@ class Service {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
 
     async updateService(parameter, value) {
-        try{
+        try {
 
             const update_service_json = {
                 "service_id": service_id,
@@ -164,7 +164,7 @@ class Service {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -189,7 +189,7 @@ document.getElementById("confirmDelete").onclick = async () => {
         window.location.href = "/auth/login"
     } else if (deleteService.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
-    } else if(deleteService.message.includes("something went wrong")) {
+    } else if (deleteService.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (deleteService.message.includes("sent")) {
         confirmModal.style.display = "none";
@@ -210,9 +210,11 @@ document.getElementById("deleteServiceFinalButton").onclick = async () => {
         window.location.href = "/auth/login"
     } else if (confirmDeleteService.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
-    } else if(confirmDeleteService.message.includes("something went wrong")) {
+    } else if (confirmDeleteService.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (confirmDeleteService.message.includes("deleted")) {
+        localStorage.removeItem(service_id)
+
         confirmModal.style.display = "none";
         codeModal.style.display = "none";
         window.location.href = "/services"
@@ -236,7 +238,7 @@ document.getElementById("updateNameButton").onclick = async () => {
 
     if (updateService.message.includes("unknown parameter")) {
         alert("Unknown parameter provided. Please try again.")
-    } else if(updateService.message.includes("something went wrong")) {
+    } else if (updateService.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (updateService.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
@@ -262,7 +264,7 @@ document.getElementById("updateUrlButton").onclick = async () => {
 
     if (updateService.message.includes("unknown parameter")) {
         alert("Unknown parameter provided. Please try again.")
-    } else if(updateService.message.includes("something went wrong")) {
+    } else if (updateService.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (updateService.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
@@ -289,7 +291,7 @@ document.getElementById("updateAlertLevelButton").onclick = async () => {
 
     if (updateService.message.includes("unknown parameter")) {
         alert("Unknown parameter provided. Please try again.")
-    } else if(updateService.message.includes("something went wrong")) {
+    } else if (updateService.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (updateService.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
@@ -311,14 +313,14 @@ async function main() {
 
     if (credentials.message.includes("user not found")) {
         window.location.href = "/auth/register"
-    } else if(credentials.message.includes("something went wrong")) {
+    } else if (credentials.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
     } else {
-        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
+        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`
     }
 
     const settings = await serviceClass.fetchSettings()
@@ -328,7 +330,7 @@ async function main() {
         document.getElementById("serviceIdField").value = settings.message.id
         document.getElementById("serviceUrlField").value = settings.message.url
         document.getElementById("serviceAlertLevelField").value = settings.message.alert_level
-    } else if(credentials.message.includes("something went wrong")) {
+    } else if (credentials.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
