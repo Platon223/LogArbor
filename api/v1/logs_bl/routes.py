@@ -14,7 +14,7 @@ from log_arbor.utils import log
 from domains.service import check_api_blueprint, check_ui_blueprint
 from domains.logs.service import write_log, all_user_logs, get_log_count_metrics, search_logs_by_message, search_logs_by_message_extra, search_logs_by_type, search_logs_by_type_extra, all_user_logs_more
 from extensions.limiter import limiter
-
+from tasks.add_log_api_task import add_log_task
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
 
@@ -138,13 +138,9 @@ def add_log():
     
     # Writes a log
 
-    log_result = write_log(g.data, mongo.db.services, mongo.db.logs, mongo.db.alerts, mongo.db.users, request)
-
-    if not log_result["ok"]:
-
-        return {"message": log_result["message"]}, log_result["status"]
+    add_log_task.delay(g.data, mongo.db.services, mongo.db.logs, mongo.db.alerts, mongo.db.users, request)
     
-    return {"message": log_result["message"]}, 200
+    return {"message": "logged"}, 200
 
 
     
