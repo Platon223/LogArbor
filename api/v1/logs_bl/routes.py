@@ -138,7 +138,7 @@ def add_log():
     
     # Writes a log
 
-    add_log_task.delay(g.data, mongo.db.services, mongo.db.logs, mongo.db.alerts, mongo.db.users, request)
+    add_log_task.delay(g.data)
     
     return {"message": "logged"}, 200
 
