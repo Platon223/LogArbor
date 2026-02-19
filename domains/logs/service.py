@@ -11,7 +11,7 @@ from datetime import timedelta
 from extensions.socket import socketio
 
 
-def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection, request):
+def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection):
 
     '''
         Writes a log to a service
