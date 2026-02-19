@@ -15,6 +15,7 @@ from domains.service import check_api_blueprint, check_ui_blueprint
 from domains.logs.service import write_log, all_user_logs, get_log_count_metrics, search_logs_by_message, search_logs_by_message_extra, search_logs_by_type, search_logs_by_type_extra, all_user_logs_more
 from extensions.limiter import limiter
 from tasks.add_log_api_task import add_log_task
+from extensions.socket import socketio
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
 
@@ -139,6 +140,8 @@ def add_log():
     # Writes a log
 
     add_log_task.delay(g.data)
+
+    socketio.emit("new-log", {"message": "new log"}, room=f"user_{g.data.get('user_id')}")
     
     return {"message": "logged"}, 200
 
