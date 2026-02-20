@@ -139,7 +139,7 @@ def add_log():
     
     # Writes a log
 
-    add_log_task.delay(g.data)
+    add_log_task.delay(dict(g.data))
 
     socketio.emit("new-log", {"message": "new log"}, room=f"user_{g.data.get('user_id')}")
     
