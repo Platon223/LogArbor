@@ -2,7 +2,7 @@ from celery import Celery
 import os
 
 def create_celery():
-    redis_url = "redis://host.docker.internal:6379/0"
+    redis_url = "redis://127.0.0.1:6379/0"
 
     celery = Celery(
         "logarbor",
