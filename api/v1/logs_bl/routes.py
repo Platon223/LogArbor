@@ -16,6 +16,7 @@ from domains.logs.service import write_log, all_user_logs, get_log_count_metrics
 from extensions.limiter import limiter
 from tasks.add_log_api_task import add_log_task
 from extensions.socket import socketio
+from tasks.add_log_api_task import ping
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
 
@@ -138,6 +139,8 @@ def add_log():
         return {"message": check["message"]}, 404
     
     # Writes a log
+
+    ping.delay()
 
     add_log_task.delay(dict(g.data))
 
