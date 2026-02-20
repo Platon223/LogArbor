@@ -2,7 +2,7 @@ from celery import Celery
 import os
 
 def create_celery():
-    redis_url = "redis://localhost:6379/0"
+    redis_url = "redis://127.0.0.1:6379/0"
 
     celery = Celery(
         "logarbor",
@@ -16,6 +16,8 @@ def create_celery():
         result_serializer="json",
         timezone="UTC",
         enable_utc=True,
+        broker_connection_retry_on_startup=False, 
+        broker_transport_options={'max_retries': 1},
     )
 
     return celery
