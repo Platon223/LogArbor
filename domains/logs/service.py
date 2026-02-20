@@ -17,8 +17,6 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
         Writes a log to a service
     '''
 
-    socketio.emit("new-log", {"message": "new log"}, room=f"user_{global_data.get('user_id')}")
-
     service = services_collection.find_one({"id": global_data.get("service_id")})
     
     if not service:
