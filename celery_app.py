@@ -7,7 +7,8 @@ def create_celery():
     celery = Celery(
         "logarbor",
         broker=redis_url,
-        backend=redis_url
+        backend=redis_url,
+        include=["tasks.add_log_api_task"]
     )
 
     celery.conf.update(
