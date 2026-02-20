@@ -16,7 +16,7 @@ def create_celery():
         result_serializer="json",
         timezone="UTC",
         enable_utc=True,
-        broker_connection_retry_on_startup=False, 
+        broker_connection_retry_on_startup=True, 
         broker_transport_options={'max_retries': 1},
     )
 
