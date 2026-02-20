@@ -139,7 +139,16 @@ def add_log():
     
     # Writes a log
 
-    add_log_task.delay(dict(g.data))
+    add_task_data = {
+        "service_id": g.data.get("service_id"),
+        "token": g.data.get("token"),
+        "message": g.data.get("message"),
+        "level": g.data.get("level"),
+        "time": g.data.get("time"),
+        "user_id": g.data.get("user_id")
+    }
+
+    add_log_task.delay(add_task_data)
 
     socketio.emit("new-log", {"message": "new log"}, room=f"user_{g.data.get('user_id')}")
     
