@@ -144,8 +144,7 @@ def add_log():
         "token": g.data.get("token"),
         "message": g.data.get("message"),
         "level": g.data.get("level"),
-        "time": g.data.get("time"),
-        "user_id": g.data.get("user_id")
+        "time": g.data.get("time")
     }
 
     add_log_task.delay(add_task_data)
