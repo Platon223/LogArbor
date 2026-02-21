@@ -9,7 +9,6 @@ from db_schemas.jwt import jwt_schema
 from db_schemas.verify_codes import verify_codes_schema
 from validates.validate_db import validate_db_data
 from pymongo.errors import DuplicateKeyError, OperationFailure, PyMongoError
-from logg.log import log
 import uuid
 import secrets
 import datetime
@@ -18,7 +17,7 @@ from handlers.auth_check_wrapper import auth_check_wrapper
 import os
 from datetime import timedelta
 from extensions.oauth import github
-from log_arbor.utils import log as loggg
+from log_arbor.utils import log
 from domains.auth.service import register_account, login_account, verify_account, jwt_credentials, github_oauth, change_password
 from extensions.limiter import limiter
 
@@ -31,7 +30,7 @@ def handle_operation_failure(e):
 
     try:
 
-        loggg(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}")
+        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -47,7 +46,7 @@ def handle_operation_failure_pymongo(e):
 
     try:
 
-        loggg(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error")
+        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed db operation at: {request.path} and error: {str(e)} because of a pymongo error", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -63,7 +62,7 @@ def handle_operation_failure_exception(e):
 
     try:
 
-        loggg(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}")
+        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
@@ -87,7 +86,7 @@ def data_validation():
 
         if "error" in data:
 
-            log("AUTH", "warning", f"user failed data validation on api_validate on {schema_name}")
+            log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "warning", f"user failed data validation on api_validate on {schema_name}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
             return {"message": data}, 400
         
         g.data = data
