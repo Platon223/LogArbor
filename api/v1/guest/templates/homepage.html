@@ -1,239 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>LogArbor – Modern Log Monitoring</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='homepage.css') }}">
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<header class="navbar">
-    <div class="nav-left">
-        <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor" class="nav-logo">
-        <span class="nav-title">LogArbor</span>
-    </div>
-
-    <nav class="nav-links">
-        <a href="/home/dashboard">Dashboard</a>
-        <a href="/docs">API Docs</a>
-        <a href="/support/learn_more">Learn More</a>
-        <a href="/support">Support</a>
-    </nav>
-
-    <div class="nav-actions">
-        <a href="/auth/login" class="btn ghost">Login</a>
-        <a href="/auth/register" class="btn primary">Get Started</a>
-    </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-    <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor Logo" class="hero-logo">
-
-    <h1>Observe. Debug. Scale.</h1>
-    <p>
-        LogArbor is a modern log aggregation and monitoring platform
-        built for developers who want clarity, performance, and control.
-    </p>
-
-    <div class="hero-actions">
-        <a href="/auth/register" class="btn primary large">Get Started</a>
-        <a href="/auth/login" class="btn ghost large">Login</a>
-    </div>
-</section>
-
-<!-- WHAT IS -->
-<section class="section">
-    <h2>What is LogArbor?</h2>
-    <p class="section-text">
-        LogArbor collects, structures, and visualizes logs from all your services
-        in real time. No clutter. No noise. Just clear, searchable insight into
-        what your systems are doing.
-    </p>
-</section>
-
-<!-- WHY US -->
-<section class="section alt">
-    <h2>Why LogArbor?</h2>
-
-    <div class="features">
-        <div class="feature-card">
-            <h3>⚡ Real-Time Logs</h3>
-            <p>Stream logs instantly with terminal-style clarity.</p>
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-left">
+            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor" class="nav-logo">
+            <span class="nav-title">LogArbor</span>
         </div>
 
-        <div class="feature-card">
-            <h3>🔒 Secure by Design</h3>
-            <p>JWT auth, service tokens, and role-based access.</p>
+        <nav class="nav-links">
+            <a href="/home/dashboard">Dashboard</a>
+            <a href="/docs">API Docs</a>
+            <a href="/support/learn_more">Learn More</a>
+            <a href="/support">Support</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="/auth/login" class="btn ghost">Login</a>
+            <a href="/auth/register" class="btn primary">Get Started</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor Logo" class="hero-logo">
+        <h1>Observe. Debug. Scale.</h1>
+        <p>
+            LogArbor is a modern log aggregation and monitoring platform
+            built for developers who want clarity, performance, and control.
+        </p>
+        <div class="hero-actions">
+            <a href="/auth/register" class="btn primary large">Get Started</a>
+            <a href="/auth/login" class="btn ghost large">Login</a>
+        </div>
+    </section>
+
+    <!-- WHAT IS -->
+    <section class="section reveal">
+        <h2>What is LogArbor?</h2>
+        <p class="section-text">
+            LogArbor collects, structures, and visualizes logs from all your services
+            in real time. No clutter. No noise. Just clear, searchable insight into
+            what your systems are doing.
+        </p>
+    </section>
+
+    <!-- WHY US -->
+    <section class="section alt">
+        <h2 class="reveal">Why LogArbor?</h2>
+        <div class="features">
+            <div class="feature-card reveal">
+                <h3>⚡ Real-Time Logs</h3>
+                <p>Stream logs instantly with terminal-style clarity across all your services.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3>🔒 Secure by Design</h3>
+                <p>JWT auth, service tokens, and role-based access — built in from day one.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3>🧩 Developer First</h3>
+                <p>Simple API, clean UI, no unnecessary complexity. Just logs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT'S NEW -->
+    <section class="section alt">
+        <h2 class="reveal">What's New in LogArbor 0.1.0</h2>
+        <div class="changelog">
+            <div class="changelog-item reveal">
+                <span class="tag new">NEW</span>
+                <p>Real-time terminal-style log streaming across all services.</p>
+            </div>
+            <div class="changelog-item reveal">
+                <span class="tag improve">IMPROVED</span>
+                <p>Advanced log filtering by level, service, and keywords.</p>
+            </div>
+            <div class="changelog-item reveal">
+                <span class="tag new">NEW</span>
+                <p>Secure service tokens with per-service isolation.</p>
+            </div>
+            <div class="changelog-item reveal">
+                <span class="tag fix">FIXED</span>
+                <p>Log overflow and scrolling issues on large datasets.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK SETUP -->
+    <section class="section">
+        <h2 class="reveal">Quick Setup</h2>
+
+        <!-- Step 1 -->
+        <div class="terminal-setup reveal">
+            <div class="terminal-setup-header">
+                <span>Step 1 — Install</span>
+                <div class="terminal-dots">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                </div>
+            </div>
+            <div class="terminal-setup-body">
+                <code><span class="syn-comment"># Install the LogArbor client via pip</span>
+<span class="syn-prompt">$ </span><span class="syn-func">pip</span> <span class="syn-keyword">install</span> <span class="syn-string">log-arbor</span></code>
+            </div>
         </div>
 
-        <div class="feature-card">
-            <h3>🧩 Developer First</h3>
-            <p>Simple API, clean UI, no unnecessary complexity.</p>
-        </div>
-    </div>
-</section>
+        <!-- Step 2 -->
+        <div class="terminal-setup reveal">
+            <div class="terminal-setup-header">
+                <span>Step 2 — Create a Service</span>
+                <div class="terminal-dots">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                </div>
+            </div>
+            <div class="terminal-setup-body">
+                <code><span class="syn-comment"># In the Dashboard → Sidebar → Services → New Service</span>
+<span class="syn-comment"># Fill in the fields:</span>
 
-<!-- WHAT'S NEW -->
-<section class="section alt">
-    <h2>What’s New in LogArbor 0.1.0</h2>
+  <span class="syn-keyword">Url</span>          <span class="syn-op">=</span> <span class="syn-string">"https://your-application.com"</span>
+  <span class="syn-keyword">Alert Level</span>  <span class="syn-op">=</span> <span class="syn-string">"error"</span>   <span class="syn-comment"># the log level that triggers an alert</span>
 
-    <div class="changelog">
-        <div class="changelog-item">
-            <span class="tag new">NEW</span>
-            <p>Real-time terminal-style log streaming across all services.</p>
-        </div>
-
-        <div class="changelog-item">
-            <span class="tag improve">IMPROVED</span>
-            <p>Advanced log filtering by level, service, and keywords.</p>
+<span class="syn-comment"># Learn more: <a href="/support/services/" style="color:var(--syn-comment)">/support/services</a></span></code></div>
         </div>
 
-        <div class="changelog-item">
-            <span class="tag new">NEW</span>
-            <p>Secure service tokens with per-service isolation.</p>
+        <!-- Step 3 -->
+        <div class="terminal-setup reveal">
+            <div class="terminal-setup-header">
+                <span>Step 3 — Send Logs</span>
+                <div class="terminal-dots">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                </div>
+            </div>
+            <div class="terminal-setup-body">
+                <code><span class="syn-keyword">from</span> <span class="syn-func">log_arbor.utils</span> <span class="syn-keyword">import</span> <span class="syn-func">log</span>
+
+<span class="syn-comment"># log(service_id, level, message)</span>
+<span class="syn-func">log</span>(<span class="syn-string">"your_service_id"</span>, <span class="syn-string">"info"</span>,  <span class="syn-string">"Server started on port 8080"</span>)
+<span class="syn-func">log</span>(<span class="syn-string">"your_service_id"</span>, <span class="syn-string">"warn"</span>,  <span class="syn-string">"Memory usage above 80%"</span>)
+<span class="syn-func">log</span>(<span class="syn-string">"your_service_id"</span>, <span class="syn-string">"error"</span>, <span class="syn-string">"Unhandled exception in /api/users"</span>)</code>
+            </div>
         </div>
 
-        <div class="changelog-item">
-            <span class="tag fix">FIXED</span>
-            <p>Log overflow and scrolling issues on large datasets.</p>
+        <!-- Step 4 -->
+        <div class="terminal-setup reveal">
+            <div class="terminal-setup-header">
+                <span>Step 4 — View Logs</span>
+                <div class="terminal-dots">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                </div>
+            </div>
+            <div class="terminal-setup-body"><code><span class="syn-comment"># Open the log viewer in your browser</span>
+<span class="syn-prompt">$ </span><span class="syn-func">open</span> <span class="syn-string">http://localhost:8888/logs/</span>
+
+<span class="syn-comment"># Find your service and watch logs stream in real time ✓</span></code></div>
         </div>
-    </div>
-</section>
+    </section>
 
-
-
-<!-- QUICK SETUP -->
-<section class="section">
-    <h2>Quick Setup</h2>
-
-    <div class="terminal-setup">
-        <div class="terminal-setup-header">
-            <span>Terminal</span>
-            <span class="terminal-dot"></span>
+    <!-- LOGARBOR CLI -->
+    <section class="section">
+        <h2 class="reveal">LogArbor CLI</h2>
+        <p class="section-text reveal">
+            The LogArbor CLI lets you register services, send logs,
+            and manage tokens directly from your terminal.
+            Built for automation and CI pipelines.
+        </p>
+        <div class="cli-features">
+            <div class="cli-card reveal">
+                <h3>Service Management</h3>
+                <p>Create, list, and delete services without leaving the terminal.</p>
+            </div>
+            <div class="cli-card reveal">
+                <h3>Log Streaming</h3>
+                <p>Send structured logs with levels, tags, and metadata.</p>
+            </div>
+            <div class="cli-card reveal">
+                <h3>CI/CD Ready</h3>
+                <p>Designed for pipelines, containers, and automated environments.</p>
+            </div>
         </div>
+    </section>
 
-        <pre class="terminal-setup-body"><code>
-# Install LogArbor client
-pip install log-arbor
-        </code></pre>
-    </div>
-
-    <div class="terminal-setup">
-        <div class="terminal-setup-header">
-            <span>Terminal</span>
-            <span class="terminal-dot"></span>
+    <!-- REVIEWS -->
+    <section class="section alt">
+        <h2 class="reveal">What Developers Say</h2>
+        <div class="reviews">
+            <div class="review-card reveal">
+                <p>"Finally a logging platform that feels like a terminal, not a spreadsheet."</p>
+                <span>— Backend Developer</span>
+            </div>
+            <div class="review-card reveal">
+                <p>"Setup took minutes. Logs were flowing immediately."</p>
+                <span>— Startup Founder</span>
+            </div>
         </div>
-        <pre class="terminal-setup-body"><code>
-# Initialize service
-Go to the dashboard and then in the sidebar click "Services" and then press "New Service".
-When it asks you for "Url" enter your application's url like: "https://example_application.com".
-When it asks you for "Alert Level" enter the log level that you want our system to recognize in
-your incoming logs and sent an alert. If you want to learn more about Alert Level, go to: <a href="/support/services/"></a>
-        </code></pre>
-    </div>
+    </section>
 
-    <div class="terminal-setup">
-        <div class="terminal-setup-header">
-            <span>Terminal</span>
-            <span class="terminal-dot"></span>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-brand">
+            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+            <p>© 2026 LogArbor. All rights reserved.</p>
         </div>
-        <pre class="terminal-setup-body"><code>
-# Send logs
-Install log-arbor:
-
-pip install log-arbor
-
-Import log-arbor
-
-from log-arbor.utils import log
-
-log(your_service_id, "info", "This is a log message")
-        </code></pre>
-    </div>
-
-    <div class="terminal-setup">
-        <div class="terminal-setup-header">
-            <span>Terminal</span>
-            <span class="terminal-dot"></span>
+        <div class="footer-links">
+            <a href="#">GitHub</a>
+            <a href="#">Twitter</a>
+            <a href="#">Docs</a>
+            <a href="#">Support</a>
         </div>
+    </footer>
 
-        <pre class="terminal-setup-body"><code>
-# View logs
-Go to: http://localhost:8888/logs/ and then find your service and view your logs!
-        </code></pre>
-    </div>
-</section>
+    <!-- Scroll reveal -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 60);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
 
-<!-- LOGARBOR CLI -->
-<section class="section">
-    <h2>LogArbor CLI</h2>
-
-    <p class="section-text">
-        The LogArbor CLI lets you register services, send logs,
-        and manage tokens directly from your terminal.
-        Built for automation and CI pipelines.
-    </p>
-
-    <div class="cli-features">
-        <div class="cli-card">
-            <h3>Service Management</h3>
-            <p>Create, list, and delete services without leaving the terminal.</p>
-        </div>
-
-        <div class="cli-card">
-            <h3>Log Streaming</h3>
-            <p>Send structured logs with levels, tags, and metadata.</p>
-        </div>
-
-        <div class="cli-card">
-            <h3>CI/CD Ready</h3>
-            <p>Designed for pipelines, containers, and automated environments.</p>
-        </div>
-    </div>
-</section>
-
-
-
-<!-- REVIEWS -->
-<section class="section alt">
-    <h2>What Developers Say</h2>
-
-    <div class="reviews">
-        <div class="review-card">
-            <p>
-                “Finally a logging platform that feels like a terminal,
-                not a spreadsheet.”
-            </p>
-            <span>— Backend Developer</span>
-        </div>
-
-        <div class="review-card">
-            <p>
-                “Setup took minutes. Logs were flowing immediately.”
-            </p>
-            <span>— Startup Founder</span>
-        </div>
-    </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="footer-brand">
-        <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
-        <p>© 2026 LogArbor. All rights reserved.</p>
-    </div>
-
-    <div class="footer-links">
-        <a href="#">GitHub</a>
-        <a href="#">Twitter</a>
-        <a href="#">Docs</a>
-        <a href="#">Support</a>
-    </div>
-</footer>
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 
 </body>
+
 </html>
