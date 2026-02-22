@@ -35,7 +35,7 @@ def handle_operation_failure(e):
 
         return {"message": f"{loge}"}, 500
     
-    return {"message": "something went wrong"}, 500
+    return {"message": f"something went wrong: str(e)"}, 500
 
 
 
@@ -51,7 +51,7 @@ def handle_operation_failure_pymongo(e):
 
         return {"message": f"{loge}"}, 500
     
-    return {"message": "something went wrong"}, 500
+    return {"message": f"something went wrong: {str(e)}"}, 500
 
 
 
