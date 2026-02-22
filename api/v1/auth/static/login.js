@@ -2,8 +2,6 @@ class Login {
     constructor(username, password, remember) {
         this.username = username
         this.password = password
-        this.remember = remember
-        
     }
 
 
@@ -14,7 +12,7 @@ class Login {
             remember: this.remember
         }
 
-        try{
+        try {
             const response = await fetch("/auth/login", {
                 method: "POST",
                 headers: {
@@ -33,9 +31,8 @@ class Login {
             return {
                 message: data.message,
                 user_id: data.user_id,
-                remember: data.remember
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -44,20 +41,11 @@ class Login {
 const formDiv = document.querySelector(".auth-form")
 const username = document.getElementById("username")
 const password = document.getElementById("password")
-const remember = document.getElementById("remember")
 
 formDiv.addEventListener("submit", async (event) => {
     event.preventDefault()
 
-    let remember_data = false
-
-    if (remember.checked) {
-        remember_data = true
-    } else {
-        remember_data = false
-    }
-
-    const registerClass = new Login(username.value, password.value, remember_data)
+    const registerClass = new Login(username.value, password.value)
     const submit = await registerClass.submit()
 
     console.log(submit.message)

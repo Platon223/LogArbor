@@ -155,7 +155,7 @@ def login_account(global_data, users_collection, verify_codes_collection, reques
         
     verify_codes_collection.insert_one(db_verify_code_data)
 
-    return {"ok": True, "message": "redirect to verify", "user_id": user["id"], "remember": True if global_data.get("remember") else False}
+    return {"ok": True, "message": "redirect to verify", "user_id": user["id"]}
 
 
 

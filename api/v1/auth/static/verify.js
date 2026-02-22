@@ -3,7 +3,7 @@ class Verify {
         this.code = code
         this.user_id = user_id
         this.remember = remember
-        
+
     }
 
 
@@ -14,7 +14,7 @@ class Verify {
             remember: this.remember
         }
 
-        try{
+        try {
             const response = await fetch("/auth/verify", {
                 method: "POST",
                 headers: {
@@ -33,7 +33,7 @@ class Verify {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({user_id: localStorage.getItem("user_id")})
+                body: JSON.stringify({ user_id: localStorage.getItem("user_id") })
             })
 
             if (!response2.ok) {
@@ -44,7 +44,7 @@ class Verify {
             const data = await response2.json()
 
             return `${data.message}`
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -53,12 +53,21 @@ class Verify {
 const formDiv = document.querySelector(".auth-form")
 const code = document.getElementById("code")
 const user_id = localStorage.getItem("user_id")
-const remember = localStorage.getItem("remember")
+const remember = document.getElementById("remember")
 
 formDiv.addEventListener("submit", async (event) => {
     event.preventDefault()
 
-    const verifyClass = new Verify(code.value, user_id, remember === "True" ? true : false)
+    let remember_data = false
+
+    if (remember.checked) {
+        remember_data = true
+    } else {
+        remember_data = false
+    }
+
+
+    const verifyClass = new Verify(code.value, user_id, remember_data)
     const submit = await verifyClass.submit()
 
     console.log(submit)

@@ -7,11 +7,11 @@
         },
         "password": {
             "type": "string"
-        },
-        "remember": {
-            "type": "boolean"
         }
     },
-    "required": ["username", "password", "remember"],
+    "required": [
+        "username",
+        "password"
+    ],
     "additionalProperties": false
 }

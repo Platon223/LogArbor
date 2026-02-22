@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LogArbor – Login</title>
     <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
 </head>
+
 <body>
 
     <div class="container">
@@ -20,20 +22,13 @@
             <input id="username" type="username" placeholder="Username" required>
             <input id="password" type="password" placeholder="Password" required>
 
-            <div class="remember-row">
-                <label class="remember-label">
-                    <input id="remember" type="checkbox" name="remember_me">
-                    <span class="checkmark"></span>
-                    Remember me
-                </label>
-            </div>
-
             <button class="btn primary">Login</button>
 
             <div class="divider"><span>OR</span></div>
 
             <button type="button" class="btn google">Continue with Google</button>
-            <button onclick="window.location.href = '{{ url_for('auth_bl.github_login') }}'" type="button" class="btn github">Continue with GitHub</button>
+            <button onclick="window.location.href = '{{ url_for('auth_bl.github_login') }}'" type="button"
+                class="btn github">Continue with GitHub</button>
 
             <p class="login-link">
                 Don’t have an account? <a href="register.html">Register</a>
@@ -45,4 +40,5 @@
     <script src="{{ url_for('auth_bl.static', filename='login.js') }}"></script>
 
 </body>
+
 </html>

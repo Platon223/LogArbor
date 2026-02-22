@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LogArbor – Verify</title>
     <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
 </head>
+
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <!-- Logo -->
-    <img class="img-logo" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo" referrerpolicy="no-referrer">
+        <!-- Logo -->
+        <img class="img-logo" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo" referrerpolicy="no-referrer">
 
-    <h1 class="logo-text">Verify Account</h1>
+        <h1 class="logo-text">Verify Account</h1>
 
-    <p class="verify-text">
-        Enter the 6-digit verification code sent to your email.
-    </p>
-
-    <!-- Verification Form -->
-    <form class="auth-form" method="POST" action="/verify">
-
-        <input
-            type="text"
-            name="code"
-            id="code"
-            placeholder="Verification Code"
-            maxlength="6"
-            inputmode="numeric"
-            pattern="[0-9]{6}"
-            required
-        >
-
-        <button type="submit" class="btn primary">Verify</button>
-
-        <p class="resend-link">
-            Didn’t get the code?
-            <a href="/resend-code">Resend</a>
+        <p class="verify-text">
+            Enter the 6-digit verification code sent to your email.
         </p>
 
-    </form>
+        <!-- Verification Form -->
+        <form class="auth-form" method="POST" action="/verify">
 
-</div>
+            <input type="text" name="code" id="code" placeholder="Verification Code" maxlength="6" inputmode="numeric"
+                pattern="[0-9]{6}" required>
 
-<script src="{{ url_for('auth_bl.static', filename='verify.js') }}"></script>
+            <div class="remember-row">
+                <label class="remember-label">
+                    <input id="remember" type="checkbox" name="remember_me">
+                    <span class="checkmark"></span>
+                    Remember me
+                </label>
+            </div>
+
+            <button type="submit" class="btn primary">Verify</button>
+
+            <p class="resend-link">
+                Didn’t get the code?
+                <a href="/resend-code">Resend</a>
+            </p>
+
+        </form>
+
+    </div>
+
+    <script src="{{ url_for('auth_bl.static', filename='verify.js') }}"></script>
 
 </body>
+
 </html>
