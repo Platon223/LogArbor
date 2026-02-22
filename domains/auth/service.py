@@ -100,7 +100,7 @@ def login_account(global_data, users_collection, verify_codes_collection, reques
 
         log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "warning", f"invalid password at {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
-        return {"ok": True, "message": "invalid password", "status": 401}
+        return {"ok": False, "message": "invalid password", "status": 401}
 
     
     # Checks if the user is remembered
@@ -352,7 +352,7 @@ def change_password(global_data, users_collection, request):
 
         log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "warning", f"invalid password at {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
-        return {"ok": True, "message": "invalid password", "status": 401}
+        return {"ok": False, "message": "invalid password", "status": 401}
     
 
     # Changes the password

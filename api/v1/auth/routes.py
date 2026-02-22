@@ -140,7 +140,11 @@ def login():
         
         if login_result["message"] == "redirect to verify":
 
-            return {"message": login_result["message"], "user_id": login_result["user_id"], "remember": login_result["remember"]}, 200
+            return {"message": login_result["message"], "user_id": login_result["user_id"]}, 200
+
+        if login_result["message"] == "fetch for jwt":
+
+            return {"message": login_result["message"]}, 200
 
     elif request.method == "GET":
 
