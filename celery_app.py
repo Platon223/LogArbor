@@ -1,5 +1,8 @@
 from celery import Celery
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 def create_celery():
     redis_url =  os.getenv("REDIS_URL_CELERY", "redis://127.0.0.1:6379/0")
