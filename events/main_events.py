@@ -16,8 +16,6 @@ def main_socket_events():
 
         user_id = auth.get("user_id")
 
-        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "info", f"user has joined the room: {user_id}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
-
         if user_id:
 
             join_room(f"user_{user_id}")
