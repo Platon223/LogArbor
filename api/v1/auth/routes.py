@@ -62,12 +62,12 @@ def handle_operation_failure_exception(e):
 
     try:
 
-        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {e}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
     except Exception as loge:
 
         return {"message": f"{loge}"}, 500
     
-    return {"message": "something went wrong"}, 500
+    return {"message": f"something went wrong: {e}"}, 500
 
 
 
