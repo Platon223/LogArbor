@@ -1,19 +1,43 @@
 class Login {
-    constructor(username, password, remember) {
-        this.username = username
-        this.password = password
-    }
 
-
-    async submit() {
+    async submit(username, password) {
         const json = {
-            username: this.username,
-            password: this.password,
-            remember: this.remember
+            username: username,
+            password: password
         }
 
         try {
             const response = await fetch("/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(json)
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return `HTTP error while logging in into an account: ${response.status}, ${data.message}`
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message,
+                user_id: data.user_id,
+            }
+        } catch (error) {
+            return `error: ${error}`
+        }
+    }
+
+    async fetchJWT(user_id) {
+        const json = {
+            user_id: user_id
+        }
+
+        try {
+            const response = await fetch("/auth/jwt", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

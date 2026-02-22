@@ -126,10 +126,6 @@ def register():
 def login():
     if request.method == "POST":
 
-        # Cleans the previous session
-        
-        session.clear()
-
         # Login process
 
         login_result = login_account(g.data, mongo.db.users, mongo.db.verify_codes, request)
@@ -140,11 +136,21 @@ def login():
         
         if login_result["message"] == "redirect to verify":
 
-            return {"message": login_result["message"], "user_id": login_result["user_id"]}, 200
+            res = make_response({"message": login_result["message"], "user_id": login_result["user_id"]})
+
+            res.delete_cookie("actk")
+            res.delete_cookie("rftk")
+
+            return res, 200
 
         if login_result["message"] == "fetch for jwt":
 
-            return {"message": login_result["message"]}, 200
+            res = make_response({"message": login_result["message"], "user_id": login_result["user_id"]})
+
+            res.delete_cookie("actk")
+            res.delete_cookie("rftk")
+
+            return res, 200
 
     elif request.method == "GET":
 

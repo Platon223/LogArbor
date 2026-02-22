@@ -109,7 +109,7 @@ def login_account(global_data, users_collection, verify_codes_collection, reques
 
         log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "info", f"user remembered at {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
-        return {"ok": True, "message": "fetch for jwt"}
+        return {"ok": True, "message": "fetch for jwt", "user_id": user["id"]}
 
     
     # Sends a verification code
