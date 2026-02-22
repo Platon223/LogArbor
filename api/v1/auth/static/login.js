@@ -59,7 +59,6 @@ formDiv.addEventListener("submit", async (event) => {
     } else if (submit.message.includes("verify")) {
         username.value = ""
         password.value = ""
-        remember.value = ""
 
         localStorage.setItem("user_id", submit.user_id)
         localStorage.setItem("remember", submit.remember ? "True" : "False")
