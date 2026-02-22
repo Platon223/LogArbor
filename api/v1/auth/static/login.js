@@ -69,8 +69,8 @@ const password = document.getElementById("password")
 formDiv.addEventListener("submit", async (event) => {
     event.preventDefault()
 
-    const registerClass = new Login(username.value, password.value)
-    const submit = await registerClass.submit()
+    const registerClass = new Login()
+    const submit = await registerClass.submit(username.value, password.value)
 
     console.log(submit.message)
 
