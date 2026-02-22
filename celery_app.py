@@ -6,11 +6,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 def create_celery():
     redis_url =  os.getenv("REDIS_URL_CELERY", "redis://127.0.0.1:6379/0")
+    redis_backend_url = os.getenv("REDIS_URL_CELERY_BACKEND", "redis://127.0.0.1:6379/1")
+ 
 
     celery = Celery(
         "logarbor",
-        broker="redis://host.docker.internal:6379/0",
-        backend="redis://host.docker.internal:6379/1",
+        broker=redis_url,
+        backend=redis_backend_url,
         include=["tasks.add_log_api_task"]
     )
 
