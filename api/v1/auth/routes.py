@@ -35,7 +35,7 @@ def handle_operation_failure(e):
 
         return {"message": f"{loge}"}, 500
     
-    return {"message": f"something went wrong: str(e)"}, 500
+    return {"message": f"something went wrong: {str(e)}"}, 500
 
 
 
