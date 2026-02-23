@@ -174,6 +174,7 @@ async function main() {
             datasets: services_data
         },
         options: {
+            animation: false,
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -307,6 +308,7 @@ async function main() {
                 datasets: services_data
             },
             options: {
+                animation: false,
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {

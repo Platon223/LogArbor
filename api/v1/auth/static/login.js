@@ -53,8 +53,7 @@ class Login {
             const data = await response.json()
 
             return {
-                message: data.message,
-                user_id: data.user_id,
+                message: data.message
             }
         } catch (error) {
             return `error: ${error}`
@@ -79,7 +78,9 @@ formDiv.addEventListener("submit", async (event) => {
     } else if (submit.message.includes("invalid password")) {
         alert("Incorrect password provided")
     } else if (submit.message.includes("fetch for jwt")) {
-        console.log("User remembered, fetch for jwt")
+        const fetchJwtResult = await registerClass.fetchJWT()
+
+        window.location.href = "/home/dashboard"
     } else if (submit.message.includes("verify")) {
         username.value = ""
         password.value = ""
