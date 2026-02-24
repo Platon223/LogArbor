@@ -83,6 +83,7 @@ formDiv.addEventListener("submit", async (event) => {
         if (fetchJwtResult.message.includes("send credentials")) {
             window.location.href = "/home/dashboard"
         } else {
+            console.log(fetchJwtResult.message)
             alert("Something went wrong. Please try again later.")
         }
 
