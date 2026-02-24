@@ -80,11 +80,10 @@ formDiv.addEventListener("submit", async (event) => {
     } else if (submit.message.includes("fetch for jwt")) {
         const fetchJwtResult = await registerClass.fetchJWT(submit.user_id)
 
-        if (fetchJwtResult.message.includes("send credentials")) {
+        if (fetchJwtResult.message.includes("success")) {
             window.location.href = "/home/dashboard"
         } else {
             console.log(fetchJwtResult.message)
-            alert("Something went wrong. Please try again later.")
         }
 
     } else if (submit.message.includes("verify")) {
