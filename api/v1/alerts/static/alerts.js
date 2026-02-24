@@ -4,7 +4,7 @@ class Alerts {
 
     async fetchCredentials() {
 
-        try{
+        try {
             const response = await fetch("/api/v1/home/credentials/username", {
                 method: "POST",
                 credentials: "same-origin",
@@ -25,13 +25,13 @@ class Alerts {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
     async fetchAlerts() {
-        try{
+        try {
             const response = await fetch("/api/v1/alerts/alerts", {
                 method: "GET",
                 credentials: "same-origin",
@@ -52,13 +52,13 @@ class Alerts {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
     async markAsViewed(alert_id) {
-        try{
+        try {
             const markAsViewedJson = {
                 alert_id: alert_id,
                 status: true
@@ -81,22 +81,22 @@ class Alerts {
 
             if (data.message.includes("alert not found")) {
                 alert("Alert was not found. Please try again later.")
-            } else if(data.message.includes("something went wrong")) {
+            } else if (data.message.includes("something went wrong")) {
                 window.location.href = "/auth/login"
             } else if (data.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
             } else if (data.message.includes("missing or invalid token")) {
                 window.location.href = "/auth/login"
             } else if (data.message.includes("marked as viewed")) {
-                window.location.reload()    
+                window.location.reload()
             }
-        } catch(error) {
+        } catch (error) {
             alert("Something went wrong while marking your alert as viewed. Please try again later.")
         }
     }
 
     async deleteAlert(alert_id) {
-        try{
+        try {
             const markAsViewedJson = {
                 alert_id: alert_id
             }
@@ -118,16 +118,16 @@ class Alerts {
 
             if (data.message.includes("alert not found")) {
                 alert("Alert was not found. Please try again later.")
-            } else if(data.message.includes("something went wrong")) {
+            } else if (data.message.includes("something went wrong")) {
                 window.location.href = "/auth/login"
             } else if (data.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
             } else if (data.message.includes("missing or invalid token")) {
                 window.location.href = "/auth/login"
             } else if (data.message.includes("deleted")) {
-                window.location.reload()    
+                window.location.reload()
             }
-        } catch(error) {
+        } catch (error) {
             alert("Something went wrong while deleting an alert. Please try again later.")
         }
     }
@@ -139,21 +139,21 @@ async function main() {
 
     if (credentials.message.includes("user not found")) {
         window.location.href = "/auth/register"
-    } else if(credentials.message.includes("something went wrong")) {
+    } else if (credentials.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
     } else {
-        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
+        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`
     }
 
     const allAlerts = await alertsClass.fetchAlerts()
     window.alertsClass = alertsClass
 
     if (Array.isArray(allAlerts.message)) {
-        const alertsContent = allAlerts.message.map((element) => {
+        const alertsContent = allAlerts.message.reverse().map((element) => {
             return `
                 <div class="alert-line ${element.viewed ? 'viewed' : 'unread'} ${element.level}">
                     <span class="alert-dot ${element.viewed ? 'viewed' : ''}"></span>
@@ -163,10 +163,10 @@ async function main() {
                         ${element.message} <strong>(${element.service_name})</strong>
                     </span>
                     <div class="alert-actions">
-                        ${element.viewed 
-                            ? `<button onclick="window.alertsClass.deleteAlert('${element.id}')" class="btn small danger">Delete</button>` 
-                            : `<button onclick="window.alertsClass.markAsViewed('${element.id}')" class="btn small">Mark Viewed</button><button onclick="window.alertsClass.deleteAlert('${element.id}')" class="btn small danger">Delete</button>`
-                        }
+                        ${element.viewed
+                    ? `<button onclick="window.alertsClass.deleteAlert('${element.id}')" class="btn small danger">Delete</button>`
+                    : `<button onclick="window.alertsClass.markAsViewed('${element.id}')" class="btn small">Mark Viewed</button><button onclick="window.alertsClass.deleteAlert('${element.id}')" class="btn small danger">Delete</button>`
+                }
                     </div>
                 </div>`
         }).join('')
@@ -174,7 +174,7 @@ async function main() {
         document.getElementById("alerts-container").innerHTML = alertsContent
     } else if (allAlerts.message.includes("no alerts")) {
         document.getElementById("alerts-container").innerHTML = `<h4>No Alerts Yet, <a href='/docs/sending-logs'>Learn More</a></h4>`
-    } else if(allAlerts.message.includes("something went wrong")) {
+    } else if (allAlerts.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (allAlerts.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
