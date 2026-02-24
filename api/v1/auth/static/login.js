@@ -78,7 +78,7 @@ formDiv.addEventListener("submit", async (event) => {
     } else if (submit.message.includes("invalid password")) {
         alert("Incorrect password provided")
     } else if (submit.message.includes("fetch for jwt")) {
-        const fetchJwtResult = await registerClass.fetchJWT()
+        const fetchJwtResult = await registerClass.fetchJWT(submit.user_id)
 
         if (fetchJwtResult.message.includes("send credentials")) {
             window.location.href = "/home/dashboard"
