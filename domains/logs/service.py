@@ -38,6 +38,8 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
             "You are receiving this alert because, service was not found on log function call"
         )
 
+        print(result)
+
         return {"ok": False, "message": "service not found", "status": 404}
     
     if not service["user_id"] == global_data.get("user_id"):
