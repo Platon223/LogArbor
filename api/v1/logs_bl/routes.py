@@ -92,6 +92,23 @@ def data_validation():
 
         if request.path == "/api/v1/logs/add" and  not data.get("level") in allowed_log_levels:
 
+            user = mongo.db.users.find_one({"id": data.get("user_id")})
+
+            if not user:
+
+                return {"message": "user not found"}, 404
+
+            result = send_alert_email(
+                os.getenv("EMAILJS_SERVICE_ID"), 
+                os.getenv("ALERT_SERVICE_TEMPLATE_ID"),
+                os.getenv("PUBLIC_EMAILJS_KEY"),
+                os.getenv("ACCESS_TOKEN_EMAILJS"),
+                user["username"],
+                "LogArbor Support Team",
+                user["email"],
+                "You are receiving this alert because, you provided an invalid log level in the log function call. Please check our docs for log levels. If that doesn't help please contact the LogArbor Support Team."
+            )
+
             log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", "invalid log level provided", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
             return {"message": "invalid log level"}, 401
