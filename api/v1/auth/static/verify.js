@@ -75,7 +75,7 @@ formDiv.addEventListener("submit", async (event) => {
     if (submit.includes("invalid code")) {
         alert(`Invalid code provided.`)
     } else if (submit.includes("expired")) {
-        alert("The code has been epired.")
+        alert("The code has been expired.")
     } else if (submit.includes("success")) {
         code.value = ""
 
