@@ -25,21 +25,19 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
     service = services_collection.find_one({"id": global_data.get("service_id")})
     
-    if not service:
-
-        result = send_alert_email(
-            os.getenv("EMAILJS_SERVICE_ID"), 
-            os.getenv("ALERT_SERVICE_TEMPLATE_ID"),
-            os.getenv("PUBLIC_EMAILJS_KEY"),
-            os.getenv("ACCESS_TOKEN_EMAILJS"),
-            user["username"],
-            "LogArbor Support Team",
-            user["email"],
-            "You are receiving this alert because, service was not found on log function call"
-        )
-
-        return {"ok": False, "message": "service not found", "status": 404}
     
+
+    result = send_alert_email(
+        os.getenv("EMAILJS_SERVICE_ID"), 
+        os.getenv("ALERT_SERVICE_TEMPLATE_ID"),
+        os.getenv("PUBLIC_EMAILJS_KEY"),
+        os.getenv("ACCESS_TOKEN_EMAILJS"),
+        user["username"],
+        "LogArbor Support Team",
+        user["email"],
+        "You are receiving this alert because, service was not found on log function call"
+    )
+ 
     if not service["user_id"] == global_data.get("user_id"):
 
         result = send_alert_email(
