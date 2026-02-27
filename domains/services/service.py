@@ -170,8 +170,6 @@ def all_services(services_collection, request):
         Finds all services user have created
     '''
 
-    logg("SERVICES", "info", "got all services")
-
     all_user_services = services_collection.find({"user_id": getattr(request, "auth_identity", None)})
 
     all_user_services_list = list(all_user_services)
