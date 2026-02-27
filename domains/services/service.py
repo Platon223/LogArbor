@@ -1,4 +1,5 @@
 from log_arbor.utils import log
+from logg.log import log as logg
 import os
 import uuid
 from validates.validate_db import validate_db_data
@@ -168,6 +169,8 @@ def all_services(services_collection, request):
     '''
         Finds all services user have created
     '''
+
+    logg("SERVICES", "info", "got all services")
 
     all_user_services = services_collection.find({"user_id": getattr(request, "auth_identity", None)})
 
