@@ -18,6 +18,9 @@ def get_credentials(users_collection, request):
 
         return {"ok": False, "message": "user not found", "status": 404}
     
-    log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "info", "user got their credentials successufully", "6177b289-2b6f-44ea-a542-e2238263bd4e")
+    log_result_test = log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "info", "user got their credentials successufully", "6177b289-2b6f-44ea-a542-e2238263bd4e")
+
+    log(os.getenv("LOGARBOR_HOME_SERVICE_ID"), "info", f"{log_result_test}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+
 
     return {"ok": True, "message": current_user["username"]}
