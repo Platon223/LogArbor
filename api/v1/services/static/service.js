@@ -326,6 +326,7 @@ async function main() {
     const settings = await serviceClass.fetchSettings()
 
     if (settings.message instanceof Object) {
+        document.getElementById("serviceNameHeader").innerText = settings.message.name
         document.getElementById("serviceNameField").value = settings.message.name
         document.getElementById("serviceIdField").value = settings.message.id
         document.getElementById("serviceUrlField").value = settings.message.url

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,113 +9,115 @@
     <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
     <link rel="stylesheet" href="{{ url_for('home_blp.static', filename='dashboard.css') }}">
 </head>
+
 <body>
 
-<div class="dashboard">
+    <div class="dashboard">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <img class="img-logo-dashboard" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo">
-        <nav class="sidebar-nav">
-            <a href="/home/dashboard">Dashboard</a>
-            <a href="/services/" class="active">Services</a>
-            <a href="/logs/">Logs</a>
-            <a href="/alerts/">Alerts</a>
-            <a href="/settings/">Settings</a>
-        </nav>
-    </aside>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <img class="img-logo-dashboard" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo">
+            <nav class="sidebar-nav">
+                <a href="/home/dashboard">Dashboard</a>
+                <a href="/services/" class="active">Services</a>
+                <a href="/logs/">Logs</a>
+                <a href="/alerts/">Alerts</a>
+                <a href="/settings/">Settings</a>
+            </nav>
+        </aside>
 
-    <!-- Main -->
-    <main class="main">
+        <!-- Main -->
+        <main class="main">
 
-        <header class="topbar">
-            <h1>auth_service</h1>
-            <span class="env">Production</span>
-        </header>
+            <header class="topbar">
+                <h1 id="serviceNameHeader"></h1>
+                <span class="env">Production</span>
+            </header>
 
-        <!-- Settings -->
-        <section class="settings-section">
+            <!-- Settings -->
+            <section class="settings-section">
 
-            <div class="setting-row">
-                <label>Service Name</label>
-                <input id="serviceNameField" type="text" value="">
-                <button id="updateNameButton" class="btn small">Update</button>
+                <div class="setting-row">
+                    <label>Service Name</label>
+                    <input id="serviceNameField" type="text" value="">
+                    <button id="updateNameButton" class="btn small">Update</button>
+                </div>
+
+                <div class="setting-row">
+                    <label>Id</label>
+                    <input id="serviceIdField" type="text" value="" readonly>
+                    <button id="copyIdButton" class="btn small">Copy</button>
+                </div>
+
+                <div class="setting-row">
+                    <label>Url</label>
+                    <input id="serviceUrlField" type="text" value="">
+                    <button id="updateUrlButton" class="btn small">Update</button>
+                </div>
+
+                <div class="setting-row">
+                    <label>Alert Level</label>
+                    <input id="serviceAlertLevelField" type="text" value="">
+                    <button id="updateAlertLevelButton" class="btn small">Update</button>
+                </div>
+
+            </section>
+
+            <!-- Danger Zone -->
+            <section class="danger-zone">
+                <h2>Danger Zone</h2>
+                <button class="btn danger" id="openDeleteConfirm">
+                    Delete Service
+                </button>
+            </section>
+
+        </main>
+
+        <footer class="app-footer">
+            <div class="footer-left">
+                <a href="/support">Need Help</a>
+                <a href="/docs">Documentation</a>
+                <a href="/support/feedback">Seeing something unexpected?</a>
             </div>
 
-            <div class="setting-row">
-                <label>Id</label>
-                <input id="serviceIdField" type="text" value="" readonly>
-                <button id="copyIdButton" class="btn small">Copy</button>
+            <div class="footer-right">
+                <span class="status-dot online"></span>
+                <span class="status-text">System Status: All good</span>
             </div>
+        </footer>
+    </div>
 
-            <div class="setting-row">
-                <label>Url</label>
-                <input id="serviceUrlField" type="text" value="">
-                <button id="updateUrlButton" class="btn small">Update</button>
+    <!-- Confirm Delete -->
+    <div class="modal" id="confirmDeleteModal">
+        <div class="modal-content">
+            <h3>Delete service?</h3>
+            <p>This action cannot be undone.</p>
+
+            <div class="modal-actions">
+                <button class="btn" id="cancelDelete">Cancel</button>
+                <button class="btn danger" id="confirmDelete">Yes, delete</button>
             </div>
-
-            <div class="setting-row">
-                <label>Alert Level</label>
-                <input id="serviceAlertLevelField" type="text" value="">
-                <button id="updateAlertLevelButton" class="btn small">Update</button>
-            </div>
-
-        </section>
-
-        <!-- Danger Zone -->
-        <section class="danger-zone">
-            <h2>Danger Zone</h2>
-            <button class="btn danger" id="openDeleteConfirm">
-                Delete Service
-            </button>
-        </section>
-
-    </main>
-
-    <footer class="app-footer">
-        <div class="footer-left">
-            <a href="/support">Need Help</a>
-            <a href="/docs">Documentation</a>
-            <a href="/support/feedback">Seeing something unexpected?</a>
-        </div>
-
-        <div class="footer-right">
-            <span class="status-dot online"></span>
-            <span class="status-text">System Status: All good</span>
-        </div>
-    </footer>
-</div>
-
-<!-- Confirm Delete -->
-<div class="modal" id="confirmDeleteModal">
-    <div class="modal-content">
-        <h3>Delete service?</h3>
-        <p>This action cannot be undone.</p>
-
-        <div class="modal-actions">
-            <button class="btn" id="cancelDelete">Cancel</button>
-            <button class="btn danger" id="confirmDelete">Yes, delete</button>
         </div>
     </div>
-</div>
 
-<!-- Confirmation Code -->
-<div class="modal" id="codeModal">
-    <div class="modal-content">
-        <h3>Enter confirmation code</h3>
-        <p>We sent a code to your email.</p>
+    <!-- Confirmation Code -->
+    <div class="modal" id="codeModal">
+        <div class="modal-content">
+            <h3>Enter confirmation code</h3>
+            <p>We sent a code to your email.</p>
 
-        <input id="codeModalInput" type="text" placeholder="6-digit code">
-        <button id="deleteServiceFinalButton" class="btn danger">Confirm deletion</button>
+            <input id="codeModalInput" type="text" placeholder="6-digit code">
+            <button id="deleteServiceFinalButton" class="btn danger">Confirm deletion</button>
+        </div>
     </div>
-</div>
 
 
-<script>
-    const service_id = "{{ serv_id }}"
-</script>
+    <script>
+        const service_id = "{{ serv_id }}"
+    </script>
 
-<script src="{{ url_for('services_bl.static', filename='service.js') }}"></script>
+    <script src="{{ url_for('services_bl.static', filename='service.js') }}"></script>
 
 </body>
+
 </html>
