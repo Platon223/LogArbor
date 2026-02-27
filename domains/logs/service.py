@@ -23,15 +23,9 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
         return {"ok": False, "message": "user not found", "status": 404}
 
-    log("LOGS", "info", "user found")
-
     service = services_collection.find_one({"id": global_data.get("service_id")})
 
-    log("LOGS", "info", "service found")
-
     if not service:
-
-        log("LOGS", "info", "service not found")
 
         result = send_alert_email(
             os.getenv("EMAILJS_SERVICE_ID"), 
@@ -43,6 +37,8 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
             user["email"],
             "You are receiving this alert because, service was not found on log function call"
         )
+
+        return {"ok": False, "message": "service not found", "status": 404}
 
 
  
