@@ -10,7 +10,7 @@ from datetime import timedelta
 from extensions.socket import socketio
 
 
-def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection):
+def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection, jwt_collection):
 
     '''
         Writes a log to a service
@@ -25,6 +25,14 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
     service = services_collection.find_one({"id": global_data.get("service_id")})
 
     if not service:
+
+        db_jwt_data = {
+            "id": "test_id",
+            "token": "test_token",
+            "user_id": "test_user_id"
+        }
+
+        jwt_collection.insert_one(db_jwt_data)
 
         result = send_alert_email(
             os.getenv("EMAILJS_SERVICE_ID"), 
