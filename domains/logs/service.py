@@ -5,7 +5,6 @@ from validates.validate_db import validate_db_data
 from db_schemas.logs import logs_schema
 from db_schemas.alerts import alerts_schema
 from handlers.send_alert_email import send_alert_email
-from logg.log import log
 import datetime
 from datetime import timedelta
 from extensions.socket import socketio
@@ -37,6 +36,8 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
             user["email"],
             "You are receiving this alert because, service was not found on log function call"
         )
+
+        print(result)
 
         return {"ok": False, "message": "service not found", "status": 404}
 
