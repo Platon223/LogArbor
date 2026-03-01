@@ -24,14 +24,6 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
     service = services_collection.find_one({"id": global_data.get("service_id")})
 
-    db_jwt_data = {
-        "id": "test_id",
-        "token": "test_token",
-        "user_id": "test_user_id"
-    }
-
-    jwt_collection.insert_one(db_jwt_data)
-
     if not service:
  
         result = send_alert_email(
@@ -44,8 +36,6 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
             user["email"],
             "You are receiving this alert because, service was not found on log function call"
         )
-
-        print(result)
 
         return {"ok": False, "message": "service not found", "status": 404}
 
@@ -80,6 +70,24 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
         services_collection.update_one(filter_query, update_operation)
     
+    services_logs = logs_collection.find({"service_id": global_data.get("service_id")})
+
+    services_logs_list = list(services_logs)
+
+    if len(services_logs_list) >= 10:
+
+        result = send_alert_email(
+            os.getenv("EMAILJS_SERVICE_ID"), 
+            os.getenv("ALERT_SERVICE_TEMPLATE_ID"),
+            os.getenv("PUBLIC_EMAILJS_KEY"),
+            os.getenv("ACCESS_TOKEN_EMAILJS"),
+            user["username"],
+            "LogArbor Support Team",
+            user["email"],
+            f"Service: {service['name']} log count exceeded. Consider creating a new service. In the next version of LogArbor we will have different packages you can purchase for a speciffic log volume."
+        )
+
+        return {"ok": False, "message": "log count for a service exceeded", "status": 401}
 
 
     new_log_db_data = {

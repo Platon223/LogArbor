@@ -203,7 +203,7 @@ def verify_account(global_data, verify_codes_collection, users_collection, reque
         update_operation = {
             "$set": {
                 "remember": True,
-                "remember_expiration_date": datetime.datetime.today() + timedelta(minutes=5)
+                "remember_expiration_date": datetime.datetime.today() + timedelta(days=2)
             }
         }
 
