@@ -239,7 +239,7 @@ def all():
     
     # Finds all services
 
-    all_services_result = all_services(mongo.db.services, request)
+    all_services_result = all_services(mongo.db.services, request, mongo.db.alerts)
 
     return {"message": all_services_result["message"]}, 200
 
