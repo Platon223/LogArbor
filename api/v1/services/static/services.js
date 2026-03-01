@@ -157,7 +157,7 @@ async function main() {
 
                 <div class="service-body">
                     <p><strong>Status:</strong> ${element.health === "healthy" ? "Healthy" : "Unhealthy"}</p>
-                    <p><strong>Logs:</strong> 123</p>
+                    <p><strong>Logs:</strong> ${element.total_logs}</p>
                     <p><strong>Url:</strong> ${element.url}</p>
                     <p><strong>Alert Level:</strong> ${element.alert_level}</p>
                 </div>

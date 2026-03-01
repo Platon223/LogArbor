@@ -174,7 +174,7 @@ def confirm_delete_service(global_data, verify_codes_collection, services_collec
 
 
 
-def all_services(services_collection, request, alerts_collection):
+def all_services(services_collection, request, alerts_collection, logs_collection):
 
     '''
         Finds all services user have created
@@ -202,6 +202,12 @@ def all_services(services_collection, request, alerts_collection):
         else:
 
             service["health"] = "healthy"
+
+        services_logs = logs_collection.find({"service_id": service["id"]})
+
+        services_logs_list = list(services_logs)
+
+        service["total_logs"] = len(services_logs_list)
 
     log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "user got all services successufully", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
