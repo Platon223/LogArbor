@@ -74,7 +74,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
     services_logs_list = list(services_logs)
 
-    if len(services_logs_list) >= 10:
+    if len(services_logs_list) >= 600:
 
         result = send_alert_email(
             os.getenv("EMAILJS_SERVICE_ID"), 

@@ -17,6 +17,16 @@ def create_service(global_data, services_collection, request):
         Creates a new service
     '''
 
+    user_services = services_collection.find({"user_id": getattr(request, "auth_identity", None)})
+
+    user_services_list = list(user_services)
+
+    if len(user_services_list) >= 6:
+
+        log(os.getenv("LOGARBOR_SERVICES_SERVICE_ID"), "info", "services count exceeded", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+
+        return {"ok": False, "message": "too many services", "status": 401}
+
     db_data = {
         "id": str(uuid.uuid4()),
         "name": global_data.get("name"),
