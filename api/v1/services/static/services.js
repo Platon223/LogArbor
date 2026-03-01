@@ -3,7 +3,7 @@ class Services {
 
     async fetchCredentials() {
 
-        try{
+        try {
             const response = await fetch("/api/v1/home/credentials/username", {
                 method: "POST",
                 credentials: "same-origin",
@@ -24,13 +24,13 @@ class Services {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
     async allServices() {
-        try{
+        try {
             const response = await fetch("/api/v1/services/all_services", {
                 method: "POST",
                 credentials: "same-origin",
@@ -51,7 +51,7 @@ class Services {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -62,7 +62,7 @@ class Services {
             url: url,
             alert_level: alert_level
         }
-        try{
+        try {
             const response = await fetch("/api/v1/services/create", {
                 method: "POST",
                 credentials: "same-origin",
@@ -84,7 +84,7 @@ class Services {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -133,14 +133,14 @@ async function main() {
 
     if (credentials.message.includes("user not found")) {
         window.location.href = "/auth/register"
-    } else if(credentials.message.includes("something went wrong")) {
+    } else if (credentials.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
     } else {
-        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
+        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`
     }
 
     const all_services = await servicesClass.allServices()
@@ -156,7 +156,7 @@ async function main() {
                 </div>
 
                 <div class="service-body">
-                    <p><strong>Status:</strong> Healthy</p>
+                    <p><strong>Status:</strong> ${element.health === "healthy" ? "Healthy" : "Unhealthy"}</p>
                     <p><strong>Logs:</strong> 123</p>
                     <p><strong>Url:</strong> ${element.url}</p>
                     <p><strong>Alert Level:</strong> ${element.alert_level}</p>
@@ -167,7 +167,7 @@ async function main() {
                 </div>
             </div>`
         });
-    } else if(credentials.message.includes("something went wrong")) {
+    } else if (credentials.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
