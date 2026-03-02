@@ -139,7 +139,6 @@ def login():
             res = make_response({"message": login_result["message"], "user_id": login_result["user_id"]})
 
             res.delete_cookie("actk")
-            res.delete_cookie("rftk")
 
             return res, 200
 
@@ -148,7 +147,6 @@ def login():
             res = make_response({"message": login_result["message"], "user_id": login_result["user_id"]})
 
             res.delete_cookie("actk")
-            res.delete_cookie("rftk")
 
             return res, 200
 
