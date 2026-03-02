@@ -223,34 +223,13 @@ def jwt_credentials(global_data, jwt_collection, request):
         Gives the user jwt credentials
     '''
 
-    # Creates access and refresh tokens
+    # Creates an access token
 
     access_token = create_access_token(identity=global_data.get("user_id"))
 
-    refresh_token = create_refresh_token(identity=global_data.get("user_id"))
-
-
-    # Stores the jwt object
-
-    db_jwt_data = {
-        "id": str(uuid.uuid4()),
-        "token": refresh_token,
-        "user_id": global_data.get("user_id")
-    }
-
-    db_jwt_validated_data = validate_db_data(db_jwt_data, jwt_schema)
-
-    if "error" in db_jwt_validated_data:
-
-        log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "warning", f"user failed data validation on db_validate at: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
-
-        return {"ok": False, "message": db_jwt_validated_data, "status": 400}
-            
-    jwt_collection.insert_one(db_jwt_data)
-
     log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "warning", f"user has gotten their jwt tokens at: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
-    return {"ok": True, "message": "send credentials", "actk": access_token, "rftk": refresh_token}
+    return {"ok": True, "message": "send credentials", "actk": access_token}
 
 
 

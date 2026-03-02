@@ -30,12 +30,10 @@ def create_service():
     app.config["MONGO_URI"] = os.getenv("MONGO")
     app.secret_key = os.getenv("APP_SECRET")
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET")
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
-    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(hours=24)
-    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+    app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=1)
     app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
     app.config["JWT_ACCESS_COOKIE_NAME"] = "actk"
-    app.config["JWT_REFRESH_COOKIE_NAME"] = "rftk"
     app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 
     mongo.init_app(app)

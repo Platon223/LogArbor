@@ -96,7 +96,7 @@ def data_validation():
         
         
 @auth_bl.route("/register", methods=["GET", "POST"])
-@limiter.limit("3 per minute")
+@limiter.limit("10 per minute")
 def register():
 
     if request.method == "POST":
@@ -122,7 +122,7 @@ def register():
 
     
 @auth_bl.route("/login", methods=["POST", "GET"])
-@limiter.limit("3 per minute")
+@limiter.limit("10 per minute")
 def login():
     if request.method == "POST":
 
@@ -160,7 +160,7 @@ def login():
     
 
 @auth_bl.route("/verify", methods=["POST", "GET"])
-@limiter.limit("3 per minute")
+@limiter.limit("10 per minute")
 def verify():
     if request.method == "POST":
         
@@ -182,7 +182,7 @@ def verify():
     
 
 @auth_bl.route("/jwt", methods=["POST"])
-@limiter.limit("3 per minute")
+@limiter.limit("10 per minute")
 def jwt():
 
     # Gives the user JWT credentials
@@ -200,26 +200,17 @@ def jwt():
         res.set_cookie(
             "actk",
             jwt_result["actk"],
-            max_age=timedelta(minutes=30).total_seconds(),
+            max_age=timedelta(hours=1).total_seconds(),
             secure=False,
             httponly=True,
             samesite="Lax"
         )
-
-        res.set_cookie(
-            "rftk",
-            jwt_result["rftk"],
-            max_age=timedelta(hours=24).total_seconds(),
-            secure=False,
-            httponly=True,
-            samesite="Lax"
-        )
-
+ 
         return res, 200
 
 
 @auth_bl.route("/oauth_github_login")
-@limiter.limit("3 per minute")
+@limiter.limit("10 per minute")
 def github_login():
 
     # Redirects to github login
@@ -246,7 +237,7 @@ def github_callback():
     
     
 @auth_bl.route("/update_password", methods=["POST"])
-@limiter.limit("3 per minute")
+@limiter.limit("10 per minute")
 @auth_check_wrapper()
 def new_password():
 
