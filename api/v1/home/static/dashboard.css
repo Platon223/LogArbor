@@ -19,6 +19,7 @@ body {
     color: #b8deba;
     padding-bottom: 60px;
     padding-top: 0;
+    /* dashboard layout handles its own spacing */
 }
 
 /* ================== LAYOUT ================== */
@@ -28,6 +29,7 @@ body {
     width: 100%;
     overflow: hidden;
     min-height: 100vh;
+    padding-top: 20px;
     background-image:
         linear-gradient(rgba(0, 255, 135, 0.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 255, 135, 0.025) 1px, transparent 1px);
