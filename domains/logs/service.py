@@ -308,7 +308,7 @@ def search_logs_by_message(global_data, services_collection, logs_collection, re
 
         return {"ok": False, "message": "service not found", "status": 404}
     
-    logs = logs_collection.find({"service_id": service["id"], "message": global_data.get("message")})
+    logs = logs_collection.find({"service_id": service["id"], "message": { "$regex": global_data.get("message"), "$options": "i"}})
 
     logs_list = list(logs)
 
