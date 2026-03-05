@@ -10,7 +10,7 @@ from datetime import timedelta
 from extensions.socket import socketio
 
 
-def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection, jwt_collection):
+def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection, windows_collection):
 
     '''
         Writes a log to a service
@@ -90,25 +90,164 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
         return {"ok": False, "message": "log count for a service exceeded", "status": 401}
 
 
-    new_log_db_data = {
-        "id": str(uuid.uuid4()),
-        "service_id": service["id"],
-        "user_id": global_data.get("user_id"),
-        "message": global_data.get("message"),
-        "level": global_data.get("level"),
-        "time": global_data.get("time")
-    }
+    current_windows = windows_collection.find({"service_id": service["id"]})
 
-    db_validated_data = validate_db_data(new_log_db_data, logs_schema)
+    current_windows_list = list(current_windows)
 
-    if "error" in db_validated_data:
+    if len(current_windows_list) == 0:
 
-        return {"ok": False, "message": db_validated_data, "status": 401}
-    
+        new_window_id = str(uuid.uuid4())
 
-    logs_collection.insert_one(new_log_db_data)
+        new_window = {
+            "id": new_window_id,
+            "service_id": service["id"],
+            "expire": datetime.datetime.today() + timedelta(seconds=10),
+            "expired": False,
+            "created": datetime.datetime.today()
+        }
 
-    
+        windows_collection.insert_one(new_window)
+
+        new_log_db_data = {
+            "id": str(uuid.uuid4()),
+            "service_id": service["id"],
+            "user_id": global_data.get("user_id"),
+            "message": global_data.get("message"),
+            "level": global_data.get("level"),
+            "time": global_data.get("time"),
+            "window_id": new_window_id
+        }
+
+        db_validated_data = validate_db_data(new_log_db_data, logs_schema)
+
+        if "error" in db_validated_data:
+
+            return {"ok": False, "message": db_validated_data, "status": 401}
+        
+
+        logs_collection.insert_one(new_log_db_data)
+    else:
+
+        current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
+
+        if current_window["expire"] < datetime.datetime.today():
+
+            if len(current_windows_list) == 2:
+
+                expired_window = windows_collection.find_one({"service_id": service["id"], "expired": True})
+
+                windows_collection.delete_one(expired_window)
+
+                current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
+
+                filter_query = {"id": current_window["id"]}
+
+                update_operation = {
+                    "$set": {
+                        "expired": True
+                    }
+                }
+
+                windows_collection.update_one(filter_query, update_operation)
+
+                new_window_id = str(uuid.uuid4())
+
+                new_window = {
+                    "id": new_window_id,
+                    "service_id": service["id"],
+                    "expire": datetime.datetime.today() + timedelta(seconds=10),
+                    "expired": False,
+                    "created": datetime.datetime.today() 
+                }
+
+                windows_collection.insert_one(new_window)
+
+                new_log_db_data = {
+                    "id": str(uuid.uuid4()),
+                    "service_id": service["id"],
+                    "user_id": global_data.get("user_id"),
+                    "message": global_data.get("message"),
+                    "level": global_data.get("level"),
+                    "time": global_data.get("time"),
+                    "window_id": new_window_id
+                }
+
+                db_validated_data = validate_db_data(new_log_db_data, logs_schema)
+
+                if "error" in db_validated_data:
+
+                    return {"ok": False, "message": db_validated_data, "status": 401}
+                
+
+                logs_collection.insert_one(new_log_db_data)
+            else:
+
+                current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
+
+                filter_query = {"id": current_window["id"]}
+
+                update_operation = {
+                    "$set": {
+                        "expired": True
+                    }
+                }
+
+                windows_collection.update_one(filter_query, update_operation)
+
+                new_window_id = str(uuid.uuid4())
+
+                new_window = {
+                    "id": new_window_id,
+                    "service_id": service["id"],
+                    "expire": datetime.datetime.today() + timedelta(seconds=10),
+                    "expired": False,
+                    "created": datetime.datetime.today() 
+                }
+
+                windows_collection.insert_one(new_window)
+
+                new_log_db_data = {
+                    "id": str(uuid.uuid4()),
+                    "service_id": service["id"],
+                    "user_id": global_data.get("user_id"),
+                    "message": global_data.get("message"),
+                    "level": global_data.get("level"),
+                    "time": global_data.get("time"),
+                    "window_id": new_window_id
+                }
+
+                db_validated_data = validate_db_data(new_log_db_data, logs_schema)
+
+                if "error" in db_validated_data:
+
+                    return {"ok": False, "message": db_validated_data, "status": 401}
+                
+
+                logs_collection.insert_one(new_log_db_data)
+        else:
+
+            current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
+
+            new_log_db_data = {
+                "id": str(uuid.uuid4()),
+                "service_id": service["id"],
+                "user_id": global_data.get("user_id"),
+                "message": global_data.get("message"),
+                "level": global_data.get("level"),
+                "time": global_data.get("time"),
+                "window_id": current_window["id"]
+            }
+
+            db_validated_data = validate_db_data(new_log_db_data, logs_schema)
+
+            if "error" in db_validated_data:
+
+                return {"ok": False, "message": db_validated_data, "status": 401}
+            
+
+            logs_collection.insert_one(new_log_db_data)
+
+
     level_of_logs = ["debug", "info", "warning", "error", "critical"]
     
     if level_of_logs.index(global_data.get("level")) >= level_of_logs.index(service["alert_level"]):
@@ -437,3 +576,11 @@ def search_logs_by_type_extra(global_data, services_collection, logs_collection,
     else:
 
         return {"ok": True, "message": logs_list}
+    
+
+
+
+
+def get_speed_log_ingection():
+
+    pass
