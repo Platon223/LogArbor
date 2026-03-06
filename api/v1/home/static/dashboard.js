@@ -61,7 +61,7 @@ class Dashboard {
     async fetchSpeedMetrics() {
 
         try {
-            const response = await fetch("/api/v1/logs/log_speed_metrics", {
+            const response = await fetch("/api/v1/logs/logs_speed_metric", {
                 method: "POST",
                 credentials: "same-origin",
                 headers: {
