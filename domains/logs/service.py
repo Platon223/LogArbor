@@ -611,7 +611,7 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
             current_window_lifetime = datetime.datetime.today() - current_window["created"]
 
-            current_window_lifetime_total_seconds = int(current_window_lifetime.total_seconds())
+            current_window_lifetime_total_seconds = current_window_lifetime.total_seconds()
 
             if current_window_lifetime_total_seconds >= 10:
 
@@ -651,7 +651,7 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
             current_window_lifetime = datetime.datetime.today() - current_window["created"]
 
-            current_window_lifetime_total_seconds = int(current_window_lifetime.total_seconds())
+            current_window_lifetime_total_seconds = current_window_lifetime.total_seconds()
 
             if current_window_lifetime_total_seconds >= 10:
 
@@ -662,7 +662,7 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
                 speed_final_metric.append(metric_object)
             elif current_window_lifetime_total_seconds < 1:
 
-                speed = 1
+                speed = len(current_windows_logs_list)
 
                 metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
 
