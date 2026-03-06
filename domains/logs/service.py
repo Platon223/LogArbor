@@ -589,8 +589,6 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
     user_services = services_collection.find({"user_id": getattr(request, "auth_identity", None)})
 
-    log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "log speed function", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
-
     user_services_list = list(user_services)
 
     if len(user_services_list) == 0:
@@ -600,8 +598,6 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
     speed_final_metric = []
 
     for service in user_services_list:
-
-        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "loop inside all services", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         services_windows = windows_collection.find({"service_id": service["id"]})
 
