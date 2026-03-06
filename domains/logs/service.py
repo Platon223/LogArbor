@@ -136,7 +136,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
                 expired_window = windows_collection.find_one({"service_id": service["id"], "expired": True})
 
-                windows_collection.delete_one(expired_window)
+                windows_collection.delete_one({"id": expired_window["id"]})
 
                 current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
 
