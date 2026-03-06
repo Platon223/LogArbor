@@ -597,11 +597,11 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
     for service in user_services:
 
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "loop inside all services", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+
         services_windows = windows_collection.find({"service_id": service["id"]})
 
         if len(list(services_windows)) == 2:
-
-            log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "2 windows found", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
             expired_window = windows_collection.find_one({"service_id": service["id"], "expired": True})
 
