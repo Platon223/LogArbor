@@ -581,6 +581,65 @@ def search_logs_by_type_extra(global_data, services_collection, logs_collection,
 
 
 
-def get_speed_log_ingection():
+def get_speed_log_ingection(windows_collection, services_collection, logs_collection, request):
 
-    pass
+    '''
+        Gets the speed of logs coming to each service
+    '''
+
+    user_services = services_collection.find({"user_id": getattr(request, "auth_identity", None)})
+
+    if len(list(user_services)) == 0:
+
+        return {"ok": True, "message": "no services"}
+
+    speed_final_metric = []
+
+    for service in user_services:
+
+        services_windows = windows_collection.find({"service_id": service["id"]})
+
+        if len(list(services_windows)) == 2:
+
+            expired_window = windows_collection.find_one({"service_id": service["id"], "expired": True})
+
+            current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
+
+            current_window_lifetime = datetime.datetime.today() - current_window["created"]
+
+            current_window_lifetime_total_seconds = int(current_window_lifetime.total_seconds())
+
+            difference_lifetime = 10 - current_window_lifetime_total_seconds
+
+            divided_difference = difference_lifetime / 10
+
+            expired_windows_logs = logs_collection.find({"window_id": expired_window["id"]})
+
+            current_windows_logs = logs_collection.find({"window_id": current_window["id"]})
+
+            speed = (len(list(expired_windows_logs)) * divided_difference) + len(list(current_windows_logs))
+
+            final_speed = speed / 10
+
+            metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": final_speed}
+
+            speed_final_metric.append(metric_object)
+        elif len(list(services_windows)) == 1:
+
+            current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
+
+            current_windows_logs = logs_collection.find({"window_id": current_window["id"]})
+
+            current_window_lifetime = datetime.datetime.today() - current_window["created"]
+
+            current_window_lifetime_total_seconds = int(current_window_lifetime.total_seconds())
+
+            speed = len(list(current_windows_logs)) / current_window_lifetime_total_seconds
+
+            metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
+
+            speed_final_metric.append(metric_object)
+
+    return {"ok": True, "message": speed_final_metric}
+
+    

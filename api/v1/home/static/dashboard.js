@@ -57,6 +57,35 @@ class Dashboard {
             return { message: `error: ${error}` }
         }
     }
+
+    async fetchSpeedMetrics() {
+
+        try {
+            const response = await fetch("/api/v1/logs/log_speed_metrics", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while getting metrics of your services: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch (error) {
+            return { message: `error: ${error}` }
+        }
+    }
+
 }
 
 async function main() {
@@ -196,6 +225,10 @@ async function main() {
             }
         }
     });
+
+    const speedMetrics = await dashboardClass.fetchSpeedMetrics()
+
+    console.log(speedMetrics)
 
     const socket = io({
         transports: ["websocket"],

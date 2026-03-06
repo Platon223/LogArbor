@@ -16,6 +16,7 @@ from domains.logs.service import write_log, all_user_logs, get_log_count_metrics
 from extensions.limiter import limiter
 from tasks.add_log_api_task import add_log_task
 from extensions.socket import socketio
+from domains.logs.service import get_speed_log_ingection
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
 
@@ -363,3 +364,23 @@ def search_log_by_type_extra():
 
 
 
+@logs_bl.route("/logs_speed_metric", methods=["POST"])
+@auth_check_wrapper()
+def speed_logs_metric():
+
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "logs_api")
+
+    if not check["ok"]:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+
+        return {"message": check["message"]}, 404
+    
+
+    # Gets logs speed
+
+    log_speed_result = get_speed_log_ingection(mongo.db.windows, mongo.db.services, mongo.db.logs, request)
+
+    return {"message": log_speed_result["message"]}, 200
