@@ -613,25 +613,34 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
             current_window_lifetime_total_seconds = int(current_window_lifetime.total_seconds())
 
-            difference_lifetime = 10 - current_window_lifetime_total_seconds
+            if current_window_lifetime_total_seconds >= 10:
 
-            divided_difference = difference_lifetime / 10
+                final_speed = 0
 
-            expired_windows_logs = logs_collection.find({"window_id": expired_window["id"]})
+                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": final_speed}
 
-            expired_windows_logs_list = list(expired_windows_logs)
+                speed_final_metric.append(metric_object)
+            else:
 
-            current_windows_logs = logs_collection.find({"window_id": current_window["id"]})
+                difference_lifetime = 10 - current_window_lifetime_total_seconds
 
-            current_windows_logs_list = list(current_windows_logs)
+                divided_difference = difference_lifetime / 10
 
-            speed = (len(expired_windows_logs_list) * divided_difference) + len(current_windows_logs_list)
+                expired_windows_logs = logs_collection.find({"window_id": expired_window["id"]})
 
-            final_speed = speed / 10
+                expired_windows_logs_list = list(expired_windows_logs)
 
-            metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": final_speed}
+                current_windows_logs = logs_collection.find({"window_id": current_window["id"]})
 
-            speed_final_metric.append(metric_object)
+                current_windows_logs_list = list(current_windows_logs)
+
+                speed = (len(expired_windows_logs_list) * divided_difference) + len(current_windows_logs_list)
+
+                final_speed = speed / 10
+
+                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": final_speed}
+
+                speed_final_metric.append(metric_object)
         elif len(services_windows_list) == 1:
 
             current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
@@ -644,11 +653,27 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
             current_window_lifetime_total_seconds = int(current_window_lifetime.total_seconds())
 
-            speed = len(current_windows_logs_list) / current_window_lifetime_total_seconds
+            if current_window_lifetime_total_seconds >= 10:
 
-            metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
+                speed = 0
 
-            speed_final_metric.append(metric_object)
+                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
+
+                speed_final_metric.append(metric_object)
+            elif current_window_lifetime_total_seconds < 1:
+
+                speed = 1
+
+                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
+
+                speed_final_metric.append(metric_object)
+            else:
+
+                speed = len(current_windows_logs_list) / current_window_lifetime_total_seconds
+
+                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
+
+                speed_final_metric.append(metric_object)
 
     return {"ok": True, "message": speed_final_metric}
 
