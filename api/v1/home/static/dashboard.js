@@ -245,8 +245,8 @@ async function main() {
     new Chart(ctxSpeedMetric, {
         type: "bar",
         data: {
-            labels: speedData,
-            datasets: speedAllServices
+            labels: speedAllServices,
+            datasets: speedData
         },
         options: {
             animation: true,
