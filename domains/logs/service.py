@@ -636,7 +636,7 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
                 speed_final_metric.append(metric_object)
             else:
 
-                log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", f"lifetime of the current window is: {current_window_lifetime_total_seconds}, current widnow created object is: {current_window["created"]}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+                log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", f"lifetime of the current window is: {current_window_lifetime_total_seconds}, current widnow created object is: {current_window["created"]}, server time: {datetime.datetime.today()}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
                 final_speed = 0
 
