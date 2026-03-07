@@ -230,7 +230,7 @@ async function main() {
 
     speedData = []
 
-    speedMetrics.forEach(metric => {
+    speedMetrics.message.forEach(metric => {
         speedData.push(metric.speed)
     })
 
