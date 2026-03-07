@@ -8,7 +8,7 @@ from handlers.send_alert_email import send_alert_email
 import datetime
 from datetime import timedelta
 from extensions.socket import socketio
-
+from datetime import timezone
 
 def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection, windows_collection):
 
@@ -609,7 +609,7 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
             current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
 
-            current_window_lifetime = datetime.datetime.today() - current_window["created"]
+            current_window_lifetime = datetime.datetime.now(timezone.utc) - current_window["created"]
 
             current_window_lifetime_total_seconds = current_window_lifetime.total_seconds()
 
@@ -651,7 +651,7 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
             current_windows_logs_list = list(current_windows_logs)
 
-            current_window_lifetime = datetime.datetime.today() - current_window["created"]
+            current_window_lifetime = datetime.datetime.now(timezone.utc) - current_window["created"]
 
             current_window_lifetime_total_seconds = current_window_lifetime.total_seconds()
 
