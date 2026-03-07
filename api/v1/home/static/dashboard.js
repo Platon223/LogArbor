@@ -230,6 +230,12 @@ async function main() {
 
     speedData = []
 
+    speedAllServices = []
+
+    speedMetrics.message.forEach(metric => {
+        speedAllServices.push({ label: metric.service_name, borderColor: localStorage.getItem(metric.service_id), backgroundColor: localStorage.getItem(metric.service_id) })
+    })
+
     speedMetrics.message.forEach(metric => {
         speedData.push(metric.speed)
     })
@@ -240,7 +246,7 @@ async function main() {
         type: "bar",
         data: {
             labels: speedData,
-            datasets: services_data
+            datasets: speedAllServices
         },
         options: {
             animation: true,
