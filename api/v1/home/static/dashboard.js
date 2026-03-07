@@ -246,14 +246,14 @@ async function main() {
         type: "bar",
         data: {
             labels: labels,
-            datasets: {
+            datasets: [{
                 label: "Logs/sec",
                 data: speedData,
                 backgroundColor: colors,
                 borderColor: colors,
                 borderWidth: 1,
                 borderRadius: 6
-            }
+            }]
         },
         options: {
             animation: true,
