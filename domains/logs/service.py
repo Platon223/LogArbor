@@ -615,6 +615,8 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
             if current_window_lifetime_total_seconds >= 10:
 
+                log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", "speed at 2 windows 0", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+
                 final_speed = 0
 
                 metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": final_speed}
