@@ -7,6 +7,5 @@ class Logs(Schema):
     message = fields.String(required=True)
     level = fields.String(required=True)
     time = fields.String(required=True)
-    window_id = fields.String(required=True)
 
 logs_schema = Logs()
