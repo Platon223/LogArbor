@@ -464,7 +464,7 @@ def get_speed_log_ingection(services_collection, logs_collection, request):
 
         now = datetime.datetime.today()
 
-        recent_logs = [l for l in services_logs_list if (now - l["time"]).total_seconds() <= 10]
+        recent_logs = [l for l in services_logs_list if (now - datetime.datetime.fromisoformat(l["time"])).total_seconds() <= 10]
 
         speed = len(recent_logs) / 10
 
