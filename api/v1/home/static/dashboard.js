@@ -230,14 +230,14 @@ async function main() {
 
     speedData = []
 
-    speedAllServices = []
+    labels = []
+
+    colors = []
 
     speedMetrics.message.forEach(metric => {
-        speedAllServices.push({ label: metric.service_name, borderColor: localStorage.getItem(metric.service_id), backgroundColor: localStorage.getItem(metric.service_id) })
-    })
-
-    speedMetrics.message.forEach(metric => {
+        labels.push(metric.service_name)
         speedData.push(metric.speed)
+        colors.push(localStorage.getItem(metric.service_id))
     })
 
     const ctxSpeedMetric = document.getElementById('logSpeedChart')
@@ -245,8 +245,15 @@ async function main() {
     new Chart(ctxSpeedMetric, {
         type: "bar",
         data: {
-            labels: speedAllServices,
-            datasets: speedData
+            labels: labels,
+            datasets: {
+                label: "Logs/sec",
+                data: speedData,
+                backgroundColor: colors,
+                borderColor: colors,
+                borderWidth: 1,
+                borderRadius: 6
+            }
         },
         options: {
             animation: true,
