@@ -609,7 +609,7 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
             current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
 
-            current_window_lifetime = datetime.datetime.now(timezone.utc) - current_window["created"]
+            current_window_lifetime = datetime.datetime.today() - current_window["created"]
 
             current_window_lifetime_total_seconds = current_window_lifetime.total_seconds()
 
@@ -636,7 +636,7 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
                 speed_final_metric.append(metric_object)
             else:
 
-                log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", f"lifetime of the current window is: {current_window_lifetime_total_seconds}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+                log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", f"lifetime of the current window is: {current_window_lifetime_total_seconds}, current widnow created object is: {current_window["created"]}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
                 final_speed = 0
 
@@ -651,7 +651,7 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
             current_windows_logs_list = list(current_windows_logs)
 
-            current_window_lifetime = datetime.datetime.now(timezone.utc) - current_window["created"]
+            current_window_lifetime = datetime.datetime.today() - current_window["created"]
 
             current_window_lifetime_total_seconds = current_window_lifetime.total_seconds()
 
