@@ -247,7 +247,6 @@ async function main() {
         data: {
             labels: labels,
             datasets: [{
-                label: labels,
                 data: speedData,
                 backgroundColor: colors,
                 borderColor: colors,
