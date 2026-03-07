@@ -228,55 +228,43 @@ async function main() {
 
     const speedMetrics = await dashboardClass.fetchSpeedMetrics()
 
-    const ctxSpeedMetric = document.getElementById('logSpeedChart');
+    speedData = []
+
+    speedMetrics.forEach(metric => {
+        speedData.push(metric.speed)
+    })
+
+    const ctxSpeedMetric = document.getElementById('logSpeedChart')
 
     new Chart(ctxSpeedMetric, {
-        type: 'bar',
+        type: "bar",
         data: {
-            labels: [
-                "Auth Service",
-                "API Gateway",
-                "Payments",
-                "Database",
-                "Worker Service"
-            ],
-            datasets: [{
-                label: "Logs per Second",
-                data: [120, 95, 60, 150, 80],
-                backgroundColor: [
-                    "#2ecc71",
-                    "#27ae60",
-                    "#1abc9c",
-                    "#16a085",
-                    "#2ecc71"
-                ],
-                borderRadius: 6
-            }]
+            labels: services_data,
+            datasets: speedData
         },
         options: {
+            animation: true,
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    display: false
+                    labels: {
+                        color: "#c8e6c9"
+                    }
                 }
             },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: "Logs / Second"
-                    }
-                },
                 x: {
-                    title: {
-                        display: true,
-                        text: "Services"
-                    }
+                    ticks: { color: "#6fae70" },
+                    grid: { color: "rgba(255,255,255,0.05)" }
+                },
+                y: {
+                    ticks: { color: "#6fae70" },
+                    grid: { color: "rgba(255,255,255,0.05)" }
                 }
             }
         }
-    });
+    })
 
     console.log(speedMetrics)
 
