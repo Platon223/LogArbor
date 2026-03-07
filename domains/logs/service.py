@@ -10,7 +10,7 @@ from datetime import timedelta
 from extensions.socket import socketio
 from datetime import timezone
 
-def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection, windows_collection):
+def write_log(global_data, services_collection, logs_collection, alerts_collection, users_collection):
 
     '''
         Writes a log to a service
@@ -88,164 +88,23 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
         )
 
         return {"ok": False, "message": "log count for a service exceeded", "status": 401}
+    
+    new_log_db_data = {
+        "id": str(uuid.uuid4()),
+        "service_id": service["id"],
+        "user_id": global_data.get("user_id"),
+        "message": global_data.get("message"),
+        "level": global_data.get("level"),
+        "time": global_data.get("time")
+    }
 
+    db_validated_data = validate_db_data(new_log_db_data, logs_schema)
 
-    current_windows = windows_collection.find({"service_id": service["id"]})
+    if "error" in db_validated_data:
 
-    current_windows_list = list(current_windows)
-
-    if len(current_windows_list) == 0:
-
-        new_window_id = str(uuid.uuid4())
-
-        new_window = {
-            "id": new_window_id,
-            "service_id": service["id"],
-            "expire": datetime.datetime.today() + timedelta(seconds=10),
-            "expired": False,
-            "created": datetime.datetime.today()
-        }
-
-        windows_collection.insert_one(new_window)
-
-        new_log_db_data = {
-            "id": str(uuid.uuid4()),
-            "service_id": service["id"],
-            "user_id": global_data.get("user_id"),
-            "message": global_data.get("message"),
-            "level": global_data.get("level"),
-            "time": global_data.get("time"),
-            "window_id": new_window_id
-        }
-
-        db_validated_data = validate_db_data(new_log_db_data, logs_schema)
-
-        if "error" in db_validated_data:
-
-            return {"ok": False, "message": db_validated_data, "status": 401}
-        
-
-        logs_collection.insert_one(new_log_db_data)
-    else:
-
-        current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
-
-        if current_window["expire"] < datetime.datetime.today():
-
-            if len(current_windows_list) == 2:
-
-                expired_window = windows_collection.find_one({"service_id": service["id"], "expired": True})
-
-                windows_collection.delete_one({"id": expired_window["id"]})
-
-                current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
-
-                filter_query = {"id": current_window["id"]}
-
-                update_operation = {
-                    "$set": {
-                        "expired": True
-                    }
-                }
-
-                windows_collection.update_one(filter_query, update_operation)
-
-                new_window_id = str(uuid.uuid4())
-
-                new_window = {
-                    "id": new_window_id,
-                    "service_id": service["id"],
-                    "expire": datetime.datetime.today() + timedelta(seconds=10),
-                    "expired": False,
-                    "created": datetime.datetime.today() 
-                }
-
-                windows_collection.insert_one(new_window)
-
-                new_log_db_data = {
-                    "id": str(uuid.uuid4()),
-                    "service_id": service["id"],
-                    "user_id": global_data.get("user_id"),
-                    "message": global_data.get("message"),
-                    "level": global_data.get("level"),
-                    "time": global_data.get("time"),
-                    "window_id": new_window_id
-                }
-
-                db_validated_data = validate_db_data(new_log_db_data, logs_schema)
-
-                if "error" in db_validated_data:
-
-                    return {"ok": False, "message": db_validated_data, "status": 401}
-                
-
-                logs_collection.insert_one(new_log_db_data)
-            else:
-
-                current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
-
-                filter_query = {"id": current_window["id"]}
-
-                update_operation = {
-                    "$set": {
-                        "expired": True
-                    }
-                }
-
-                windows_collection.update_one(filter_query, update_operation)
-
-                new_window_id = str(uuid.uuid4())
-
-                new_window = {
-                    "id": new_window_id,
-                    "service_id": service["id"],
-                    "expire": datetime.datetime.today() + timedelta(seconds=10),
-                    "expired": False,
-                    "created": datetime.datetime.today() 
-                }
-
-                windows_collection.insert_one(new_window)
-
-                new_log_db_data = {
-                    "id": str(uuid.uuid4()),
-                    "service_id": service["id"],
-                    "user_id": global_data.get("user_id"),
-                    "message": global_data.get("message"),
-                    "level": global_data.get("level"),
-                    "time": global_data.get("time"),
-                    "window_id": new_window_id
-                }
-
-                db_validated_data = validate_db_data(new_log_db_data, logs_schema)
-
-                if "error" in db_validated_data:
-
-                    return {"ok": False, "message": db_validated_data, "status": 401}
-                
-
-                logs_collection.insert_one(new_log_db_data)
-        else:
-
-            current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
-
-            new_log_db_data = {
-                "id": str(uuid.uuid4()),
-                "service_id": service["id"],
-                "user_id": global_data.get("user_id"),
-                "message": global_data.get("message"),
-                "level": global_data.get("level"),
-                "time": global_data.get("time"),
-                "window_id": current_window["id"]
-            }
-
-            db_validated_data = validate_db_data(new_log_db_data, logs_schema)
-
-            if "error" in db_validated_data:
-
-                return {"ok": False, "message": db_validated_data, "status": 401}
-            
-
-            logs_collection.insert_one(new_log_db_data)
+        return {"ok": False, "message": db_validated_data, "status": 401}
+    
+    logs_collection.insert_one(db_validated_data)
 
 
     level_of_logs = ["debug", "info", "warning", "error", "critical"]
@@ -581,7 +440,7 @@ def search_logs_by_type_extra(global_data, services_collection, logs_collection,
 
 
 
-def get_speed_log_ingection(windows_collection, services_collection, logs_collection, request):
+def get_speed_log_ingection(services_collection, logs_collection, request):
 
     '''
         Gets the speed of logs coming to each service
@@ -599,84 +458,18 @@ def get_speed_log_ingection(windows_collection, services_collection, logs_collec
 
     for service in user_services_list:
 
-        services_windows = windows_collection.find({"service_id": service["id"]})
+        services_logs = logs_collection.find({"service_id": service["id"]})
 
-        services_windows_list = list(services_windows)
+        services_logs_list = list(services_logs)
 
-        if len(services_windows_list) == 2:
+        now = datetime.datetime.today()
 
-            expired_window = windows_collection.find_one({"service_id": service["id"], "expired": True})
+        recent_logs = [l for l in services_logs_list if (now - l["time"]).total_seconds() <= 10]
 
-            current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
+        speed = len(recent_logs) / 10
 
-            current_window_lifetime = datetime.datetime.today() - current_window["created"]
+        metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
 
-            current_window_lifetime_total_seconds = current_window_lifetime.total_seconds()
-
-            if current_window_lifetime_total_seconds < 10:
-
-                difference_lifetime = 10 - current_window_lifetime_total_seconds
-
-                divided_difference = difference_lifetime / 10
-
-                expired_windows_logs = logs_collection.find({"window_id": expired_window["id"]})
-
-                expired_windows_logs_list = list(expired_windows_logs)
-
-                current_windows_logs = logs_collection.find({"window_id": current_window["id"]})
-
-                current_windows_logs_list = list(current_windows_logs)
-
-                speed = (len(expired_windows_logs_list) * divided_difference) + len(current_windows_logs_list)
-
-                final_speed = speed / 10
-
-                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": final_speed}
-
-                speed_final_metric.append(metric_object)
-            else:
-
-                log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "info", f"lifetime of the current window is: {current_window_lifetime_total_seconds}, current widnow created object is: {current_window["created"]}, server time: {datetime.datetime.today()}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
-
-                final_speed = 0
-
-                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": final_speed}
-
-                speed_final_metric.append(metric_object)
-        elif len(services_windows_list) == 1:
-
-            current_window = windows_collection.find_one({"service_id": service["id"], "expired": False})
-
-            current_windows_logs = logs_collection.find({"window_id": current_window["id"]})
-
-            current_windows_logs_list = list(current_windows_logs)
-
-            current_window_lifetime = datetime.datetime.today() - current_window["created"]
-
-            current_window_lifetime_total_seconds = current_window_lifetime.total_seconds()
-
-            if current_window_lifetime_total_seconds >= 10:
-
-                speed = 0
-
-                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
-
-                speed_final_metric.append(metric_object)
-            elif current_window_lifetime_total_seconds < 1:
-
-                speed = len(current_windows_logs_list)
-
-                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
-
-                speed_final_metric.append(metric_object)
-            else:
-
-                speed = len(current_windows_logs_list) / current_window_lifetime_total_seconds
-
-                metric_object = {"service_id": service["id"], "service_name": service["name"], "speed": speed}
-
-                speed_final_metric.append(metric_object)
-
-    return {"ok": True, "message": speed_final_metric}
-
+        speed_final_metric.append(metric_object)
     
+    return {"ok": True, "message": speed_final_metric}

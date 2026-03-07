@@ -383,6 +383,6 @@ def speed_logs_metric():
 
     # Gets logs speed
 
-    log_speed_result = get_speed_log_ingection(mongo.db.windows, mongo.db.services, mongo.db.logs, request)
+    log_speed_result = get_speed_log_ingection(mongo.db.services, mongo.db.logs, request)
 
     return {"message": log_speed_result["message"]}, 200
