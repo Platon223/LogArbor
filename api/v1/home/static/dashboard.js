@@ -228,6 +228,56 @@ async function main() {
 
     const speedMetrics = await dashboardClass.fetchSpeedMetrics()
 
+    const ctxSpeedMetric = document.getElementById('logSpeedChart');
+
+    new Chart(ctxSpeedMetric, {
+        type: 'bar',
+        data: {
+            labels: [
+                "Auth Service",
+                "API Gateway",
+                "Payments",
+                "Database",
+                "Worker Service"
+            ],
+            datasets: [{
+                label: "Logs per Second",
+                data: [120, 95, 60, 150, 80],
+                backgroundColor: [
+                    "#2ecc71",
+                    "#27ae60",
+                    "#1abc9c",
+                    "#16a085",
+                    "#2ecc71"
+                ],
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Logs / Second"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Services"
+                    }
+                }
+            }
+        }
+    });
+
     console.log(speedMetrics)
 
     const socket = io({
