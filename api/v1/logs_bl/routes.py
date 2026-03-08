@@ -71,7 +71,7 @@ def handle_operation_failure_exception(e):
 @logs_bl.before_request
 def data_validation():
 
-    no_data_validation_endpoints = ["/api/v1/logs/all_logs", "/api/v1/logs/logs_speed_metric"]
+    no_data_validation_endpoints = ["/api/v1/logs/all_logs", "/api/v1/logs/logs_speed_metric", "/api/v1/logs/error_rate_metric"]
 
     if request.method == "POST" and not request.path in no_data_validation_endpoints:
 
