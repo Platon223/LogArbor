@@ -456,14 +456,36 @@ async function main() {
         })
 
 
+        const errorRateMetric = await dashboardClass.fetchErrorRateMetrics()
+
+        const labelsErrorMetric = []
+
+        const dataErrorMetric = []
+
+        const colorsErrorMetric = []
+
+        errorRateMetric.message.forEach(metric => {
+
+            labelsErrorMetric.push(metric.service_name)
+
+            dataErrorMetric.push(metric.rate)
+
+            colorsErrorMetric.push(localStorage.getItem(metric.service_id))
+        })
+
+
+
         console.log(dates)
 
         const chartInstance = Chart.getChart("logsPerServiceChart")
         const speedChartInstance = Chart.getChart("logSpeedChart")
+        const errorRateMetricInstance = Chart.getChart("errorRateMetric")
 
         speedChartInstance.destroy()
 
         chartInstance.destroy()
+
+        errorRateMetricInstance.destroy()
 
         const ctx = document.getElementById("logsPerServiceChart");
 
@@ -534,6 +556,30 @@ async function main() {
             }
         })
 
+        const errorRateMetricCTX = document.getElementById("errorRateMetric");
+
+        new Chart(errorRateMetricCTX, {
+            type: "doughnut",
+            data: {
+                labels: labelsErrorMetric,
+                datasets: [{
+                    data: dataErrorMetric,
+                    backgroundColor: colorsErrorMetric,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                animation: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: "#c8e6c9"
+                        }
+                    }
+                }
+            }
+        })
 
     })
 
