@@ -484,7 +484,7 @@ def get_error_rate_metric(services_collection, logs_collection, request):
 
     user_services_list = list(user_services)
 
-    if len(user_services) == 0:
+    if len(user_services_list) == 0:
 
         return {"ok": True, "message": "no services"}
     
