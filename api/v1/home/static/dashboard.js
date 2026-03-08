@@ -307,6 +307,35 @@ async function main() {
 
     const errorRateMetric = await dashboardClass.fetchErrorRateMetrics()
 
+    const errorRateMetricCTX = document.getElementById("errorRateMetric");
+
+    new Chart(errorRateMetricCTX, {
+        type: "doughnut",
+        data: {
+            labels: ["Auth Service", "API Gateway", "Database", "Worker"],
+            datasets: [{
+                data: [120, 90, 150, 60],
+                backgroundColor: [
+                    "#2ecc71",
+                    "#1abc9c",
+                    "#3498db",
+                    "#9b59b6"
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#c8e6c9"
+                    }
+                }
+            }
+        }
+    });
+
     console.log(errorRateMetric)
 
     const socket = io({
