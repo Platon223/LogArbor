@@ -496,16 +496,21 @@ def get_error_rate_metric(services_collection, logs_collection, request):
 
         if len(all_logs) == 0:
 
-            return {"ok": True, "message": "no logs"}
+            error_rate = 0
 
-        level_of_logs = ["debug", "info", "warning", "error", "critical"]
+            metric_object = {"service_id": service["id"], "service_name": service["name"], "rate": error_rate}
 
-        error_logs = [l for l in all_logs if level_of_logs.index(l["level"]) >= level_of_logs.index(service["alert_level"])]
+            error_rate_metric.append(metric_object)
+        else:
 
-        error_rate = (len(error_logs) / len(all_logs)) * 100
+            level_of_logs = ["debug", "info", "warning", "error", "critical"]
 
-        metric_object = {"service_id": service["id"], "service_name": service["name"], "rate": error_rate}
+            error_logs = [l for l in all_logs if level_of_logs.index(l["level"]) >= level_of_logs.index(service["alert_level"])]
 
-        error_rate_metric.append(metric_object)
-    
+            error_rate = (len(error_logs) / len(all_logs)) * 100
+
+            metric_object = {"service_id": service["id"], "service_name": service["name"], "rate": error_rate}
+
+            error_rate_metric.append(metric_object)
+        
     return {"ok": True, "message": error_rate_metric}
