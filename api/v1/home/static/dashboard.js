@@ -570,6 +570,7 @@ async function main() {
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 animation: {
                     duration: 0
                 },
