@@ -569,7 +569,6 @@ async function main() {
                 }]
             },
             options: {
-                animation: false,
                 responsive: true,
                 plugins: {
                     legend: {
