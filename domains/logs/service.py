@@ -473,3 +473,39 @@ def get_speed_log_ingection(services_collection, logs_collection, request):
         speed_final_metric.append(metric_object)
     
     return {"ok": True, "message": speed_final_metric}
+
+
+
+
+
+def get_error_rate_metric(services_collection, logs_collection, request):
+
+    user_services = services_collection.find({"user_id": getattr(request, "auth_identity", None)})
+
+    user_services_list = list(user_services)
+
+    if len(user_services) == 0:
+
+        return {"ok": True, "message": "no services"}
+    
+    error_rate_metric = []
+
+    for service in user_services_list:
+
+        all_logs = list(logs_collection.find({"service_id": service["id"]}))
+
+        if len(all_logs) == 0:
+
+            return {"ok": True, "message": "no logs"}
+
+        level_of_logs = ["debug", "info", "warning", "error", "critical"]
+
+        error_logs = [l for l in all_logs if level_of_logs.index(l["level"]) >= level_of_logs.index(service["alert_level"])]
+
+        error_rate = (len(error_logs) / len(all_logs)) * 100
+
+        metric_object = {"service_id": service["id"], "service_name": service["name"], "rate": error_rate}
+
+        error_rate_metric.append(metric_object)
+    
+    return {"ok": True, "message": error_rate_metric}

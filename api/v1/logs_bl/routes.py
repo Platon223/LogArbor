@@ -16,7 +16,7 @@ from domains.logs.service import write_log, all_user_logs, get_log_count_metrics
 from extensions.limiter import limiter
 from tasks.add_log_api_task import add_log_task
 from extensions.socket import socketio
-from domains.logs.service import get_speed_log_ingection
+from domains.logs.service import get_speed_log_ingection, get_error_rate_metric
 
 logs_bl = Blueprint("logs_bl", __name__, template_folder="templates", static_folder="static")
 
@@ -386,3 +386,28 @@ def speed_logs_metric():
     log_speed_result = get_speed_log_ingection(mongo.db.services, mongo.db.logs, request)
 
     return {"message": log_speed_result["message"]}, 200
+
+
+
+
+
+@logs_bl.route("/error_rate_metric", methods=["POST"])
+@auth_check_wrapper()
+def error_rate_metric():
+
+    
+    # Checks api blueprint
+
+    check = check_api_blueprint(request.blueprint, "logs_api")
+
+    if not check["ok"]:
+
+        log(os.getenv("LOGARBOR_LOG_SERVICE_ID"), "warning", f"api route was accessed with non api blueprint: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+
+        return {"message": check["message"]}, 404
+    
+    # Gets error rate metric
+
+    error_rate_metric_result = get_error_rate_metric(mongo.db.services, mongo.db.logs, request)
+
+    return {"message": error_rate_metric_result["message"]}, 200

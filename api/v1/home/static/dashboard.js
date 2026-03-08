@@ -86,6 +86,34 @@ class Dashboard {
         }
     }
 
+    async fetchErrorRateMetrics() {
+
+        try {
+            const response = await fetch("/api/v1/logs/error_rate_metric", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (!response.ok) {
+                const data = await response.json()
+                return {
+                    message: `HTTP error while getting metrics of your services: ${response.status}, ${data.message}`
+                }
+            }
+
+            const data = await response.json()
+
+            return {
+                message: data.message
+            }
+        } catch (error) {
+            return { message: `error: ${error}` }
+        }
+    }
+
 }
 
 async function main() {
@@ -276,7 +304,10 @@ async function main() {
         }
     })
 
-    console.log(speedMetrics)
+
+    const errorRateMetric = await dashboardClass.fetchErrorRateMetrics()
+
+    console.log(errorRateMetric)
 
     const socket = io({
         transports: ["websocket"],
@@ -369,14 +400,29 @@ async function main() {
 
 
             }
-
-
-
         })
+
+        const speedMetrics = await dashboardClass.fetchSpeedMetrics()
+
+        speedData = []
+
+        labels = []
+
+        colors = []
+
+        speedMetrics.message.forEach(metric => {
+            labels.push(metric.service_name)
+            speedData.push(metric.speed)
+            colors.push(localStorage.getItem(metric.service_id))
+        })
+
 
         console.log(dates)
 
         const chartInstance = Chart.getChart("logsPerServiceChart")
+        const speedChartInstance = Chart.getChart("logSpeedChart")
+
+        speedChartInstance.destroy()
 
         chartInstance.destroy()
 
@@ -410,7 +456,45 @@ async function main() {
                     }
                 }
             }
-        });
+        })
+
+
+        const ctxSpeedMetric = document.getElementById('logSpeedChart')
+
+        new Chart(ctxSpeedMetric, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: speedData,
+                    backgroundColor: colors,
+                    borderColor: colors,
+                    borderWidth: 1,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                animation: true,
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: "#6fae70" },
+                        grid: { color: "rgba(255,255,255,0.05)" }
+                    },
+                    y: {
+                        ticks: { color: "#6fae70" },
+                        grid: { color: "rgba(255,255,255,0.05)" }
+                    }
+                }
+            }
+        })
+
 
     })
 
