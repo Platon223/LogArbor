@@ -336,7 +336,6 @@ async function main() {
         },
         options: {
             responsive: true,
-            animation: true,
             plugins: {
                 legend: {
                     labels: {
@@ -571,7 +570,9 @@ async function main() {
             },
             options: {
                 responsive: true,
-                animation: false,
+                animation: {
+                    duration: 0
+                },
                 plugins: {
                     legend: {
                         labels: {
