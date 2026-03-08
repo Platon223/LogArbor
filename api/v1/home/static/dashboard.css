@@ -155,7 +155,7 @@ body {
 
 /* ================== TERMINAL ================== */
 .terminal {
-    flex: 1;
+    flex: none;
     display: flex;
     flex-direction: column;
     background: #060c06;
