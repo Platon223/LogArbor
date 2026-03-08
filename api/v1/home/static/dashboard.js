@@ -570,6 +570,7 @@ async function main() {
             },
             options: {
                 responsive: true,
+                animation: false,
                 plugins: {
                     legend: {
                         labels: {
