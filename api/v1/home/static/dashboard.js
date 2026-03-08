@@ -260,9 +260,7 @@ async function main() {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    labels: {
-                        color: "#c8e6c9"
-                    }
+                    display: false
                 }
             },
             scales: {
