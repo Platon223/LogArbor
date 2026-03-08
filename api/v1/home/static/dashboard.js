@@ -307,20 +307,30 @@ async function main() {
 
     const errorRateMetric = await dashboardClass.fetchErrorRateMetrics()
 
+    const labelsErrorMetric = []
+
+    const dataErrorMetric = []
+
+    const colorsErrorMetric = []
+
+    errorRateMetric.message.forEach(metric => {
+
+        labelsErrorMetric.push(metric.service_name)
+
+        dataErrorMetric.push(metric.rate)
+
+        colorsErrorMetric.push(localStorage.getItem(metric.service_id))
+    })
+
     const errorRateMetricCTX = document.getElementById("errorRateMetric");
 
     new Chart(errorRateMetricCTX, {
         type: "doughnut",
         data: {
-            labels: ["Auth Service", "API Gateway", "Database", "Worker"],
+            labels: labelsErrorMetric,
             datasets: [{
-                data: [120, 90, 150, 60],
-                backgroundColor: [
-                    "#2ecc71",
-                    "#1abc9c",
-                    "#3498db",
-                    "#9b59b6"
-                ],
+                data: dataErrorMetric,
+                backgroundColor: colorsErrorMetric,
                 borderWidth: 0
             }]
         },
@@ -503,7 +513,7 @@ async function main() {
                 }]
             },
             options: {
-                animation: true,
+                animation: false,
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
