@@ -56,10 +56,9 @@ class Services {
         }
     }
 
-    async newService(name, url, alert_level) {
+    async newService(name, alert_level) {
         const createNewServiceJSON = {
             name: name,
-            url: url,
             alert_level: alert_level
         }
         try {
