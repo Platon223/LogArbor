@@ -249,6 +249,17 @@ document.getElementById("updateNameButton").onclick = async () => {
     }
 }
 
+
+document.getElementById("copyIdButton").onclick = () => {
+
+    const idValue = document.getElementById("serviceIdField")
+
+    idValue.select()
+    idValue.setSelectRange(0, 99999)
+
+    navigator.clipboard.writeText(idValue.value)
+}
+
 document.getElementById("updateAlertLevelButton").onclick = async () => {
     const serviceClass = new Service()
     const newAlertLevelInputField = document.getElementById("serviceAlertLevelField").value

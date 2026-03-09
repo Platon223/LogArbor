@@ -4,7 +4,7 @@ class Settings {
 
     async fetchCredentials() {
 
-        try{
+        try {
             const response = await fetch("/api/v1/home/credentials/username", {
                 method: "POST",
                 credentials: "same-origin",
@@ -25,13 +25,13 @@ class Settings {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
     async fetchSettings() {
-        try{
+        try {
             const response = await fetch("/api/v1/settings/settings", {
                 method: "GET",
                 credentials: "same-origin",
@@ -52,13 +52,13 @@ class Settings {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
     async deleteAccount() {
-        try{
+        try {
             const response = await fetch("/api/v1/settings/account", {
                 method: "DELETE",
                 credentials: "same-origin",
@@ -79,13 +79,13 @@ class Settings {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
 
     async changePassword(bodyData) {
-        try{
+        try {
             const response = await fetch("/auth/update_password", {
                 method: "POST",
                 credentials: "same-origin",
@@ -107,7 +107,7 @@ class Settings {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -120,14 +120,14 @@ async function main() {
 
     if (credentials.message.includes("user not found")) {
         window.location.href = "/auth/register"
-    } else if(credentials.message.includes("something went wrong")) {
+    } else if (credentials.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
     } else if (credentials.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
     } else {
-        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`    
+        document.querySelector(".env").innerHTML = `<a href='/settings'>${credentials.message}</a>`
     }
 
     const settings = await settingsClass.fetchSettings()
@@ -168,7 +168,8 @@ async function main() {
                     <div class="setting-row">
                         <label>API Key</label>
                         <p>Copy this and use it as a forth parameter(access token) in the log function, <a href="/docs/quick-setup">Learn More</a></p>
-                        <input readonly type="text" value="${settings.message.id}" disabled>
+                        <input id="access_token_field" readonly type="text" value="${settings.message.id}" disabled>
+                        <button class="btn small copyAccToken">Copy</button>
                     </div>
 
                 </div>
@@ -243,7 +244,8 @@ async function main() {
                     <div class="setting-row">
                         <label>Primary API Key</label>
                         <p>Copy this and use it as a forth parameter(access token) in the log function, <a href="/docs/quick-setup">Learn More</a></p>
-                        <input readonly type="text" value="${settings.message.id}" disabled>
+                        <input id="access_token_field" readonly type="text" value="${settings.message.id}" disabled>
+                        <button class="btn small copyAccToken">Copy</button>
                     </div>
 
                 </div>
@@ -264,36 +266,36 @@ async function main() {
                 </div>
             </div>`
         }
-    } else if(settings.message.includes("something went wrong")) {
+    } else if (settings.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
     } else if (settings.message.includes("oauth user was not found")) {
         window.location.href = "/auth/login"
     } else if (settings.message.includes("missing or invalid token")) {
         window.location.href = "/auth/login"
     } else if (settings.message.includes("user not found")) {
-        window.location.href = "/auth/login" 
+        window.location.href = "/auth/login"
     }
 
     const wrapper = document.getElementById("settings-wrapper")
 
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('delete-account-button')) {
-            
-           
+
+
             const settingsClass = new Settings()
             const deleteAccountResult = await settingsClass.deleteAccount()
 
             if (deleteAccountResult.message.includes("user not found")) {
                 alert("User was not found. Couldn't delete an account. Please contact support team for support.")
-            } else if(deleteAccountResult.message.includes("something went wrong")) {
+            } else if (deleteAccountResult.message.includes("something went wrong")) {
                 alert("Something went wrong.")
             } else if (deleteAccountResult.message.includes("oauth user was not found")) {
                 window.location.href = "/auth/login"
             } else if (deleteAccountResult.message.includes("missing or invalid token")) {
                 window.location.href = "/auth/login"
             } else if (deleteAccountResult.message.includes("something went wrong while sending an email")) {
-                alert("Something went wrong while sending an approval email. Please try again later.")    
+                alert("Something went wrong while sending an approval email. Please try again later.")
             } else if (deleteAccountResult.message.includes("aproval email sent")) {
                 alert("An approval email was sent to your email. Please confirm.")
             }
@@ -301,10 +303,27 @@ async function main() {
 
     })
 
+
+
+    wrapper.addEventListener('click', (event) => {
+
+        if (event.target.classList.contains('copyAccToken')) {
+
+            const idValue = document.getElementById("access_token_field")
+
+            idValue.select()
+            idValue.setSelectRange(0, 99999)
+
+            navigator.clipboard.writeText(idValue.value)
+
+        }
+
+    })
+
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('change_password_button')) {
-           
+
             if (document.getElementById("change_password_new_input").value === "" || document.getElementById("change_password_new_input").value.length < 6 || document.getElementById("change_password_new_input").value.length > 15) {
                 alert("Don't leave the new password input blank. Min: 6 characters, Max: 15 characters.")
             } else {
@@ -315,9 +334,9 @@ async function main() {
     })
 
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('change_password_button_final')) {
-           
+
             if (document.getElementById("codeModalInput").value === "") {
                 alert("Don't leave the previous password blank.")
             } else {
@@ -331,7 +350,7 @@ async function main() {
 
                 if (deleteAccountResult.message.includes("user not found")) {
                     alert("User was not found. Couldn't change password. Please contact support team for support.")
-                } else if(deleteAccountResult.message.includes("something went wrong")) {
+                } else if (deleteAccountResult.message.includes("something went wrong")) {
                     alert("Something went wrong.")
                 } else if (deleteAccountResult.message.includes("oauth user was not found")) {
                     window.location.href = "/auth/login"
@@ -348,10 +367,21 @@ async function main() {
 
     })
 
+    document.getElementById("copyIdButton").onclick = () => {
+
+        const idValue = document.getElementById("serviceIdField")
+
+        idValue.select()
+        idValue.setSelectRange(0, 99999)
+
+        navigator.clipboard.writeText(idValue.value)
+    }
+
+
     wrapper.addEventListener('click', async (event) => {
-  
+
         if (event.target.classList.contains('cancel_change_password')) {
-           document.getElementById("codeModal").style.display = "none"
+            document.getElementById("codeModal").style.display = "none"
         }
 
     })
