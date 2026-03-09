@@ -367,17 +367,6 @@ async function main() {
 
     })
 
-    document.getElementById("copyIdButton").onclick = () => {
-
-        const idValue = document.getElementById("serviceIdField")
-
-        idValue.select()
-        idValue.setSelectRange(0, 99999)
-
-        navigator.clipboard.writeText(idValue.value)
-    }
-
-
     wrapper.addEventListener('click', async (event) => {
 
         if (event.target.classList.contains('cancel_change_password')) {
