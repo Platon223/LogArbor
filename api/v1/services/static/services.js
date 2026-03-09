@@ -98,18 +98,22 @@ newServiceForm.addEventListener("submit", async (event) => {
     event.preventDefault()
 
     const nameValue = document.getElementById("name")
-    const urlValue = document.getElementById("url")
     const alertLevelValue = document.getElementById("level")
 
-    const dashboardClass = new Services()
-    const createNewService = await dashboardClass.newService(nameValue.value, urlValue.value, alertLevelValue.value)
+    if (nameValue.value !== "" && alertLevelValue.value !== "") {
+        const dashboardClass = new Services()
+        const createNewService = await dashboardClass.newService(nameValue.value, alertLevelValue.value)
 
-    if (!createNewService.message.includes("created")) {
-        alert("Something went wrong.")
+        if (!createNewService.message.includes("created")) {
+            alert("Something went wrong.")
+        }
+    } else {
+        alert("Fill out all the fields.")
     }
 
+
+
     nameValue.value = ""
-    urlValue.value = ""
     alertLevelValue.value = ""
 
     modal.style.display = "none"
@@ -158,7 +162,6 @@ async function main() {
                 <div class="service-body">
                     <p><strong>Status:</strong> ${element.health === "healthy" ? "Healthy" : "Unhealthy"}</p>
                     <p><strong>Logs:</strong> ${element.total_logs}</p>
-                    <p><strong>Url:</strong> ${element.url}</p>
                     <p><strong>Alert Level:</strong> ${element.alert_level}</p>
                 </div>
 

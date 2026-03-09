@@ -30,7 +30,6 @@ def create_service(global_data, services_collection, request):
     db_data = {
         "id": str(uuid.uuid4()),
         "name": global_data.get("name"),
-        "url": global_data.get("url"),
         "alert_level": global_data.get("alert_level"),
         "user_id": getattr(request, "auth_identity", None),
         "log_retention": datetime.datetime.today() + timedelta(minutes=10) # For development purposes
@@ -60,7 +59,7 @@ def update_service(global_data, services_collection, request):
         Updates a service
     '''
 
-    if global_data.get("parameter") == "name" or "url" or "alert_level":
+    if global_data.get("parameter") == "name" or "alert_level":
 
         filter_query = {"id": global_data.get("service_id"), "user_id": getattr(request, "auth_identity", None)}
 
@@ -238,7 +237,6 @@ def service(global_data, services_collection, request):
         "message": {
             "id": service["id"],
             "name": service["name"],
-            "url": service["url"],
             "alert_level": service["alert_level"]
         }
     }

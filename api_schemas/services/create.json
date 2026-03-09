@@ -5,13 +5,14 @@
         "name": {
             "type": "string"
         },
-        "url": {
-            "type": "string"
-        },
         "alert_level": {
             "type": "string"
         }
     },
-    "required": ["name", "url", "alert_level"],
+    "required": [
+        "name",
+        "url",
+        "alert_level"
+    ],
     "additionalProperties": false
 }

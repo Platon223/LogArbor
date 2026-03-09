@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,91 +9,83 @@
     <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
     <link rel="stylesheet" href="{{ url_for('home_blp.static', filename='dashboard.css') }}">
 </head>
+
 <body>
 
-<div class="dashboard">
+    <div class="dashboard">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <img class="img-logo-dashboard"
-             src="https://i.imgur.com/Gu7EcLR.jpeg"
-             alt="Logo"
-             referrerpolicy="no-referrer">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <img class="img-logo-dashboard" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo"
+                referrerpolicy="no-referrer">
 
-        <nav class="sidebar-nav">
-            <a href="/home/dashboard">Dashboard</a>
-            <a href="/services/" class="active">Services</a>
-            <a href="/logs/">Logs</a>
-            <a href="/alerts/">Alerts</a>
-            <a href="/settings/">Settings</a>
-        </nav>
-    </aside>
+            <nav class="sidebar-nav">
+                <a href="/home/dashboard">Dashboard</a>
+                <a href="/services/" class="active">Services</a>
+                <a href="/logs/">Logs</a>
+                <a href="/alerts/">Alerts</a>
+                <a href="/settings/">Settings</a>
+            </nav>
+        </aside>
 
-    <!-- Main -->
-    <main class="main">
+        <!-- Main -->
+        <main class="main">
 
-        <header class="topbar">
-            <h1>Services</h1>
+            <header class="topbar">
+                <h1>Services</h1>
 
-            <div class="topbar-actions">
-                <button class="btn primary small" id="openServiceModal">
-                    + New Service
-                </button>
-                <span class="env">Account</span>
+                <div class="topbar-actions">
+                    <button class="btn primary small" id="openServiceModal">
+                        + New Service
+                    </button>
+                    <span class="env">Account</span>
+                </div>
+            </header>
+
+
+            <!-- Services Grid -->
+            <section class="services-grid">
+
+            </section>
+
+        </main>
+
+        <footer class="app-footer">
+            <div class="footer-left">
+                <a href="/support">Need Help</a>
+                <a href="/docs">Documentation</a>
+                <a href="/support/feedback">Seeing something unexpected?</a>
             </div>
-        </header>
 
-
-        <!-- Services Grid -->
-        <section class="services-grid">
-
-        </section>
-
-    </main>
-
-    <footer class="app-footer">
-        <div class="footer-left">
-            <a href="/support">Need Help</a>
-            <a href="/docs">Documentation</a>
-            <a href="/support/feedback">Seeing something unexpected?</a>
-        </div>
-
-        <div class="footer-right">
-            <span class="status-dot online"></span>
-            <span class="status-text">System Status: All good</span>
-        </div>
-    </footer>
-
-</div>
-
-<div class="modal" id="serviceModal">
-    <div class="modal-content">
-
-        <div class="modal-header">
-            <h2>New Service</h2>
-            <button class="close-btn" id="closeServiceModal">×</button>
-        </div>
-
-        <form class="modal-form">
-            <input id="name" type="text" placeholder="Service name" required>
-            <input id="url" type="text" placeholder="Url of your application" required>
-            <input id="level" type="text" placeholder="Alert Level" required>
-
-            <select class="select-input">
-                <option value="">Log ingestion method</option>
-                <option>HTTP Endpoint</option>
-                <option>Agent</option>
-                <option>File Forwarder</option>
-            </select>
-
-            <button type="submit" id="create-button" class="btn primary">Create Service</button>
-        </form>
+            <div class="footer-right">
+                <span class="status-dot online"></span>
+                <span class="status-text">System Status: All good</span>
+            </div>
+        </footer>
 
     </div>
-</div>
+
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2>New Service</h2>
+                <button class="close-btn" id="closeServiceModal">×</button>
+            </div>
+
+            <form class="modal-form">
+                <input id="name" type="text" placeholder="Service name" required>
+                <input id="level" type="text" placeholder="Alert Level" required>
+
+                <button type="submit" id="create-button" class="btn primary">Create Service</button>
+            </form>
+
+        </div>
+    </div>
 
 
-<script src="{{ url_for('services_bl.static', filename='services.js') }}"></script>
+    <script src="{{ url_for('services_bl.static', filename='services.js') }}"></script>
 
 </body>
+
 </html>

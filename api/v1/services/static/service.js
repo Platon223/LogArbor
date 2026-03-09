@@ -249,32 +249,6 @@ document.getElementById("updateNameButton").onclick = async () => {
     }
 }
 
-document.getElementById("updateUrlButton").onclick = async () => {
-    const serviceClass = new Service()
-    const newUrlInputValue = document.getElementById("serviceUrlField").value
-    if (newUrlInputValue === "") {
-        alert("The url field is required.")
-        return window.location.reload()
-    } else if (!newUrlInputValue.startsWith("http://") && !newUrlInputValue.startsWith("https://")) {
-        alert("Please enter a valid url.")
-        return window.location.reload()
-    }
-
-    const updateService = await serviceClass.updateService("url", newUrlInputValue)
-
-    if (updateService.message.includes("unknown parameter")) {
-        alert("Unknown parameter provided. Please try again.")
-    } else if (updateService.message.includes("something went wrong")) {
-        window.location.href = "/auth/login"
-    } else if (updateService.message.includes("oauth user was not found")) {
-        window.location.href = "/auth/login"
-    } else if (updateService.message.includes("missing or invalid token")) {
-        window.location.href = "/auth/login"
-    } else if (updateService.message.includes("updated")) {
-        window.location.reload()
-    }
-}
-
 document.getElementById("updateAlertLevelButton").onclick = async () => {
     const serviceClass = new Service()
     const newAlertLevelInputField = document.getElementById("serviceAlertLevelField").value
@@ -329,7 +303,6 @@ async function main() {
         document.getElementById("serviceNameHeader").innerText = settings.message.name
         document.getElementById("serviceNameField").value = settings.message.name
         document.getElementById("serviceIdField").value = settings.message.id
-        document.getElementById("serviceUrlField").value = settings.message.url
         document.getElementById("serviceAlertLevelField").value = settings.message.alert_level
     } else if (credentials.message.includes("something went wrong")) {
         window.location.href = "/auth/login"
