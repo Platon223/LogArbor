@@ -255,7 +255,7 @@ document.getElementById("copyIdButton").onclick = () => {
     const idValue = document.getElementById("serviceIdField")
 
     idValue.select()
-    idValue.setSelectRange(0, 99999)
+    idValue.setSelectionRange(0, 99999)
 
     navigator.clipboard.writeText(idValue.value)
 }

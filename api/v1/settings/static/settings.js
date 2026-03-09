@@ -312,7 +312,7 @@ async function main() {
             const idValue = document.getElementById("access_token_field")
 
             idValue.select()
-            idValue.setSelectRange(0, 99999)
+            idValue.setSelectionRange(0, 99999)
 
             navigator.clipboard.writeText(idValue.value)
 
