@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>LogArbor Docs - Quick Setup</title>
@@ -7,73 +8,103 @@
 
     <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
 </head>
+
 <body>
 
-<div class="docs-layout">
+    <div class="docs-layout">
 
-    <!-- SIDEBAR -->
-    <aside class="docs-sidebar">
-        <div class="docs-brand">
-            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
-            <span>LogArbor <strong>Docs</strong></span>
-        </div>
+        <!-- SIDEBAR -->
+        <aside class="docs-sidebar">
+            <div class="docs-brand">
+                <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+                <span>LogArbor <strong>Docs</strong></span>
+            </div>
 
-        <nav class="docs-nav">
-            <h4>Getting Started</h4>
-            <a href="/docs">Introduction</a>
-            <a href="/docs/quick-setup" class="active">Quick Setup</a>
-            <a href="/docs/authentication">Authentication</a>
+            <nav class="docs-nav">
+                <h4>Getting Started</h4>
+                <a href="/docs">Introduction</a>
+                <a href="/docs/quick-setup" class="active">Quick Setup</a>
+                <a href="/docs/authentication">Authentication</a>
 
-            <h4>Core Concepts</h4>
-            <a href="/docs/services-docs">Services</a>
-            <a href="/docs/logs-docs">Logs</a>
-            <a href="/docs/log-levels">Log Levels</a>
+                <h4>Core Concepts</h4>
+                <a href="/docs/services-docs">Services</a>
+                <a href="/docs/logs-docs">Logs</a>
+                <a href="/docs/log-levels">Log Levels</a>
 
-            <h4>CLI</h4>
-            <a href="/docs/cli-install">Installation</a>
-            <a href="/docs/cli-commands">Commands</a>
+                <h4>CLI</h4>
+                <a href="/docs/cli-install">Installation</a>
+                <a href="/docs/cli-commands">Commands</a>
 
-            <h4>API</h4>
-            <a href="/docs/sending-logs">Sending Logs</a>
-            <a href="/docs/filtering">Filtering</a>
-            <a href="/docs/errors">Errors</a>
-        </nav>
-    </aside>
+                <h4>API</h4>
+                <a href="/docs/sending-logs">Sending Logs</a>
+                <a href="/docs/filtering">Filtering</a>
+                <a href="/docs/errors">Errors</a>
+            </nav>
+        </aside>
 
-    <!-- CONTENT -->
-    <main class="docs-content">
+        <!-- CONTENT -->
+        <main class="docs-content">
 
-        <header class="docs-header">
-            <h1>Quick Setup</h1>
-            <span class="version">v1.0.0</span>
-        </header>
+            <header class="docs-header">
+                <h1>Quick Setup</h1>
+                <span class="version">v1.0.0</span>
+            </header>
 
-        <section class="docs-section" id="quick-setup">
-            <h2>Quick Setup</h2>
-            <p>
-                LogArbor is designed to get you logging in under 5 minutes.
-                Follow the steps below to start sending logs immediately.
-            </p>
+            <section class="docs-section" id="quick-setup">
+                <h2>Quick Setup</h2>
+                <p>
+                    LogArbor is designed to get you logging in under 5 minutes.
+                    Follow the steps below to start sending logs immediately.
+                </p>
 
-            <h3>1. Create a Service</h3>
-            <p>
-                Each application must belong to a service. Services isolate logs,
-                API keys, and permissions.
-            </p>
-            <pre><code>logarbor service create auth-service</code></pre>
+                <h2>1. Login/Signup</h2>
+                <p>
+                    Create a brand new account and then login or you can just use your github account to login if you
+                    want to.
+                </p>
 
-            <h3>2. Configure Environment</h3>
-            <p>Add your API key to your environment variables:</p>
-            <pre><code>export LOGARBOR_API_KEY=your_api_key_here
-        export LOGARBOR_SERVICE=auth-service</code></pre>
+                <h2>2. Create a Service</h2>
+                <p>Go to Services -> + New Service. When filling out the new service info the "Alert Level" is the log
+                    level you want your service to recognize as logs come in and send an alert if the log's level is or
+                    worse than your service's alert level. </p>
 
-            <h3>3. Send Your First Log</h3>
-            <pre><code>logarbor send "Service started successfully" --level info</code></pre>
-        </section>
+                <h3>Alert Level Example</h3>
+                <p>Here are all the supported log levels: ["debug", "info", "warning", "error", "critical"]. For
+                    example, you service's alert level is "warning", if your application sends a log to that service
+                    with level of warning or anything beyond it like: "error" or "critical" that an alert is going to be
+                    triggered and email is going to be sent to you as well. You can check all alerts by going to Alerts.
+                </p>
+                <p>Those alerts also effect your error rate graph in Dashboard because it consists of the logs that
+                    trigger alerts. </p>
 
-    </main>
+                <h3>3. Send logs</h3>
+                <pre><code>
+                # Install LogArbor Client
+                pip install log-arbor
 
-</div>
+                # Import the client(also don't forget to put your service_id and access_token you copied earlier in the env file and import them using os)
+                from log-arbor.utils import log
+
+                log(service_id, "info", "this is a log with info level", access_token)
+            </code></pre>
+                <p>Now, when you run your app or a script you can check your incoming logs in the Logs page in
+                    real-time! You can also check the metrics about the logs in the Dashboard page also in real-time. If
+                    you don't see your logs that means your log function was set incorrectly, so check the fourth step
+                    out.</p>
+
+                <h3>4. Troubleshooting</h3>
+
+                <p>If you don't see your logs in Logs page you should check your inbox for an alert explaining what went
+                    wrong.</p>
+                <p>Important: the alerts that explain what went wrong while sending a log will not be in the Alerts
+                    page, they are going to be only in your inbox. Alerts page is designed to visualize the alerts that
+                    are caused by unwanted logs like error logs.</p>
+            </section>
+
+        </main>
+
+    </div>
 
 </body>
+
 </html>
