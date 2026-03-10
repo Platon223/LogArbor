@@ -51,19 +51,34 @@
             </header>
 
             <section class="docs-section" id="authentication">
-                <h2>Authentication</h2>
+                <h2>Don't see your logs?</h2>
                 <p>
-                    LogArbor uses secure API key–based authentication.
-                    Each service has its own key.
+                    If you go to Logs page and don't see your logs, this is probably because your log function failed.
+                    Check your inbox not the Alerts page
+                    because log function fails are not meant to mix with bad logs incoming in your service. So that
+                    email will explain why the log function failed.
                 </p>
+            </section>
 
-                <h3>HTTP Authentication</h3>
-                <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+            <section class="docs-section">
+                <h2>Don't get the "Why log function failed email"?</h2>
+                <p>
+                    If you don't get the email and you are not seeing the logs, there are 2 options of what might be
+                    happening:
+                </p>
+                <p>1. Rate limit exceeded(meaning your app or script is sending more than 600 logs per minute). LogArbor
+                    is built for startups or small companies and it is not built
+                    for enterprise level companies having thousands logs per minute.
+                    2. Your service has 600 logs already. In the next version of LogArbor we will have different
+                    packages you can buy and have a bigger log volume allowed.
+                </p>
+            </section>
 
-                <h3>Failed Authentication Response</h3>
-                <pre><code>{
-        "error": "Invalid or expired API key"
-        }</code></pre>
+            <section class="docs-section">
+                <h2>You tried everything and still don't see your logs?</h2>
+
+                <p>If nothing works or makes sense, please contact our support: <a href="/support/feedback">LogArbor
+                        Support Team</a></p>
             </section>
 
         </main>
