@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>LogArbor Docs - Logs</title>
@@ -7,64 +8,66 @@
 
     <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
 </head>
+
 <body>
 
-<div class="docs-layout">
+    <div class="docs-layout">
 
-    <!-- SIDEBAR -->
-    <aside class="docs-sidebar">
-        <div class="docs-brand">
-            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
-            <span>LogArbor <strong>Docs</strong></span>
-        </div>
+        <!-- SIDEBAR -->
+        <aside class="docs-sidebar">
+            <div class="docs-brand">
+                <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+                <span>LogArbor <strong>Docs</strong></span>
+            </div>
 
-        <nav class="docs-nav">
-            <h4>Getting Started</h4>
-            <a href="/docs">Introduction</a>
-            <a href="/docs/quick-setup">Quick Setup</a>
-            <a href="/docs/authentication">Authentication</a>
+            <nav class="docs-nav">
+                <h4>Getting Started</h4>
+                <a href="/docs">Introduction</a>
+                <a href="/docs/quick-setup">Quick Setup</a>
+                <a href="/docs/troubleshooting">Troubleshooting</a>
 
-            <h4>Core Concepts</h4>
-            <a href="/docs/services-docs">Services</a>
-            <a href="/docs/logs-docs" class="active">Logs</a>
-            <a href="/docs/log-levels">Log Levels</a>
+                <h4>Core Concepts</h4>
+                <a href="/docs/services-docs">Services</a>
+                <a href="/docs/logs-docs" class="active">Logs</a>
+                <a href="/docs/log-levels">Log Levels</a>
 
-            <h4>CLI</h4>
-            <a href="/docs/cli-install">Installation</a>
-            <a href="/docs/cli-commands">Commands</a>
+                <h4>CLI</h4>
+                <a href="/docs/cli-install">Installation</a>
+                <a href="/docs/cli-commands">Commands</a>
 
-            <h4>API</h4>
-            <a href="/docs/sending-logs">Sending Logs</a>
-            <a href="/docs/filtering">Filtering</a>
-            <a href="/docs/errors">Errors</a>
-        </nav>
-    </aside>
+                <h4>API</h4>
+                <a href="/docs/sending-logs">Sending Logs</a>
+                <a href="/docs/filtering">Filtering</a>
+                <a href="/docs/errors">Errors</a>
+            </nav>
+        </aside>
 
-    <!-- CONTENT -->
-    <main class="docs-content">
+        <!-- CONTENT -->
+        <main class="docs-content">
 
-        <header class="docs-header">
-            <h1>Logs</h1>
-            <span class="version">v1.0.0</span>
-        </header>
+            <header class="docs-header">
+                <h1>Logs</h1>
+                <span class="version">v1.0.0</span>
+            </header>
 
-        <section class="docs-section" id="logs">
-            <h2>Logs</h2>
-            <p>
-                A log entry contains structured data that describes an event.
-            </p>
+            <section class="docs-section" id="logs">
+                <h2>Logs</h2>
+                <p>
+                    A log entry contains structured data that describes an event.
+                </p>
 
-            <pre><code>{
+                <pre><code>{
         "timestamp": "2026-01-01T12:00:00Z",
         "level": "ERROR",
         "message": "Database connection failed",
         "service": "auth-service"
         }</code></pre>
-        </section>
+            </section>
 
-    </main>
+        </main>
 
-</div>
+    </div>
 
 </body>
+
 </html>

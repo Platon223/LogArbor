@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>LogArbor Docs - Errors</title>
@@ -7,86 +8,88 @@
 
     <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
 </head>
+
 <body>
 
-<div class="docs-layout">
+    <div class="docs-layout">
 
-    <!-- SIDEBAR -->
-    <aside class="docs-sidebar">
-        <div class="docs-brand">
-            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
-            <span>LogArbor <strong>Docs</strong></span>
-        </div>
+        <!-- SIDEBAR -->
+        <aside class="docs-sidebar">
+            <div class="docs-brand">
+                <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+                <span>LogArbor <strong>Docs</strong></span>
+            </div>
 
-        <nav class="docs-nav">
-            <h4>Getting Started</h4>
-            <a href="/docs">Introduction</a>
-            <a href="/docs/quick-setup">Quick Setup</a>
-            <a href="/docs/authentication">Authentication</a>
+            <nav class="docs-nav">
+                <h4>Getting Started</h4>
+                <a href="/docs">Introduction</a>
+                <a href="/docs/quick-setup">Quick Setup</a>
+                <a href="/docs/troubleshooting">Troubleshooting</a>
 
-            <h4>Core Concepts</h4>
-            <a href="/docs/services-docs">Services</a>
-            <a href="/docs/logs-docs">Logs</a>
-            <a href="/docs/log-levels">Log Levels</a>
+                <h4>Core Concepts</h4>
+                <a href="/docs/services-docs">Services</a>
+                <a href="/docs/logs-docs">Logs</a>
+                <a href="/docs/log-levels">Log Levels</a>
 
-            <h4>CLI</h4>
-            <a href="/docs/cli-install">Installation</a>
-            <a href="/docs/cli-commands">Commands</a>
+                <h4>CLI</h4>
+                <a href="/docs/cli-install">Installation</a>
+                <a href="/docs/cli-commands">Commands</a>
 
-            <h4>API</h4>
-            <a href="/docs/sending-logs">Sending Logs</a>
-            <a href="/docs/filtering">Filtering</a>
-            <a href="/docs/errors" class="active">Errors</a>
-        </nav>
-    </aside>
+                <h4>API</h4>
+                <a href="/docs/sending-logs">Sending Logs</a>
+                <a href="/docs/filtering">Filtering</a>
+                <a href="/docs/errors" class="active">Errors</a>
+            </nav>
+        </aside>
 
-    <!-- CONTENT -->
-    <main class="docs-content">
+        <!-- CONTENT -->
+        <main class="docs-content">
 
-        <header class="docs-header">
-            <h1>Errors</h1>
-            <span class="version">v1.0.0</span>
-        </header>
+            <header class="docs-header">
+                <h1>Errors</h1>
+                <span class="version">v1.0.0</span>
+            </header>
 
-        <section class="docs-section" id="api-errors">
-            <h2>Errors</h2>
+            <section class="docs-section" id="api-errors">
+                <h2>Errors</h2>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>Meaning</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>401</td>
-                        <td>Invalid API key</td>
-                    </tr>
-                    <tr>
-                        <td>403</td>
-                        <td>Access denied</td>
-                    </tr>
-                    <tr>
-                        <td>429</td>
-                        <td>Rate limit exceeded</td>
-                    </tr>
-                    <tr>
-                        <td>500</td>
-                        <td>Internal server error</td>
-                    </tr>
-                </tbody>
-            </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>401</td>
+                            <td>Invalid API key</td>
+                        </tr>
+                        <tr>
+                            <td>403</td>
+                            <td>Access denied</td>
+                        </tr>
+                        <tr>
+                            <td>429</td>
+                            <td>Rate limit exceeded</td>
+                        </tr>
+                        <tr>
+                            <td>500</td>
+                            <td>Internal server error</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <pre><code>{
+                <pre><code>{
         "error": "Rate limit exceeded",
         "retry_after": 60
         }</code></pre>
-        </section>
+            </section>
 
-    </main>
+        </main>
 
-</div>
+    </div>
 
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>LogArbor Docs - Services</title>
@@ -7,67 +8,69 @@
 
     <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
 </head>
+
 <body>
 
-<div class="docs-layout">
+    <div class="docs-layout">
 
-    <!-- SIDEBAR -->
-    <aside class="docs-sidebar">
-        <div class="docs-brand">
-            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
-            <span>LogArbor <strong>Docs</strong></span>
-        </div>
+        <!-- SIDEBAR -->
+        <aside class="docs-sidebar">
+            <div class="docs-brand">
+                <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+                <span>LogArbor <strong>Docs</strong></span>
+            </div>
 
-        <nav class="docs-nav">
-            <h4>Getting Started</h4>
-            <a href="/docs">Introduction</a>
-            <a href="/docs/quick-setup">Quick Setup</a>
-            <a href="/docs/authentication">Authentication</a>
+            <nav class="docs-nav">
+                <h4>Getting Started</h4>
+                <a href="/docs">Introduction</a>
+                <a href="/docs/quick-setup">Quick Setup</a>
+                <a href="/docs/troubleshooting">Troubleshooting</a>
 
-            <h4>Core Concepts</h4>
-            <a href="/docs/services-docs" class="active">Services</a>
-            <a href="/docs/logs-docs">Logs</a>
-            <a href="/docs/log-levels">Log Levels</a>
+                <h4>Core Concepts</h4>
+                <a href="/docs/services-docs" class="active">Services</a>
+                <a href="/docs/logs-docs">Logs</a>
+                <a href="/docs/log-levels">Log Levels</a>
 
-            <h4>CLI</h4>
-            <a href="/docs/cli-install">Installation</a>
-            <a href="/docs/cli-commands">Commands</a>
+                <h4>CLI</h4>
+                <a href="/docs/cli-install">Installation</a>
+                <a href="/docs/cli-commands">Commands</a>
 
-            <h4>API</h4>
-            <a href="/docs/sending-logs">Sending Logs</a>
-            <a href="/docs/filtering">Filtering</a>
-            <a href="/docs/errors">Errors</a>
-        </nav>
-    </aside>
+                <h4>API</h4>
+                <a href="/docs/sending-logs">Sending Logs</a>
+                <a href="/docs/filtering">Filtering</a>
+                <a href="/docs/errors">Errors</a>
+            </nav>
+        </aside>
 
-    <!-- CONTENT -->
-    <main class="docs-content">
+        <!-- CONTENT -->
+        <main class="docs-content">
 
-        <header class="docs-header">
-            <h1>Services</h1>
-            <span class="version">v1.0.0</span>
-        </header>
+            <header class="docs-header">
+                <h1>Services</h1>
+                <span class="version">v1.0.0</span>
+            </header>
 
-        <section class="docs-section" id="services">
-            <h2>Services</h2>
-            <p>
-                A service represents an application, microservice, or environment.
-            </p>
+            <section class="docs-section" id="services">
+                <h2>Services</h2>
+                <p>
+                    A service represents an application, microservice, or environment.
+                </p>
 
-            <ul>
-                <li>auth-service</li>
-                <li>payment-worker</li>
-                <li>frontend-prod</li>
-            </ul>
+                <ul>
+                    <li>auth-service</li>
+                    <li>payment-worker</li>
+                    <li>frontend-prod</li>
+                </ul>
 
-            <p>
-                Each service has independent logs, permissions, and retention rules.
-            </p>
-        </section>
+                <p>
+                    Each service has independent logs, permissions, and retention rules.
+                </p>
+            </section>
 
-    </main>
+        </main>
 
-</div>
+    </div>
 
 </body>
+
 </html>
