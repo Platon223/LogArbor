@@ -53,18 +53,34 @@
             <section class="docs-section" id="services">
                 <h2>Services</h2>
                 <p>
-                    A service represents an application, microservice, or environment.
+                    A service represents an application, microservice, or environment. The service_id in your log
+                    function points the log to
+                    the specific service.
                 </p>
-
-                <ul>
-                    <li>auth-service</li>
-                    <li>payment-worker</li>
-                    <li>frontend-prod</li>
-                </ul>
 
                 <p>
-                    Each service has independent logs, permissions, and retention rules.
+                    Each service has independent logs and retention rules. When a service is created a retention date is
+                    set.
+                    What that means is that when a log comes to a service after its retention date all the logs that are
+                    in that service are gonna be deleted and a new retention date is going to be set.
+                    The retention in a service is fixed and cannot be changed. The retention is 7 days after its
+                    creation. For example, if you create
+                    a service right now, then all the logs are going to be deleted for that service in 7 days.
                 </p>
+
+                <p>This keeps your services clean by deleting the logs that were long ago.</p>
+            </section>
+
+            <section class="docs-section">
+                <h2>How to create a Service?</h2>
+
+                <p>To create a service go to Services page and click "+ New Service". Then fill out the name and the
+                    alert level fields.
+                    Once you created your service, you can check different metrics for that service in the Dashboard
+                    page. Also, you can check Logs page for incoming logs in that service.
+                </p>
+
+                <img style="width: 200px; height: 200px;" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="">
             </section>
 
         </main>
