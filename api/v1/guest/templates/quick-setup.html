@@ -74,7 +74,8 @@
                     worse than your service's alert level. </p>
 
                 <h3>Alert Level Example</h3>
-                <p>Here are all the supported log levels: ["debug", "info", "warning", "error", "critical"]. For
+                <p style="margin-top: 10px;">Here are all the supported log levels: ["debug", "info", "warning",
+                    "error", "critical"]. For
                     example, you service's alert level is "warning", if your application sends a log to that service
                     with level of warning or anything beyond it like: "error" or "critical" that an alert is going to be
                     triggered and email is going to be sent to you as well. You can check all alerts by going to Alerts.
@@ -86,15 +87,16 @@
             <section class="docs-section">
                 <h2>3. Send logs</h2>
                 <pre class="code-block"><code>
-                # Install LogArbor Client
-                pip install log-arbor
+# Install LogArbor Client
+pip install log-arbor
 
-                # Import the client(also don't forget to put your service_id and access_token you copied earlier in the env file and import them using os)
-                from log-arbor.utils import log
+# Import the client(also don't forget to put your service_id and access_token you copied earlier in the env file and import them using os)
+from log-arbor.utils import log
 
-                log(service_id, "info", "this is a log with info level", access_token)
+log(service_id, "info", "this is a log with info level", access_token)
                 </code></pre>
-                <p>Now, when you run your app or a script you can check your incoming logs in the Logs page in
+                <p style="margin-top: 10px;">Now, when you run your app or a script you can check your incoming logs in
+                    the Logs page in
                     real-time! You can also check the metrics about the logs in the Dashboard page also in real-time. If
                     you don't see your logs that means your log function was set incorrectly, so check the fourth step
                     out.</p>
