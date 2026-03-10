@@ -57,12 +57,17 @@
                     Follow the steps below to start sending logs immediately.
                 </p>
 
+            </section>
+
+            <section class="docs-section">
                 <h2>1. Login/Signup</h2>
                 <p>
                     Create a brand new account and then login or you can just use your github account to login if you
                     want to.
                 </p>
+            </section>
 
+            <section class="docs-section">
                 <h2>2. Create a Service</h2>
                 <p>Go to Services -> + New Service. When filling out the new service info the "Alert Level" is the log
                     level you want your service to recognize as logs come in and send an alert if the log's level is or
@@ -76,9 +81,11 @@
                 </p>
                 <p>Those alerts also effect your error rate graph in Dashboard because it consists of the logs that
                     trigger alerts. </p>
+            </section>
 
-                <h3>3. Send logs</h3>
-                <pre><code>
+            <section class="docs-section">
+                <h2>3. Send logs</h2>
+                <pre class="code-block"><code>
                 # Install LogArbor Client
                 pip install log-arbor
 
@@ -86,13 +93,16 @@
                 from log-arbor.utils import log
 
                 log(service_id, "info", "this is a log with info level", access_token)
-            </code></pre>
+                </code></pre>
                 <p>Now, when you run your app or a script you can check your incoming logs in the Logs page in
                     real-time! You can also check the metrics about the logs in the Dashboard page also in real-time. If
                     you don't see your logs that means your log function was set incorrectly, so check the fourth step
                     out.</p>
 
-                <h3>4. Troubleshooting</h3>
+            </section>
+
+            <section class="docs-section">
+                <h2>4. Troubleshooting</h2>
 
                 <p>If you don't see your logs in Logs page you should check your inbox for an alert explaining what went
                     wrong.</p>
