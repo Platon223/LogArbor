@@ -139,6 +139,7 @@ def login():
             res = make_response({"message": login_result["message"], "user_id": login_result["user_id"]})
 
             res.delete_cookie("actk")
+            session.pop("oauth_user", None)
 
             return res, 200
 
@@ -147,6 +148,7 @@ def login():
             res = make_response({"message": login_result["message"], "user_id": login_result["user_id"]})
 
             res.delete_cookie("actk")
+            session.pop("oauth_user", None)
 
             return res, 200
 
@@ -222,13 +224,18 @@ def github_callback():
 
     # Logs user in with github oauth
 
+    res = make_response(redirect(url_for("home_blp.dashboard")))
+
+    res.delete_cookie("actk")
+    session.pop("oauth_user", None)
+
     oauth_result = github_oauth(mongo.db.users, request)
 
     if not oauth_result["ok"]:
 
         return {"message": oauth_result["message"]}, oauth_result["status"]
     
-    return redirect("/home/dashboard")
+    return res
 
     
 

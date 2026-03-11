@@ -64,7 +64,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
         update_operation = {
             "$set": {
-                "log_retention": datetime.datetime.today() + timedelta(minutes=10) # For development purposes
+                "log_retention": datetime.datetime.today() + timedelta(days=7)
             }
         }
 

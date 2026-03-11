@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register - LogArbor</title>
     <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}" />
 </head>
+
 <body>
     <div class="container">
 
-    <div class="logo">
-        <img class="img-logo" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo" srcset="" referrerpolicy="no-referrer">
-        <h1 class="logo-text">Register</h1>
+        <div class="logo">
+            <img class="img-logo" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo" srcset=""
+                referrerpolicy="no-referrer">
+            <h1 class="logo-text">Register</h1>
+        </div>
+
+        <form class="auth-form">
+
+            <input id="username" type="text" placeholder="Username" required />
+            <input id="email" type="email" placeholder="Email" required />
+            <input id="password" type="password" placeholder="Password" minlength="6" maxlength="15" required />
+
+            <!-- Account Type Selector -->
+            <select class="select-input" required>
+                <option value="" disabled selected>Select account type</option>
+                <option value="developer">Developer</option>
+                <p>Other options with Team and Organization will be available later, in the next version of LogArbor.
+                </p>
+            </select>
+
+            <button type="submit" class="btn primary">Create Account</button>
+
+            <p class="login-link">
+                Already have an account? <a href="login.html">Log in</a>
+            </p>
+        </form>
+
     </div>
 
-    <form class="auth-form">
-
-        <input id="username" type="text" placeholder="Username" required />
-        <input id="email" type="email" placeholder="Email" required />
-        <input id="password" type="password" placeholder="Password" minlength="6" maxlength="15" required />
-
-        <!-- Account Type Selector -->
-        <select class="select-input" required>
-            <option value="" disabled selected>Select account type</option>
-            <option value="developer">Developer</option>
-            <p>Other options with Team and Organization will be available later, in the next version of LogArbor.</p>
-        </select>
-
-        <button type="submit" class="btn primary">Create Account</button>
-
-        <div class="divider"><span>or</span></div>
-
-        <button class="btn google">Continue with Google</button>
-        <button class="btn github">Continue with GitHub</button>
-
-        <p class="login-link">
-            Already have an account? <a href="login.html">Log in</a>
-        </p>
-    </form>
-  
-</div>
-
-<script src="{{ url_for('auth_bl.static', filename='register.js') }}"></script>
+    <script src="{{ url_for('auth_bl.static', filename='register.js') }}"></script>
 </body>
+
 </html>
