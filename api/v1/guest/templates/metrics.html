@@ -31,12 +31,8 @@
                 <a href="/docs/logs-docs">Logs</a>
                 <a href="/docs/log-levels">Log Levels</a>
 
-                <h4>CLI</h4>
-                <a href="/docs/cli-install">Installation</a>
-                <a href="/docs/cli-commands">Commands</a>
-
-                <h4>API</h4>
-                <a href="/docs/sending-logs" class="active">Sending Logs</a>
+                <h4>Visualization</h4>
+                <a href="/docs/metrics" class="active">Metrics</a>
                 <a href="/docs/filtering">Filtering</a>
                 <a href="/docs/errors">Errors</a>
             </nav>
@@ -46,21 +42,25 @@
         <main class="docs-content">
 
             <header class="docs-header">
-                <h1>Sending Logs</h1>
+                <h1>Metrics</h1>
                 <span class="version">v1.0.0</span>
             </header>
 
             <section class="docs-section" id="api-sending-logs">
-                <h2>Sending Logs</h2>
+                <h2>Metrics</h2>
 
-                <p>Endpoint:</p>
-                <pre><code>POST /api/v1/logs</code></pre>
-
-                <pre><code>{
-        "service": "auth-service",
-        "level": "INFO",
-        "message": "Login successful"
-        }</code></pre>
+                <p>All of the metrics about your logs are going to be in the Dashboard page.</p>
+                <p>There's 3 graphs that are on that page.</p>
+                <p>1. Logs per day graph, is a line graph that shows the amount of logs each service has per day.</p>
+                <img style="width: 450px; height: 450px; margin-top: 10px;" src="https://i.imgur.com/Gu7EcLR.jpeg"
+                    alt="">
+                <p>2. Log speed graph, is a bar graph that shows the speed of logs incoming to each service.</p>
+                <img style="width: 450px; height: 450px; margin-top: 10px;" src="https://i.imgur.com/Gu7EcLR.jpeg"
+                    alt="">
+                <p>3. Error rate graph, is a donut graph that shows the rate of logs that caused alerts in a service.
+                </p>
+                <img style="width: 450px; height: 450px; margin-top: 10px;" src="https://i.imgur.com/Gu7EcLR.jpeg"
+                    alt="">
             </section>
 
 
