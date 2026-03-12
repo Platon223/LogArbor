@@ -50,7 +50,7 @@ def request_account_deletion(user_id, users_collection, request):
 
     if not result == "success":
 
-        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"user: {user["id"]} failed to recieve confirm delete account email", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+        log(os.getenv("LOGARBOR_SETTINGS_SERVICE_ID"), "critical", f"user: {user['id']} failed to recieve confirm delete account email", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "status": 500, "message": f"something went wrong while sending an email: {result}"}
     

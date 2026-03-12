@@ -31,7 +31,7 @@ def send_feedback(global_data, request):
 
     if not result == "success":
 
-        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "critical", f"user: {getattr(request, "auth_identity", None)} failed to send a feedback email", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+        log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "critical", f"user: {getattr(request, 'auth_identity', None)} failed to send a feedback email", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
         return {"ok": False, "status": 500, "message": f"something went wrong while sending an email: {result}"}
     

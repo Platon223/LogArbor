@@ -137,7 +137,7 @@ def write_log(global_data, services_collection, logs_collection, alerts_collecti
 
             return {"ok": False, "message": "user not found", "status": 404}
         
-        alert_message = f"You are receving this email because LogArbor Alert System has detected a log that had the same or worse than your service's({service["name"]} alert level)"
+        alert_message = f"You are receving this email because LogArbor Alert System has detected a log that had the same or worse than your service's({service['name']}) alert level. Please consider checking Alerts and Logs page for more information about the alert."
         
         result = send_alert_email(
             os.getenv("EMAILJS_SERVICE_ID"), 
