@@ -348,7 +348,7 @@ async function main() {
 
     console.log(errorRateMetric)
 
-    const socket = io({
+    const socket = io("https://logarborrepo-production.up.railway.app", {
         transports: ["websocket"],
         auth: {
             user_id: localStorage.getItem("user_id")
