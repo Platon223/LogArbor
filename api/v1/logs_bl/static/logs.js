@@ -305,7 +305,7 @@ async function main() {
 
 
     const socket = io("https://logarborrepo-production.up.railway.app", {
-        transports: ["websocket"],
+        transports: ["websocket", "polling"],
         auth: {
             user_id: localStorage.getItem("user_id")
         }
