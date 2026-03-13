@@ -348,7 +348,9 @@ async function main() {
 
     console.log(errorRateMetric)
 
-    const socket = io("https://logarborrepo-production.up.railway.app")
+    const socket = io("https://logarborrepo-production.up.railway.app", {
+        transports: ["polling"]
+    })
 
     socket.on("new-log", async (data) => {
 
