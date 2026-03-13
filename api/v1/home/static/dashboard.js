@@ -348,242 +348,241 @@ async function main() {
 
     console.log(errorRateMetric)
 
-    const socket = io("https://logarborrepo-production.up.railway.app", {
-        transports: ["websocket", "polling"],
-        auth: {
-            user_id: localStorage.getItem("user_id")
-        }
-    })
+    const socket = io("https://logarborrepo-production.up.railway.app")
 
     socket.on("new-log", async (data) => {
-        const metrics = await dashboardClass.fetchMetrics()
 
-        console.log(metrics)
+        if (data.user_id === localStorage.getItem("user_id")) {
 
-        const dates = []
 
-        const services_data = []
+            const metrics = await dashboardClass.fetchMetrics()
 
-        let smallestDate = 999999999999
+            console.log(metrics)
 
-        metrics.message.forEach(service => {
-            if (service.logs_metrics.length !== 1) {
-                service.logs_metrics.forEach(log => {
-                    let logDate = log.date
-                    if (!dates.includes(Number(logDate.replace(/-/g, ""))) && log.date !== "") {
-                        let dateAsNumber = Number(logDate.replace(/-/g, ""))
-                        dates.push(dateAsNumber)
-                    }
-                })
-            }
-        })
+            const dates = []
 
-        dates.sort((a, b) => a - b)
+            const services_data = []
 
-        dates.forEach((date, index) => {
-            const dateAsString = date.toString()
-            const formatedString = dateAsString.slice(0, 4) + "-" + dateAsString.slice(4, 6) + "-" + dateAsString.slice(6)
+            let smallestDate = 999999999999
 
-            dates[index] = formatedString
-        })
-
-        const randomBackgroundColors = ["rgba(0,255,135,0.7)", "rgba(255,209,102,0.7)", "rgba(255,107,107,0.7)", "rgba(5, 60, 225, 0.7)", "rgba(255, 0, 0, 0.7)", "rgba(135, 206, 235, 0.7)", "rgba(168, 220, 171, 0.7)"]
-
-        metrics.message.forEach(service => {
-            const service_dataset = {}
-
-            service_dataset.label = service.service_name
-
-            const log_count_array = []
-
-            service.logs_metrics.forEach(log => {
-                if (log.date !== "") {
-                    const indexInLogCountArray = dates.indexOf(log.date)
-
-                    log_count_array[indexInLogCountArray] = log.count
+            metrics.message.forEach(service => {
+                if (service.logs_metrics.length !== 1) {
+                    service.logs_metrics.forEach(log => {
+                        let logDate = log.date
+                        if (!dates.includes(Number(logDate.replace(/-/g, ""))) && log.date !== "") {
+                            let dateAsNumber = Number(logDate.replace(/-/g, ""))
+                            dates.push(dateAsNumber)
+                        }
+                    })
                 }
             })
 
-            if (localStorage.getItem(`${service.service_id}`)) {
-                service_dataset.borderColor = localStorage.getItem(`${service.service_id}`)
-                service_dataset.backgroundColor = localStorage.getItem(`${service.service_id}`)
-                service_dataset.tension = 0.35
-                service_dataset.data = log_count_array
+            dates.sort((a, b) => a - b)
 
-                let indexRandomColor = randomBackgroundColors.indexOf(localStorage.getItem(`${service.service_id}`))
+            dates.forEach((date, index) => {
+                const dateAsString = date.toString()
+                const formatedString = dateAsString.slice(0, 4) + "-" + dateAsString.slice(4, 6) + "-" + dateAsString.slice(6)
 
-                if (indexRandomColor > -1) {
-                    randomBackgroundColors.splice(indexRandomColor, 1)
+                dates[index] = formatedString
+            })
+
+            const randomBackgroundColors = ["rgba(0,255,135,0.7)", "rgba(255,209,102,0.7)", "rgba(255,107,107,0.7)", "rgba(5, 60, 225, 0.7)", "rgba(255, 0, 0, 0.7)", "rgba(135, 206, 235, 0.7)", "rgba(168, 220, 171, 0.7)"]
+
+            metrics.message.forEach(service => {
+                const service_dataset = {}
+
+                service_dataset.label = service.service_name
+
+                const log_count_array = []
+
+                service.logs_metrics.forEach(log => {
+                    if (log.date !== "") {
+                        const indexInLogCountArray = dates.indexOf(log.date)
+
+                        log_count_array[indexInLogCountArray] = log.count
+                    }
+                })
+
+                if (localStorage.getItem(`${service.service_id}`)) {
+                    service_dataset.borderColor = localStorage.getItem(`${service.service_id}`)
+                    service_dataset.backgroundColor = localStorage.getItem(`${service.service_id}`)
+                    service_dataset.tension = 0.35
+                    service_dataset.data = log_count_array
+
+                    let indexRandomColor = randomBackgroundColors.indexOf(localStorage.getItem(`${service.service_id}`))
+
+                    if (indexRandomColor > -1) {
+                        randomBackgroundColors.splice(indexRandomColor, 1)
+                    }
+
+                    services_data.push(service_dataset)
+
+                } else {
+
+                    const randomColor = randomBackgroundColors[Math.floor(Math.random() * randomBackgroundColors.length)]
+
+                    service_dataset.data = log_count_array
+                    service_dataset.borderColor = randomColor
+                    service_dataset.backgroundColor = randomColor
+                    service_dataset.tension = 0.35
+
+                    let indexRandomColor = randomBackgroundColors.indexOf(randomColor)
+
+                    if (indexRandomColor > -1) {
+                        randomBackgroundColors.splice(indexRandomColor, 1)
+                    }
+
+                    localStorage.setItem(`${service.service_id}`, randomColor)
+
+                    services_data.push(service_dataset)
+
+
                 }
+            })
 
-                services_data.push(service_dataset)
+            const speedMetrics = await dashboardClass.fetchSpeedMetrics()
 
-            } else {
+            speedData = []
 
-                const randomColor = randomBackgroundColors[Math.floor(Math.random() * randomBackgroundColors.length)]
+            labels = []
 
-                service_dataset.data = log_count_array
-                service_dataset.borderColor = randomColor
-                service_dataset.backgroundColor = randomColor
-                service_dataset.tension = 0.35
+            colors = []
 
-                let indexRandomColor = randomBackgroundColors.indexOf(randomColor)
-
-                if (indexRandomColor > -1) {
-                    randomBackgroundColors.splice(indexRandomColor, 1)
-                }
-
-                localStorage.setItem(`${service.service_id}`, randomColor)
-
-                services_data.push(service_dataset)
+            speedMetrics.message.forEach(metric => {
+                labels.push(metric.service_name)
+                speedData.push(metric.speed)
+                colors.push(localStorage.getItem(metric.service_id))
+            })
 
 
-            }
-        })
+            const errorRateMetric = await dashboardClass.fetchErrorRateMetrics()
 
-        const speedMetrics = await dashboardClass.fetchSpeedMetrics()
+            const labelsErrorMetric = []
 
-        speedData = []
+            const dataErrorMetric = []
 
-        labels = []
+            const colorsErrorMetric = []
 
-        colors = []
+            errorRateMetric.message.forEach(metric => {
 
-        speedMetrics.message.forEach(metric => {
-            labels.push(metric.service_name)
-            speedData.push(metric.speed)
-            colors.push(localStorage.getItem(metric.service_id))
-        })
+                labelsErrorMetric.push(metric.service_name)
 
+                dataErrorMetric.push(metric.rate)
 
-        const errorRateMetric = await dashboardClass.fetchErrorRateMetrics()
-
-        const labelsErrorMetric = []
-
-        const dataErrorMetric = []
-
-        const colorsErrorMetric = []
-
-        errorRateMetric.message.forEach(metric => {
-
-            labelsErrorMetric.push(metric.service_name)
-
-            dataErrorMetric.push(metric.rate)
-
-            colorsErrorMetric.push(localStorage.getItem(metric.service_id))
-        })
+                colorsErrorMetric.push(localStorage.getItem(metric.service_id))
+            })
 
 
 
-        console.log(dates)
+            console.log(dates)
 
-        const chartInstance = Chart.getChart("logsPerServiceChart")
-        const speedChartInstance = Chart.getChart("logSpeedChart")
-        const errorRateMetricInstance = Chart.getChart("errorRateMetric")
+            const chartInstance = Chart.getChart("logsPerServiceChart")
+            const speedChartInstance = Chart.getChart("logSpeedChart")
+            const errorRateMetricInstance = Chart.getChart("errorRateMetric")
 
-        speedChartInstance.destroy()
+            speedChartInstance.destroy()
 
-        chartInstance.destroy()
+            chartInstance.destroy()
 
-        errorRateMetricInstance.destroy()
+            errorRateMetricInstance.destroy()
 
-        const ctx = document.getElementById("logsPerServiceChart");
+            const ctx = document.getElementById("logsPerServiceChart");
 
-        new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: dates,
-                datasets: services_data
-            },
-            options: {
-                animation: false,
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: "#c8e6c9"
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: dates,
+                    datasets: services_data
+                },
+                options: {
+                    animation: false,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: "#c8e6c9"
+                            }
                         }
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: { color: "#6fae70" },
-                        grid: { color: "rgba(255,255,255,0.05)" }
                     },
-                    y: {
-                        ticks: { color: "#6fae70" },
-                        grid: { color: "rgba(255,255,255,0.05)" }
-                    }
-                }
-            }
-        })
-
-
-        const ctxSpeedMetric = document.getElementById('logSpeedChart')
-
-        new Chart(ctxSpeedMetric, {
-            type: "bar",
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: speedData,
-                    backgroundColor: colors,
-                    borderColor: colors,
-                    borderWidth: 1,
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                animation: false,
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: { color: "#6fae70" },
-                        grid: { color: "rgba(255,255,255,0.05)" }
-                    },
-                    y: {
-                        ticks: { color: "#6fae70" },
-                        grid: { color: "rgba(255,255,255,0.05)" }
-                    }
-                }
-            }
-        })
-
-        const errorRateMetricCTX = document.getElementById("errorRateMetric");
-
-        new Chart(errorRateMetricCTX, {
-            type: "doughnut",
-            data: {
-                labels: labelsErrorMetric,
-                datasets: [{
-                    data: dataErrorMetric,
-                    backgroundColor: colorsErrorMetric,
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: {
-                    duration: 0
-                },
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: "#c8e6c9"
+                    scales: {
+                        x: {
+                            ticks: { color: "#6fae70" },
+                            grid: { color: "rgba(255,255,255,0.05)" }
+                        },
+                        y: {
+                            ticks: { color: "#6fae70" },
+                            grid: { color: "rgba(255,255,255,0.05)" }
                         }
                     }
                 }
-            }
-        })
+            })
 
+
+            const ctxSpeedMetric = document.getElementById('logSpeedChart')
+
+            new Chart(ctxSpeedMetric, {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: speedData,
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    animation: false,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: "#6fae70" },
+                            grid: { color: "rgba(255,255,255,0.05)" }
+                        },
+                        y: {
+                            ticks: { color: "#6fae70" },
+                            grid: { color: "rgba(255,255,255,0.05)" }
+                        }
+                    }
+                }
+            })
+
+            const errorRateMetricCTX = document.getElementById("errorRateMetric");
+
+            new Chart(errorRateMetricCTX, {
+                type: "doughnut",
+                data: {
+                    labels: labelsErrorMetric,
+                    datasets: [{
+                        data: dataErrorMetric,
+                        backgroundColor: colorsErrorMetric,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 0
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: "#c8e6c9"
+                            }
+                        }
+                    }
+                }
+            })
+        }
     })
 
 

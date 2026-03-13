@@ -14,10 +14,4 @@ def main_socket_events():
     @socketio.on("connect")
     def connect(auth):
 
-        user_id = auth.get("user_id")
-
-        print(f"user: {user_id} joined")
-
-        if user_id:
-
-            join_room(f"user_{user_id}")
+        print("user joined")
