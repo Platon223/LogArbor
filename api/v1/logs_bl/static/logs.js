@@ -304,9 +304,7 @@ async function main() {
 
 
 
-    const socket = io("https://logarborrepo-production.up.railway.app", {
-        transports: ["polling"]
-    })
+    const socket = io("https://logarborrepo-production.up.railway.app")
 
     console.log(localStorage.getItem("user_id"))
 

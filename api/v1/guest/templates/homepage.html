@@ -75,23 +75,23 @@
 
     <!-- WHAT'S NEW -->
     <section class="section alt">
-        <h2 class="reveal">What's New in LogArbor 0.1.0</h2>
+        <h2 class="reveal">What's New in LogArbor 1.0.0</h2>
         <div class="changelog">
             <div class="changelog-item reveal">
                 <span class="tag new">NEW</span>
                 <p>Real-time terminal-style log streaming across all services.</p>
             </div>
             <div class="changelog-item reveal">
-                <span class="tag improve">IMPROVED</span>
-                <p>Advanced log filtering by level, service, and keywords.</p>
+                <span class="tag improve">NEW</span>
+                <p>Advanced log filtering by level, service, and message.</p>
             </div>
             <div class="changelog-item reveal">
                 <span class="tag new">NEW</span>
                 <p>Secure service tokens with per-service isolation.</p>
             </div>
             <div class="changelog-item reveal">
-                <span class="tag fix">FIXED</span>
-                <p>Log overflow and scrolling issues on large datasets.</p>
+                <span class="tag fix">NEW</span>
+                <p>Real time metrics based on your logs.</p>
             </div>
         </div>
     </section>
@@ -130,7 +130,7 @@
                 <code><span class="syn-comment"># In the Dashboard → Sidebar → Services → New Service</span>
 <span class="syn-comment"># Fill in the fields:</span>
 
-  <span class="syn-keyword">Url</span>          <span class="syn-op">=</span> <span class="syn-string">"https://your-application.com"</span>
+  <span class="syn-keyword">Url</span>  <span class="syn-op">=</span> <span class="syn-string">"https://your-application.com"</span>
   <span class="syn-keyword">Alert Level</span>  <span class="syn-op">=</span> <span class="syn-string">"error"</span>   <span class="syn-comment"># the log level that triggers an alert</span>
 
 <span class="syn-comment"># Learn more: <a href="/support/services/" style="color:var(--syn-comment)">/support/services</a></span></code>
@@ -150,10 +150,10 @@
             <div class="terminal-setup-body">
                 <code><span class="syn-keyword">from</span> <span class="syn-func">log_arbor.utils</span> <span class="syn-keyword">import</span> <span class="syn-func">log</span>
 
-<span class="syn-comment"># log(service_id, level, message)</span>
-<span class="syn-func">log</span>(<span class="syn-string">"your_service_id"</span>, <span class="syn-string">"info"</span>,  <span class="syn-string">"Server started on port 8080"</span>)
-<span class="syn-func">log</span>(<span class="syn-string">"your_service_id"</span>, <span class="syn-string">"warn"</span>,  <span class="syn-string">"Memory usage above 80%"</span>)
-<span class="syn-func">log</span>(<span class="syn-string">"your_service_id"</span>, <span class="syn-string">"error"</span>, <span class="syn-string">"Unhandled exception in /api/users"</span>)</code>
+<span class="syn-comment"># log(service_id, level, message, access_token)</span>
+<span class="syn-func">log</span>(<span class="syn-string">"your_service_id"</span>, <span class="syn-string">"info"</span>,  <span class="syn-string">"Server started on port 8080"</span>, <span class="syn-string">"your_access_token"</span>)
+<span class="syn-func">log</span>(<span class="syn-string">"your_service_id"</span>, <span class="syn-string">"warn"</span>,  <span class="syn-string">"Memory usage above 80%"</span>, <span class="syn-string">"your_access_token"</span>)
+<span class="syn-func">log</span>(<span class="syn-string">"your_service_id"</span>, <span class="syn-string">"error"</span>, <span class="syn-string">"Unhandled exception in /api/users"</span>, <span class="syn-string">"your_access_token"</span>)</code>
             </div>
         </div>
 
@@ -167,8 +167,7 @@
                     <span class="terminal-dot green"></span>
                 </div>
             </div>
-            <div class="terminal-setup-body"><code><span class="syn-comment"># Open the log viewer in your browser</span>
-<span class="syn-prompt">$ </span><span class="syn-func">open</span> <span class="syn-string">http://localhost:8888/logs/</span>
+            <div class="terminal-setup-body"><code><span class="syn-comment"># Go to Services page and find your service. Then watch your logs in real time.</span>
 
 <span class="syn-comment"># Find your service and watch logs stream in real time ✓</span></code></div>
         </div>
@@ -176,7 +175,7 @@
 
     <!-- LOGARBOR CLI -->
     <section class="section">
-        <h2 class="reveal">LogArbor CLI</h2>
+        <h2 class="reveal">Upcoming LogArbor CLI(coming in the 2.0.0 version)</h2>
         <p class="section-text reveal">
             The LogArbor CLI lets you register services, send logs,
             and manage tokens directly from your terminal.
@@ -201,16 +200,8 @@
     <!-- REVIEWS -->
     <section class="section alt">
         <h2 class="reveal">What Developers Say</h2>
-        <div class="reviews">
-            <div class="review-card reveal">
-                <p>"Finally a logging platform that feels like a terminal, not a spreadsheet."</p>
-                <span>— Backend Developer</span>
-            </div>
-            <div class="review-card reveal">
-                <p>"Setup took minutes. Logs were flowing immediately."</p>
-                <span>— Startup Founder</span>
-            </div>
-        </div>
+
+        <h2 style="margin-top: 30px;" class="reveal">We are currently collecting feedback from our first users.</h2>
     </section>
 
     <!-- FOOTER -->
@@ -220,10 +211,10 @@
             <p>© 2026 LogArbor. All rights reserved.</p>
         </div>
         <div class="footer-links">
-            <a href="#">GitHub</a>
-            <a href="#">Twitter</a>
-            <a href="#">Docs</a>
-            <a href="#">Support</a>
+            <a href="https://github.com/Platon223/LogArbor?tab=readme-ov-file">GitHub</a>
+            <a href="#">LinkedIn</a>
+            <a href="/docs">Docs</a>
+            <a href="/support">Support</a>
         </div>
     </footer>
 
