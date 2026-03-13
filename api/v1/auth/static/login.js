@@ -81,6 +81,9 @@ formDiv.addEventListener("submit", async (event) => {
         const fetchJwtResult = await registerClass.fetchJWT(submit.user_id)
 
         if (fetchJwtResult.message.includes("success")) {
+
+            localStorage.setItem("user_id", submit.user_id)
+
             window.location.href = "/home/dashboard"
         } else {
             console.log(fetchJwtResult.message)
