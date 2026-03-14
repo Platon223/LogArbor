@@ -227,7 +227,7 @@ def jwt_credentials(global_data, jwt_collection, request):
 
     access_token = create_access_token(identity=global_data.get("user_id"))
 
-    log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "warning", f"user has gotten their jwt tokens at: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
+    log(os.getenv("LOGARBOR_AUTH_SERVICE_ID"), "critical", f"user has gotten their jwt tokens at: {request.path}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
 
     return {"ok": True, "message": "send credentials", "actk": access_token}
 
