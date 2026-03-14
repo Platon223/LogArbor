@@ -35,9 +35,7 @@ def handle_operation_failure_pymongo(e):
 
 @support_bl.app_errorhandler(Exception)
 def handle_operation_failure_exception(e):
-
-    log(os.getenv("LOGARBOR_SUPPORT_SERVICE_ID"), "critical", f"failed at: {request.path} and error: {str(e)}", os.getenv("LOGARBOR_SUPPORT_TEAM_ACCESS_TOKEN"))
-    
+ 
     return {"message": "something went wrong"}, 500
 
 
