@@ -304,7 +304,7 @@ async function main() {
 
 
 
-    const socket = io("https://logarborrepo-production.up.railway.app")
+    const socket = io("https://logarbor.com")
 
     console.log(localStorage.getItem("user_id"))
 
