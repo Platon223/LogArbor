@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,172 +8,173 @@
 
     <link rel="stylesheet" href="{{ url_for('auth_bl.static', filename='register.css') }}">
     <link rel="stylesheet" href="{{ url_for('home_blp.static', filename='dashboard.css') }}">
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/Gu7EcLR.jpeg">
 </head>
+
 <body>
 
-<div class="dashboard">
+    <div class="dashboard">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <img class="img-logo-dashboard"
-             src="https://i.imgur.com/Gu7EcLR.jpeg"
-             alt="LogArbor Logo">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <img class="img-logo-dashboard" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor Logo">
 
-        <nav class="sidebar-nav">
-            <a href="/home/dashboard">Dashboard</a>
-            <a href="/services">Services</a>
-            <a href="/logs">Logs</a>
-            <a href="/alerts">Alerts</a>
-            <a href="/settings" class="active">Settings</a>
-        </nav>
-    </aside>
+            <nav class="sidebar-nav">
+                <a href="/home/dashboard">Dashboard</a>
+                <a href="/services">Services</a>
+                <a href="/logs">Logs</a>
+                <a href="/alerts">Alerts</a>
+                <a href="/settings" class="active">Settings</a>
+            </nav>
+        </aside>
 
-    <!-- Main -->
-    <main class="main" id="settings-wrapper">
+        <!-- Main -->
+        <main class="main" id="settings-wrapper">
 
-        <!-- Topbar -->
-        <header class="topbar">
-            <h1>Settings</h1>
-            <span class="env">Account</span>
-        </header>
+            <!-- Topbar -->
+            <header class="topbar">
+                <h1>Settings</h1>
+                <span class="env">Account</span>
+            </header>
 
-        <!-- SETTINGS -->
-        <section id="settings-container" class="settings-section">
+            <!-- SETTINGS -->
+            <section id="settings-container" class="settings-section">
 
-            <!-- Account -->
-            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
-                <div class="terminal-header">
-                    <span>Account</span>
-                    <span class="terminal-dot"></span>
+                <!-- Account -->
+                <div style="margin-bottom: 50px; height: 200px;" class="terminal">
+                    <div class="terminal-header">
+                        <span>Account</span>
+                        <span class="terminal-dot"></span>
+                    </div>
+
+                    <div class="terminal-body">
+
+                        <div style="margin-bottom: 20px;" class="setting-row">
+                            <label>Email</label>
+                            <input type="email" value="user@logarbor.com">
+                            <button class="btn small">Update</button>
+                        </div>
+
+                        <div class="setting-row">
+                            <label>Username</label>
+                            <input type="text" value="logarbor_user">
+                            <button class="btn small">Update</button>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="terminal-body">
-
-                    <div style="margin-bottom: 20px;" class="setting-row">
-                        <label>Email</label>
-                        <input type="email" value="user@logarbor.com">
-                        <button class="btn small">Update</button>
+                <!-- Security -->
+                <div style="margin-bottom: 50px; height: 200px;" class="terminal">
+                    <div class="terminal-header">
+                        <span>Security</span>
+                        <span class="terminal-dot"></span>
                     </div>
 
-                    <div class="setting-row">
-                        <label>Username</label>
-                        <input type="text" value="logarbor_user">
-                        <button class="btn small">Update</button>
+                    <div class="terminal-body">
+
+                        <div style="margin-bottom: 20px;" class="setting-row">
+                            <label>Password</label>
+                            <input type="password" placeholder="New password">
+                            <button class="btn small">Change</button>
+                        </div>
+
+                        <div class="setting-row">
+                            <label>Two-Factor Auth</label>
+                            <input type="text" value="Disabled" disabled>
+                            <button class="btn small">Enable</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div style="margin-bottom: 50px; height: 200px;" class="terminal">
+                    <div class="terminal-header">
+                        <span>Notifications</span>
+                        <span class="terminal-dot"></span>
                     </div>
 
+                    <div class="terminal-body">
+
+                        <div style="margin-bottom: 20px;" class="setting-row">
+                            <label>Email Alerts</label>
+                            <input type="text" value="Enabled" disabled>
+                            <button class="btn small">Toggle</button>
+                        </div>
+
+                        <div class="setting-row">
+                            <label>Critical Errors Only</label>
+                            <input type="text" value="No" disabled>
+                            <button class="btn small">Toggle</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- API -->
+                <div style="margin-bottom: 50px; height: 200px;" class="terminal">
+                    <div class="terminal-header">
+                        <span>API Keys</span>
+                        <span class="terminal-dot"></span>
+                    </div>
+
+                    <div class="terminal-body">
+
+                        <div class="setting-row">
+                            <label>Primary API Key</label>
+                            <input type="text" value="sk_live_************" disabled>
+                            <button class="btn small">Regenerate</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div style="margin-bottom: 20px; height: 200px;" class="terminal danger-zone">
+                    <div class="terminal-header">
+                        <span>Danger Zone</span>
+                    </div>
+
+                    <div class="terminal-body">
+                        <p style="margin-bottom: 14px; color: #ffb3b3;">
+                            Deleting your account is permanent and cannot be undone.
+                        </p>
+
+                        <button style="margin-bottom: 20px;" class="btn danger">Delete Account</button>
+                    </div>
+                </div>
+
+            </section>
+
+            <div class="modal" id="codeModal">
+                <div class="modal-content">
+                    <h3>Enter your previous password</h3>
+
+                    <input id="codeModalInput" type="text" placeholder="">
+                    <button id="changePasswordFinal" class="btn danger change_password_button_final">Change</button>
+                    <button class="btn cancel_change_password">Cancel</button>
                 </div>
             </div>
 
-            <!-- Security -->
-            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
-                <div class="terminal-header">
-                    <span>Security</span>
-                    <span class="terminal-dot"></span>
-                </div>
+        </main>
 
-                <div class="terminal-body">
-
-                    <div style="margin-bottom: 20px;" class="setting-row">
-                        <label>Password</label>
-                        <input type="password" placeholder="New password">
-                        <button class="btn small">Change</button>
-                    </div>
-
-                    <div class="setting-row">
-                        <label>Two-Factor Auth</label>
-                        <input type="text" value="Disabled" disabled>
-                        <button class="btn small">Enable</button>
-                    </div>
-
-                </div>
+        <footer class="app-footer">
+            <div class="footer-left">
+                <a href="/support">Need Help</a>
+                <a href="/docs">Documentation</a>
+                <a href="/support/feedback">Seeing something unexpected?</a>
             </div>
 
-            <!-- Notifications -->
-            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
-                <div class="terminal-header">
-                    <span>Notifications</span>
-                    <span class="terminal-dot"></span>
-                </div>
-
-                <div class="terminal-body">
-
-                    <div style="margin-bottom: 20px;" class="setting-row">
-                        <label>Email Alerts</label>
-                        <input type="text" value="Enabled" disabled>
-                        <button class="btn small">Toggle</button>
-                    </div>
-
-                    <div class="setting-row">
-                        <label>Critical Errors Only</label>
-                        <input type="text" value="No" disabled>
-                        <button class="btn small">Toggle</button>
-                    </div>
-
-                </div>
+            <div class="footer-right">
+                <span class="status-dot online"></span>
+                <span class="status-text">System Status: All good</span>
             </div>
+        </footer>
+    </div>
 
-            <!-- API -->
-            <div style="margin-bottom: 50px; height: 200px;" class="terminal">
-                <div class="terminal-header">
-                    <span>API Keys</span>
-                    <span class="terminal-dot"></span>
-                </div>
-
-                <div class="terminal-body">
-
-                    <div class="setting-row">
-                        <label>Primary API Key</label>
-                        <input type="text" value="sk_live_************" disabled>
-                        <button class="btn small">Regenerate</button>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Danger Zone -->
-            <div style="margin-bottom: 20px; height: 200px;" class="terminal danger-zone">
-                <div class="terminal-header">
-                    <span>Danger Zone</span>
-                </div>
-
-                <div class="terminal-body">
-                    <p style="margin-bottom: 14px; color: #ffb3b3;">
-                        Deleting your account is permanent and cannot be undone.
-                    </p>
-
-                    <button style="margin-bottom: 20px;" class="btn danger">Delete Account</button>
-                </div>
-            </div>
-
-        </section>
-
-        <div class="modal" id="codeModal">
-            <div class="modal-content">
-                <h3>Enter your previous password</h3>
-
-                <input id="codeModalInput" type="text" placeholder="">
-                <button id="changePasswordFinal" class="btn danger change_password_button_final">Change</button>
-                <button class="btn cancel_change_password">Cancel</button>
-            </div>
-        </div>
-
-    </main>
-
-    <footer class="app-footer">
-        <div class="footer-left">
-            <a href="/support">Need Help</a>
-            <a href="/docs">Documentation</a>
-            <a href="/support/feedback">Seeing something unexpected?</a>
-        </div>
-
-        <div class="footer-right">
-            <span class="status-dot online"></span>
-            <span class="status-text">System Status: All good</span>
-        </div>
-    </footer>
-</div>
-
-<script src="{{ url_for('settings_bl.static', filename='settings.js') }}"></script>
+    <script src="{{ url_for('settings_bl.static', filename='settings.js') }}"></script>
 
 </body>
+
 </html>
