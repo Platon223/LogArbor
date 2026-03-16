@@ -1,57 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{{ url_for('support_bl.static', filename='support.css') }}">
     <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
-    <title>LogArbor Docs • Support</title>
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/Gu7EcLR.jpeg">
+    <title>LogArbor Docs - Support</title>
 </head>
+
 <body>
 
-<div class="support-layout">
+    <div class="support-layout">
 
-    <!-- Sidebar -->
-    <aside class="docs-sidebar">
-        <div class="docs-brand">
-            <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
-            <span>LogArbor <strong>Support</strong></span>
-        </div>
+        <!-- Sidebar -->
+        <aside class="docs-sidebar">
+            <div class="docs-brand">
+                <img src="https://i.imgur.com/Gu7EcLR.jpeg" alt="LogArbor">
+                <span>LogArbor <strong>Support</strong></span>
+            </div>
 
-        <nav class="docs-nav">
-            <h4>Support</h4>
-            <a href="/support" class="active">Support Home</a>
-            <a href="/support/feedback">Feedback</a>
-            <a href="/support/community">Community</a>
-        </nav>
-    </aside>
+            <nav class="docs-nav">
+                <h4>Support</h4>
+                <a href="/support" class="active">Support Home</a>
+                <a href="/support/feedback">Feedback</a>
+                <a href="/support/community">Community</a>
+            </nav>
+        </aside>
 
-    <!-- Main content -->
-    <main class="support-main">
+        <!-- Main content -->
+        <main class="support-main">
 
-        <!-- Header -->
-        <header class="docs-header">
-            <h1>Support Home</h1>
-            <span class="version">v1.0.0</span>
-        </header>
+            <!-- Header -->
+            <header class="docs-header">
+                <h1>Support Home</h1>
+                <span class="version">v1.0.0</span>
+            </header>
 
-        <!-- Support Home -->
-        <section class="support-section">
-            <h2>Welcome to LogArbor Support</h2>
-            <p>
-                This is the central place to get help with LogArbor.
-                Whether you’re troubleshooting log ingestion, configuring alerts,
-                or just getting started, we’re here to help.
-            </p>
-            <p>
-                For faster responses, include your service name, environment,
-                and a short description of the issue.
-            </p>
-        </section>
+            <!-- Support Home -->
+            <section class="support-section">
+                <h2>Welcome to LogArbor Support</h2>
+                <p>
+                    This is the central place to get help with LogArbor.
+                    Whether you’re troubleshooting log ingestion, configuring alerts,
+                    or just getting started, we’re here to help.
+                </p>
+                <p>
+                    For faster responses, include your service name, environment,
+                    and a short description of the issue.
+                </p>
+            </section>
 
-    </main>
+        </main>
 
-</div>
+    </div>
 
 </body>
+
 </html>
