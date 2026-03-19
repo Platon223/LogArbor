@@ -4,7 +4,7 @@ class Feedback {
 
     async sendFeedback(feedbackData) {
 
-        try{
+        try {
             const response = await fetch("/api/v1/support/feedback", {
                 method: "POST",
                 credentials: "same-origin",
@@ -26,7 +26,7 @@ class Feedback {
             return {
                 message: data.message
             }
-        } catch(error) {
+        } catch (error) {
             return `error: ${error}`
         }
     }
@@ -53,9 +53,11 @@ feedbackForm.addEventListener("submit", async (event) => {
 
     if (feedbackResult.message.includes("invalid email")) {
         alert("Provide a valid email please.")
-    } else if(feedbackResult.message.includes("something went wrong")) {
+    } else if (feedbackResult.message.includes("something went wrong")) {
         alert("Something went wrong while sending an email. Please try again later.")
     } else if (feedbackResult.message.includes("sent a feedback email")) {
         alert("Your feedback was sent. Please check your inbox for response from LogArbor Support Team, soon.")
+
+        window.location.reload()
     }
 })

@@ -60,17 +60,17 @@ def event_that_needs_logged():
 
 1. Go to the "Dashboard" there you will see your log count graph along with other graphs.
 <p align="center">
-  <img src="assets/architecture-diagram.png" alt="System Architecture Diagram" width="500"/>
+  <img src="https://i.imgur.com/0U80gmK.png" alt="" width="500"/>
 </p>
 <p align="center">
-  <img src="assets/architecture-diagram.png" alt="System Architecture Diagram" width="500"/>
+  <img src="https://i.imgur.com/tS1aub5.png" alt="" width="500"/>
 </p>
 <p align="center">
-  <img src="assets/architecture-diagram.png" alt="System Architecture Diagram" width="500"/>
+  <img src="https://i.imgur.com/5bW7sJh.png" alt="" width="500"/>
 </p>
 2. Go to "Logs" and see and search your logs. If you don't see your logs, probably something went wrong, so check your inbox for an alert.
 <p align="center">
-  <img src="assets/architecture-diagram.png" alt="System Architecture Diagram" width="500"/>
+  <img src="https://i.imgur.com/0xN1Rnd.png" alt="" width="500"/>
 </p>
 3. Alerts are usually triggered if your log's level is worse than your service's alert level. For example: In your application you have an error handler which sends a log with log() function, that log will contain "error" as a level because it is an error handler. Your service that the log is sending to has an alert level of "warning" which means that if the log that is going to this service has a level of "warning" or beyond there will be an alert triggered. In other cases an alert is going to be triggered because something went wrong with the log function, it could be the wrong access token or invalid service id. Note that if log function fails the alert is going to be sent to your inbox only unlike the log alert, which is going to be sent to your inbox and the Alerts page.
 
@@ -79,19 +79,14 @@ def event_that_needs_logged():
 ## 🚀 Live Tool
 
 🔗 **Access LogArbor:**  
-https://your-live-tool-link.com
+https://logarbor.com
 
 ---
-
-## 🧠 Architecture Diagram
-
-📐 **Excalidraw Diagram:**  
-https://your-excalidraw-link.com
-
+ 
 ### System Architecture Preview
 
 <p align="center">
-  <img src="assets/architecture-diagram.png" alt="System Architecture Diagram" width="800"/>
+  <img src="https://i.imgur.com/15l8VMu.png" alt="System Architecture Diagram" width="800"/>
 </p>
 
 
