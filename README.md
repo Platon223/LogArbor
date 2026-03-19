@@ -94,3 +94,13 @@ https://your-excalidraw-link.com
   <img src="assets/architecture-diagram.png" alt="System Architecture Diagram" width="800"/>
 </p>
 
+
+## Lisence
+
+Copyright © 2026 Platon Tikhnenko. All rights reserved.
+
+This project is proprietary. The source code is made public for the sole purpose 
+of portfolio review by potential employers. It may not be copied, redistributed, 
+or used for any other purpose without explicit written permission.
+
+
