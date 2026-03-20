@@ -14,6 +14,12 @@ Follow these steps to get started with LogArbor
 
 ---
 
+## Setup Video
+
+<p align="center">
+  <iframe width="560" height="315" src="https://drive.google.com/file/d/1l2BZK7xnJYiZc5v9ySvZO-Q_Mucq29kj/view?usp=sharing" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</p>
+
 ## 📋 1️⃣ Create an account
 
 1. Go to https://logarbor.com/auth/register
