@@ -255,7 +255,7 @@ async function main() {
                     </div>
 
                     <div class="terminal-body">
-                        ${element.logs.length === 0 ? `No Logs Yet` : element.logs.reverse().map(logElement => `
+                        ${element.logs.length === 0 ? `No Logs Yet` : element.logs.map(logElement => `
                             <div class="log-line ${logElement.level}">
                                 <span class="time">${logElement.time}</span>
                                 <span class="level">${logElement.level}</span>
@@ -326,7 +326,7 @@ async function main() {
                             </div>
 
                             <div class="terminal-body">
-                                ${element.logs.length === 0 ? `No Logs Yet` : element.logs.reverse().map(logElement => `
+                                ${element.logs.length === 0 ? `No Logs Yet` : element.logs.map(logElement => `
                                     <div class="log-line ${logElement.level}">
                                         <span class="time">${logElement.time}</span>
                                         <span class="level">${logElement.level}</span>
@@ -410,7 +410,7 @@ async function main() {
                 window.location.href = "/auth/login"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -464,7 +464,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -511,7 +511,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -558,7 +558,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -605,7 +605,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -652,7 +652,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -705,7 +705,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -757,7 +757,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -810,7 +810,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -863,7 +863,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>
@@ -916,7 +916,7 @@ async function main() {
                 terminalSection.querySelector('.terminal-body').innerHTML = "No logs found"
             } else if (Array.isArray(results.message)) {
                 const terminalBody = terminalSection.querySelector('.terminal-body')
-                terminalBody.innerHTML = results.message.reverse().map(log => `
+                terminalBody.innerHTML = results.message.map(log => `
                     <div class="log-line ${log.level}">
                         <span class="time">${log.time}</span>
                         <span class="level">${log.level}</span>

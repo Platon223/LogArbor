@@ -184,7 +184,13 @@ def all_user_logs(services_collection, logs_collection, request):
         service_logs_list = list(service_logs)
 
         if len(service_logs_list) > 50:
-            service_logs_list = service_logs_list[:50]
+
+            reversed_logs_list = service_logs_list[::-1]
+
+            service_logs_list = reversed_logs_list[:50]
+        else:
+
+            service_logs_list = service_logs_list[::-1]
 
         service_obj = {
             "service_id": service["id"],
@@ -220,7 +226,13 @@ def all_user_logs_more(global_data, services_collection, logs_collection, reques
     more_logs_list = list(more_logs)
 
     if len(more_logs_list) > global_data.get("extra"):
-        more_logs_list = more_logs_list[:global_data.get("extra")]
+
+        reversed_logs_list = more_logs_list[::-1]
+
+        more_logs_list = reversed_logs_list[:global_data.get("extra")]
+    else:
+
+        more_logs_list = more_logs_list[::-1]
     
     return {"ok": True, "message": more_logs_list}
 
@@ -318,12 +330,14 @@ def search_logs_by_message(global_data, services_collection, logs_collection, re
     
     if len(logs_list) > 50:
 
-        filtered_logs = logs_list[:50]
+        reversed_filtered_logs = logs_list[::-1]
+
+        filtered_logs = reversed_filtered_logs[:50]
 
         return {"ok": True, "message": filtered_logs}
     else:
 
-        return {"ok": True, "message": logs_list}
+        return {"ok": True, "message": logs_list[::-1]}
     
 
 
@@ -355,12 +369,14 @@ def search_logs_by_message_extra(global_data, services_collection, logs_collecti
     
     if len(logs_list) > global_data.get("extra"):
 
-        filtered_logs = logs_list[:global_data.get("extra")]
+        reversed_filtered_logs = logs_list[::-1]
+
+        filtered_logs = reversed_filtered_logs[:global_data.get("extra")]
 
         return {"ok": True, "message": filtered_logs}
     else:
 
-        return {"ok": True, "message": logs_list}
+        return {"ok": True, "message": logs_list[::-1]}
 
 
 
@@ -392,12 +408,14 @@ def search_logs_by_type(global_data, services_collection, logs_collection, reque
     
     if len(logs_list) > 50:
 
-        filtered_logs = logs_list[:50]
+        reversed_filtered_logs = logs_list[::-1]
+
+        filtered_logs = reversed_filtered_logs[:50]
 
         return {"ok": True, "message": filtered_logs}
     else:
 
-        return {"ok": True, "message": logs_list}
+        return {"ok": True, "message": logs_list[::-1]}
 
 
 
@@ -429,12 +447,14 @@ def search_logs_by_type_extra(global_data, services_collection, logs_collection,
     
     if len(logs_list) > global_data.get("extra"):
 
-        filtered_logs = logs_list[:global_data.get("extra")]
+        reversed_filtered_logs = logs[::-1]
+
+        filtered_logs = reversed_filtered_logs[:global_data.get("extra")]
 
         return {"ok": True, "message": filtered_logs}
     else:
 
-        return {"ok": True, "message": logs_list}
+        return {"ok": True, "message": logs_list[::-1]}
     
 
 
