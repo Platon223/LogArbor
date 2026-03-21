@@ -16,8 +16,9 @@ Follow these steps to get started with LogArbor
 
 ## Setup Video
 
-[![Watch the Setup Video](https://img.youtube.com)](https://drive.google.com/file/d/1l2BZK7xnJYiZc5v9ySvZO-Q_Mucq29kj/view?usp=sharing)
-
+<p align="center">
+  <video src="https://github.com/user-attachments/assets/a0d5a8e7-d4fc-47e0-95b1-6b5f6dcce84f" width="600" controls></video>
+</p>
 
 ---
 
