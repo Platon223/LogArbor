@@ -2,7 +2,7 @@
   <img style="width: 120px; margin: 0 auto 40px; display: block; border-radius: 14px;" src="https://i.imgur.com/Gu7EcLR.jpeg" alt="Logo" referrerpolicy="no-referrer"/>
 </p>
 
-# LogArbor – Log Aggregation Tool
+# LogArbor: Log Aggregation Tool
 
 LogArbor is a modern and lightweight log aggregation and monitoring platform designed for developers who want real-time insight into their logs without complexity.
 
