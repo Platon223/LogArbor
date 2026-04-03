@@ -195,7 +195,7 @@ def jwt():
     
     if jwt_result["message"] == "send credentials":
 
-        res = make_response({"message": "success"})
+        res = make_response({"message": "success", "actk": jwt_result["actk"]})
 
         res.set_cookie(
             "actk",
