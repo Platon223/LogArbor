@@ -98,8 +98,9 @@ newServiceForm.addEventListener("submit", async (event) => {
 
     const nameValue = document.getElementById("name")
     const alertLevelValue = document.getElementById("level")
+    const allowedLevels = ["debug", "info", "warning", "error", "critical"]
 
-    if (nameValue.value !== "" && alertLevelValue.value !== "") {
+    if (nameValue.value !== "" && alertLevelValue.value !== "" && allowedLevels.includes(alertLevelValue.value)) {
         const dashboardClass = new Services()
         const createNewService = await dashboardClass.newService(nameValue.value, alertLevelValue.value)
 
@@ -107,7 +108,7 @@ newServiceForm.addEventListener("submit", async (event) => {
             alert("Something went wrong.")
         }
     } else {
-        alert("Fill out all the fields.")
+        alert("Fill out all the fields correctly.")
     }
 
 
