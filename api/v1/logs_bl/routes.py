@@ -170,7 +170,7 @@ def add_log():
 
     add_log_task.delay(add_task_data)
 
-    socketio.emit("new-log", {"message": f"{g.data.get('time')} {g.data.get('level')} {g.data.get('message')}", "user_id": g.data.get("user_id")})
+    socketio.emit("new-log", {"message": f"{g.data.get('time')} {g.data.get('level')} {g.data.get('message')}", "user_id": g.data.get("user_id"), "service_id": g.data.get("service_id")})
     
     return {"message": "logged"}, 200
 
