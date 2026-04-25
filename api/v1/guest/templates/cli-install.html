@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/Gu7EcLR.jpeg">
 </head>
 
 <body>
@@ -33,10 +34,10 @@
 
                 <h4>CLI</h4>
                 <a href="/docs/cli-install" class="active">Installation</a>
-                <a href="/docs/cli-commands">Commands</a>
+                <a href="/docs/cli-usage">Usage</a>
 
-                <h4>API</h4>
-                <a href="/docs/sending-logs">Sending Logs</a>
+                <h4>Visualization</h4>
+                <a href="/docs/metrics">Metrics</a>
                 <a href="/docs/filtering">Filtering</a>
                 <a href="/docs/errors">Errors</a>
             </nav>
@@ -46,16 +47,31 @@
         <main class="docs-content">
 
             <header class="docs-header">
-                <h1>CLI Installation</h1>
-                <span class="version">v1.0.0</span>
+                <h1>Larb Installation</h1>
+                <span class="version">v2.0.0</span>
             </header>
 
-            <section class="docs-section" id="cli-installation">
-                <h2>CLI Installation</h2>
-                <p>Install LogArbor CLI using pip:</p>
-                <pre><code>pip install logarbor</code></pre>
+            <section class="docs-section">
+                <h2>Installation</h2>
 
-                <pre><code>logarbor --version</code></pre>
+                <h3>Mac</h3>
+                <pre class="code-block"><code>brew install --cask Platon223/tap/larb</code></pre>
+
+                <h3>Linux</h3>
+                <pre class="code-block"><code>curl -sSL https://github.com/Platon223/Larb/releases/latest/download/larb_linux_amd64.tar.gz | tar -xz
+sudo mv larb /usr/local/bin/</code></pre>
+
+                <p>For ARM Linux:</p>
+                <pre class="code-block"><code>curl -sSL https://github.com/Platon223/Larb/releases/latest/download/larb_linux_arm64.tar.gz | tar -xz
+sudo mv larb /usr/local/bin/</code></pre>
+
+                <h3>Windows</h3>
+                <p>Download the .tar.gz from the GitHub releases page, then extract and add larb.exe to your PATH
+                    manually.</p>
+                <p>Using PowerShell:</p>
+                <pre class="code-block"><code>Invoke-WebRequest -Uri "https://github.com/Platon223/Larb/releases/latest/download/larb_windows_amd64.tar.gz" -OutFile "larb.tar.gz"
+tar -xf larb.tar.gz
+Move-Item larb.exe C:\Windows\System32\larb.exe</code></pre>
             </section>
 
         </main>

@@ -8,6 +8,8 @@ LogArbor is a modern and lightweight log aggregation and monitoring platform des
 
 ---
 
+Larb (LogArbor CLI) is available now. Go <a href="https://github.com/Platon223/Larb">here</a> to see the setup.
+
 # ⚙️ Setup
 
 Follow these steps to get started with LogArbor

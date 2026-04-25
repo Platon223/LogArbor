@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>LogArbor Docs - CLI Commands</title>
+    <title>LogArbor Docs - CLI Usage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{{ url_for('guest_bl.static', filename='docs.css') }}">
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/Gu7EcLR.jpeg">
 </head>
 
 <body>
@@ -31,10 +32,14 @@
                 <a href="/docs/logs-docs">Logs</a>
                 <a href="/docs/log-levels">Log Levels</a>
 
-                <h4>Visualizing</h4>
+                <h4>CLI</h4>
+                <a href="/docs/cli-install">Installation</a>
+                <a href="/docs/cli-usage" class="active">Usage</a>
+
+                <h4>Visualization</h4>
                 <a href="/docs/metrics">Metrics</a>
                 <a href="/docs/filtering">Filtering</a>
-                <a href="/docs/alerts">Alerts</a>
+                <a href="/docs/errors">Errors</a>
             </nav>
         </aside>
 
@@ -42,26 +47,42 @@
         <main class="docs-content">
 
             <header class="docs-header">
-                <h1>CLI Commands</h1>
-                <span class="version">v1.0.0</span>
+                <h1>Larb Usage</h1>
+                <span class="version">v2.0.0</span>
             </header>
 
-            <section class="docs-section" id="cli-commands">
-                <h2>CLI Commands</h2>
+            <section class="docs-section">
+                <h2>Usage</h2>
+                <p>Once installed, use Larb with the following commands:</p>
 
-                <h3>Initialize</h3>
-                <pre><code>logarbor init</code></pre>
+                <pre class="code-block"><code># Initialize Larb configuration, you can get your api key in the settings.
+larb init &lt;your_api_key&gt;
 
-                <h3>Send Logs</h3>
-                <pre><code>logarbor send "User logged in" --level info</code></pre>
+# Create a service 
+larb add --name &lt;Name&gt; --level &lt;AlertLevels: [debug, info, warning, error, critical]
 
-                <h3>Stream Logs</h3>
-                <pre><code>logarbor tail auth-service</code></pre>
+# View logs for a specific service
+larb get --id &lt;service-id&gt;
 
-                <h3>List Services</h3>
-                <pre><code>logarbor service list</code></pre>
+# Tail logs in real-time
+larb tail logs &lt;service-id&gt;
+
+# Chat with Logby (AI Assistant)
+larb chat
+
+# List all services
+larb all
+
+# Get all of the alerts
+larb alerts
+
+# View metrics, types are: [count, speed, error]
+larb metrics --type &lt;metric-type&gt; 
+
+# Get the version
+larb version
+</code></pre>
             </section>
-
 
         </main>
 
